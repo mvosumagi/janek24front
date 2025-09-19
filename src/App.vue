@@ -1,23 +1,33 @@
 <template>
 
+
   <nav>
-    <router-link to="/home">Home</router-link> |
-    <router-link to="/login">Log in</router-link> |
-    <router-link to="/user">User</router-link> |
-    <router-link to="/search">Search</router-link> |
-    <router-link to="/service">Service</router-link> |
-    <router-link to="/myservices">My Services</router-link> |
-    <router-link to="/myorders">My Orders</router-link> |
+    <router-link to="/">Home</router-link>
+    |
+    <router-link to="/MyOrdersView">My orders</router-link>
+    |
 
 
+    <template v-if="isAdmin">
+      <router-link to="/location">Asukoht</router-link>
+      |
+      <button type="button" class="btn btn-success">L</button>
+    </template>
 
+    <template v-if="isLoggedIn">
+      <font-awesome-icon @click="startLogOut" class="cursor-pointer" icon="fa-solid fa-right-from-bracket"/>
+    </template>
+
+    <template v-if="!isLoggedIn">
+      <router-link to="/login">Sisse logimine</router-link>
+    </template>
 
   </nav>
   <router-view @event-user-logged-in="updateNavMenu"/>
+
 </template>
 
 <script>
-
 
 
 </script>
