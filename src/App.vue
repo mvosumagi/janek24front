@@ -2,10 +2,11 @@
 
 
   <nav>
-    <router-link to="/">Home</router-link>
+    <router-link to="/home">Home</router-link>
     |
-    <router-link to="/MyOrdersView">My orders</router-link>
-    |
+    <router-link to="/service">Service</router-link> |
+
+    <router-link to="/MyOrdersView">My orders</router-link>|
 
 
     <template v-if="isAdmin">
@@ -30,4 +31,10 @@
 <script>
 
 
+import {defineComponent} from "vue";
+import ServiceView from "@/views/ServiceView.vue";
+
+export default defineComponent({
+  components: {ServiceView}
+})
 </script>
