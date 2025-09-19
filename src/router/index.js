@@ -15,7 +15,6 @@ const routes = [
         name: 'homeRoute',
         component: HomeView
     },
-
     {
         path: '/error',
         name: 'errorRoute',
