@@ -27,6 +27,12 @@ const routes = [
         component: ServiceView
     },
     {
+        path: '/search',
+        name: 'searchRoute',
+        component: ServiceView
+    },
+
+    {
         path: '/login',
         name: 'loginRoute',
         component: LoginView
