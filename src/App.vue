@@ -3,9 +3,9 @@
 
   <nav class="menu" >
     <router-link v-if="$route.path !== '/home'" to="/home"> Home</router-link>
-    <router-link v-if="$route.path == '/home'" to="/service"> Service</router-link>
-    <router-link v-if="$route.path == '/home'" to="/MyOrdersView"> My orders</router-link>
-    <router-link v-if="$route.path == '/user'" to="/user"> User</router-link>
+    <router-link v-if="$route.path !== '/service'" to="/service"> Service</router-link>
+    <router-link v-if="$route.path !== '/home'" to="/my-orders"> My orders</router-link>
+
 
     <template v-if="isLoggedIn">
       <font-awesome-icon @click="startLogOut" class="cursor-pointer" icon="fa-solid fa-right-from-bracket"/>

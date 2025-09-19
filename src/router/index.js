@@ -25,11 +25,6 @@ const routes = [
         name: 'serviceRoute',
         component: ServiceView
     },
-    {
-        path: '/search',
-        name: 'searchRoute',
-        component: ServiceView
-    },
 
     {
         path: '/login',
@@ -42,13 +37,13 @@ const routes = [
         component: UserView
     },
     {
-        path: '/myorders',
+        path: '/my-orders',
         name: 'myOrdersRoute',
         component: MyOrdersView
     },
 
     {
-        path: '/myservices',
+        path: '/my-services',
         name: 'myServicesRoute',
         component: MyServicesView
     },
