@@ -3,7 +3,7 @@
   <div class="container text-center">
     <div class="row">
       <div class="col">
-        <h1>Your Services</h1>
+        <h1>My Services</h1>
       </div>
     </div>
 
