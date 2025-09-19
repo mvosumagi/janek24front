@@ -5,6 +5,8 @@
     <router-link v-if="$route.path !== '/home'" to="/home"> Home</router-link>
     <router-link v-if="$route.path !== '/service'" to="/service"> Service</router-link>
     <router-link v-if="$route.path !== '/home'" to="/my-orders"> My orders</router-link>
+    <router-link v-if="$route.path !== '/search'" to="/search"> Search</router-link>
+
 
 
     <template v-if="isLoggedIn">
