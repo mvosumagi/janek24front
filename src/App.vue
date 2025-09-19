@@ -1,32 +1,39 @@
 <template>
 
 
-  <nav>
-    <router-link to="/home">Home</router-link>
-    |
-    <router-link to="/service">Service</router-link> |
-
-    <router-link to="/MyOrdersView">My orders</router-link>|
-
-
-    <template v-if="isAdmin">
-      <router-link to="/location">Asukoht</router-link>
-      |
-      <button type="button" class="btn btn-success">L</button>
-    </template>
+  <nav class="menu" >
+    <router-link v-if="$route.path !== '/home'" to="/home"> Home</router-link>
+    <router-link v-if="$route.path == '/home'" to="/service"> Service</router-link>
+    <router-link v-if="$route.path == '/home'" to="/MyOrdersView"> My orders</router-link>
+    <router-link v-if="$route.path == '/user'" to="/user"> User</router-link>
 
     <template v-if="isLoggedIn">
       <font-awesome-icon @click="startLogOut" class="cursor-pointer" icon="fa-solid fa-right-from-bracket"/>
     </template>
 
     <template v-if="!isLoggedIn">
-      <router-link to="/login">Sisse logimine</router-link>
+      <router-link v-show="$route.path == '/home'" to="/login"> Sisse logimine</router-link>
     </template>
 
   </nav>
   <router-view @event-user-logged-in="updateNavMenu"/>
 
 </template>
+
+<style>
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu router-link:not(:first-child)::before {
+  content: " | ";
+  margin: 0 4px;
+  color: #999;
+}
+</style>
 
 <script>
 

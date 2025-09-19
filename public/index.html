@@ -36,8 +36,13 @@
 
 <button id="loginBtn">Login</button>
 <button id="logoutBtn">Logout</button>
+<button id="userBtn">User</button>
 
 <script>
+
+    userBtn.addEventListener('click', () => {
+        window.location.href = "user";
+    });
 
     loginBtn.addEventListener('click', () => {
         window.location.href = "login";
@@ -46,8 +51,9 @@
     logoutBtn.addEventListener('click', () => {
         window.location.href = "/";
     });
+
 </script>
-    <style>
+<style>
 
     body {
         background-color: #f0f0f0;
@@ -81,15 +87,28 @@
         position: fixed;
         top: 20px;
         right: 120px;
-        }
+    }
+
+    #userBtn {
+        position: fixed;
+        top: 20px;
+        right: 210px;
+    }
 
     #loginBtn {
         background-color: #28a745;
     }
 
+
     #logoutBtn {
         background-color: #dc3545;
     }
+
+    #userBtn {
+        background-color: #28a745;
+    }
+
+
 </style>
 </body>
 </html>
