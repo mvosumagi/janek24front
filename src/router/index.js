@@ -6,6 +6,7 @@ import UserView from "@/views/UserView.vue";
 import LoginView from "@/views/LoginView.vue";
 import MyOrdersView from "@/views/MyOrdersView.vue";
 import MyServicesView from "@/views/MyServicesView.vue";
+import NotAuthorizedView from "@/views/NotAuthorizedView.vue";
 
 
 const routes = [
