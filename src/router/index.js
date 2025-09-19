@@ -3,10 +3,55 @@ import HomeView from '../views/HomeView.vue'
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path: '/home',
+    name: 'homeRoute',
     component: HomeView
   },
+
+  {
+    path: '/error',
+    name: 'errorRoute',
+    component: ErrorView
+  },
+  {
+    path: '/service',
+    name: 'serviceRoute',
+    component: ServiceView
+  },
+  {
+    path: '/login',
+    name: 'loginRoute',
+    component: LoginView
+  },
+  {
+    path: '/user',
+    name: 'userRoute',
+    component: UserView
+  },
+  {
+    path: '/myorders',
+    name: 'myOrdersRoute',
+    component: MyOrdersView
+  },
+
+  {
+    path: '/myservices',
+    name: 'myServicesRoute',
+    component: MyServicesView
+  },
+
+
+
+
+
+  {
+    path: '/not-authorized',
+    name: 'notAuthorizedRoute',
+    component: NotAuthorizedView
+  },
+
+
+
   {
     path: '/about',
     name: 'about',
