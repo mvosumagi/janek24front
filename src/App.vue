@@ -1,11 +1,17 @@
 <template>
 
+
   <nav>
-    <router-link to="/">Kodu</router-link> |
-    <router-link to="/atms">Pangaautomaadid</router-link> |
+    <router-link to="/">Home</router-link>
+    |
+    <router-link to="/MyOrdersView">My orders</router-link>
+    |
+
 
     <template v-if="isAdmin">
-      <router-link to="/location">Asukoht</router-link> |
+      <router-link to="/location">Asukoht</router-link>
+      |
+      <button type="button" class="btn btn-success">L</button>
     </template>
 
     <template v-if="isLoggedIn">
@@ -18,10 +24,10 @@
 
   </nav>
   <router-view @event-user-logged-in="updateNavMenu"/>
+
 </template>
 
 <script>
-
 
 
 </script>
