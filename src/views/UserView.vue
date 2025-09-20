@@ -6,9 +6,21 @@
     <EmailInput :email="email" @event-email-updated="emailUpdated"/>
     <PhoneInput :phone="phone" @event-phone-updated="phoneUpdated"/>
 
+    <div class="row mb-3 align-items-center"><label class="col-4 text-start">Company</label>
+      <div class="col-8 text-start"><input v-model="isCompany" type="checkbox" class="form-check-input"/>
+      </div>
+    </div>
 
-
-
+    <div v-if="isCompany" class="row mb-3 align-items-center"><label class="col-4 text-start">Company details</label>
+      <div class="col-8">
+        <div class="row g-2">
+          <div class="col-6"><input v-model="companyName" type="text" class="form-control" placeholder="Company name"/>
+          </div>
+          <div class="col-6"><input v-model="regNo" type="text" class="form-control" placeholder="Registration No"/>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 
