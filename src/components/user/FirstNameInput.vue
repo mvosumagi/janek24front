@@ -1,7 +1,7 @@
 <template>
   <div class="form-floating mb-3">
-    <input :value="firstName" @change="handleFirstNameInput" type="text" class="form-control" placeholder="First name"/>
-    <label>Firstname</label>
+    <input :value="firstName" @change="handleFirstNameInput" placeholder="First name"/>
+    <label>First name</label>
   </div>
 </template>
 

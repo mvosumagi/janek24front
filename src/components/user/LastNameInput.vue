@@ -15,7 +15,7 @@ export default {
   methods: {
 
     handleLastNameInput(event) {
-      this.$emit("event-lastname-updated", String(event.target.value))
+      this.$emit("event-last-name-updated", String(event.target.value))
     }
   }
 }

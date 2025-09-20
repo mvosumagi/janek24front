@@ -1,8 +1,8 @@
 <template>
   <div>
     <UsernameInput :username="username" @event-username-updated="usernameUpdated"/>
-    <FirstnameInput :firstname="firstName" @event-firstname-updated="firstNameUpdated"/>
-    <LastNameInput :lastname="lastName" @event-lastname-updated="lastNameUpdated"/>
+    <FirstnameInput :firstname="firstName" @event-first-name-updated="firstNameUpdated"/>
+    <LastNameInput :lastname="lastName" @event-last-name-updated="lastNameUpdated"/>
     <EmailInput :email="email" @event-email-updated="emailUpdated"/>
     <PhoneInput :phone="phone" @event-phone-updated="phoneUpdated"/>
 
@@ -23,19 +23,19 @@
 </template>
 
 <script>
-import UsernameInput from "@/components/UsernameInput.vue";
-import FirstnameInput from "@/components/FirstNameInput.vue";
-import LastNameInput from "@/components/LastNameInput.vue";
-import EmailInput from "@/components/EmailInput.vue";
-import PhoneInput from "@/components/PhoneInput.vue";
-import CompanyCheckbox from "@/components/CompanyCheckbox.vue";
-import RegNoInput from "@/components/RegNoInput.vue";
-import CompanyNameInput from "@/components/CompanyNameInput.vue";
-import CityInput from "@/components/CityInput.vue";
-import StateInput from "@/components/StateInput.vue";
-import AddressInput from "@/components/AddressInput.vue";
-import PasswordInput from "@/components/PasswordInput.vue";
-import PasswordConfirmInput from "@/components/PasswordConfirmInput.vue";
+import UsernameInput from "@/components/user/UsernameInput.vue";
+import FirstnameInput from "@/components/user/FirstNameInput.vue";
+import LastNameInput from "@/components/user/LastNameInput.vue";
+import EmailInput from "@/components/user/EmailInput.vue";
+import PhoneInput from "@/components/user/PhoneInput.vue";
+import CompanyCheckbox from "@/components/user/CompanyCheckbox.vue";
+import RegNoInput from "@/components/user/RegNoInput.vue";
+import CompanyNameInput from "@/components/user/CompanyNameInput.vue";
+import CityInput from "@/components/user/CityInput.vue";
+import StateInput from "@/components/user/StateInput.vue";
+import AddressInput from "@/components/user/AddressInput.vue";
+import PasswordInput from "@/components/user/PasswordInput.vue";
+import PasswordConfirmInput from "@/components/user/PasswordConfirmInput.vue";
 
 export default {
   name: "UserView",
