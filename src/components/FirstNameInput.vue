@@ -1,6 +1,6 @@
 <template>
   <div class="form-floating mb-3">
-    <input :value="firstname" @change="handleFirstNameInput" type="text" class="form-control" placeholder="First name"/>
+    <input :value="firstName" @change="handleFirstNameInput" type="text" class="form-control" placeholder="First name"/>
     <label>Firstname</label>
   </div>
 </template>
@@ -9,7 +9,7 @@
 export default {
   name: "FirstNameInput",
   props: {
-    firstname: String
+    firstName: String
   },
   methods: {
     handleFirstNameInput(event) {

@@ -2,28 +2,18 @@
   <div>
     <UsernameInput :username="username" @event-username-updated="usernameUpdated"/>
     <FirstnameInput :firstname="firstName" @event-firstname-updated="firstNameUpdated"/>
-    <LastNameInput :lastname="lastName" @event-lasttname-updated="lastNameUpdated"/>
+    <LastNameInput :lastname="lastName" @event-lastname-updated="lastNameUpdated"/>
     <EmailInput :email="email" @event-email-updated="emailUpdated"/>
     <PhoneInput :phone="phone" @event-phone-updated="phoneUpdated"/>
 
-    <div class="row mb-3 align-items-center"><label class="col-4 text-start">Company</label>
-      <div class="col-8 text-start"><input v-model="isCompany" type="checkbox" class="form-check-input"/>
-      </div>
+
+    <CompanyCheckbox :isCompany="isCompany" @event-is-company-updated="isCompanyUpdated"/>
+
+    <div v-if="isCompany">
+      <CompanyNameInput :companyName="companyName" @event-companyname-updated="companyNameUpdated"/>
+      <RegNoInput :regNo="regNo" @event-regno-updated="regNoUpdated"/>
+
     </div>
-
-    <div v-if="isCompany" class="row mb-3 align-items-center"><label class="col-4 text-start">Company details</label>
-      <div class="col-8">
-        <div class="row g-2">
-          <div class="col-6"><input v-model="companyName" type="text" class="form-control" placeholder="Company name"/>
-          </div>
-          <div class="col-6"><input v-model="regNo" type="text" class="form-control" placeholder="Registration No"/>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
   </div>
 </template>
 
@@ -33,17 +23,34 @@ import FirstnameInput from "@/components/FirstNameInput.vue";
 import LastNameInput from "@/components/LastNameInput.vue";
 import EmailInput from "@/components/EmailInput.vue";
 import PhoneInput from "@/components/PhoneInput.vue";
+import CompanyCheckbox from "@/components/CompanyCheckbox.vue";
+import RegNoInput from "@/components/RegNoInput.vue";
+import CompanyNameInput from "@/components/CompanyNameInput.vue";
+
 
 export default {
   name: "UserView",
-  components: {EmailInput, FirstnameInput, UsernameInput, LastNameInput, PhoneInput},
+  components: {
+    EmailInput,
+    FirstnameInput,
+    UsernameInput,
+    LastNameInput,
+    PhoneInput,
+    CompanyCheckbox,
+    CompanyNameInput,
+    RegNoInput
+  },
   data() {
     return {
       username: "",
       firstName: "",
       lastName: "",
       email: "",
-      phone:""
+      phone: "",
+      isCompany: false,
+      companyName: "",
+      regNo: "",
+
     }
   },
   methods: {
@@ -62,6 +69,15 @@ export default {
     phoneUpdated(phone) {
       this.phone = phone
     },
+    isCompanyUpdated(isCompany) {
+      this.isCompany = isCompany;
+    },
+    companyNameUpdated(companyName) {
+      this.companyName = companyName;
+    },
+    regNoUpdated(regNo) {
+      this.regNo = regNo;
+    }
   }
 }
 </script>
