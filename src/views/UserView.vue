@@ -4,6 +4,12 @@
     <FirstnameInput :firstname="firstName" @event-firstname-updated="firstNameUpdated"/>
     <LastNameInput :lastname="lastName" @event-lasttname-updated="lastNameUpdated"/>
     <EmailInput :email="email" @event-email-updated="emailUpdated"/>
+    <PhoneInput :phone="phone" @event-phone-updated="phoneUpdated"/>
+
+
+
+
+
 
 
   </div>
@@ -14,10 +20,11 @@ import UsernameInput from "@/components/UsernameInput.vue";
 import FirstnameInput from "@/components/FirstNameInput.vue";
 import LastNameInput from "@/components/LastNameInput.vue";
 import EmailInput from "@/components/EmailInput.vue";
+import PhoneInput from "@/components/PhoneInput.vue";
 
 export default {
   name: "UserView",
-  components: {EmailInput, FirstnameInput, UsernameInput, LastNameInput},
+  components: {EmailInput, FirstnameInput, UsernameInput, LastNameInput, PhoneInput},
   data() {
     return {
       username: "",
@@ -25,7 +32,6 @@ export default {
       lastName: "",
       email: "",
       phone:""
-
     }
   },
   methods: {
@@ -44,8 +50,6 @@ export default {
     phoneUpdated(phone) {
       this.phone = phone
     },
-
-
   }
 }
 </script>

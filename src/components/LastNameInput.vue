@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "LastnameInput",
+  name: "LastNameInput",
   props: {
     lastname: String
   },
@@ -15,7 +15,7 @@ export default {
   methods: {
 
     handleLastNameInput(event) {
-      this.$emit("event-username-updated", String(event.target.value))
+      this.$emit("event-lastname-updated", String(event.target.value))
     }
   }
 }
