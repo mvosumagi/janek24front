@@ -20,6 +20,14 @@
     <PasswordConfirmInput :password2="password2" @event-password-confirm-updated="password2Updated"/>
 
   </div>
+
+  <div>
+
+    <button @click="createUser" type="submit">Create user</button>
+
+  </div>
+
+
 </template>
 
 <script>
@@ -36,6 +44,7 @@ import StateInput from "@/components/user/StateInput.vue";
 import AddressInput from "@/components/user/AddressInput.vue";
 import PasswordInput from "@/components/user/PasswordInput.vue";
 import PasswordConfirmInput from "@/components/user/PasswordConfirmInput.vue";
+import UserService from "@/services/UserService";
 
 export default {
   name: "UserView",
@@ -56,19 +65,21 @@ export default {
   },
   data() {
     return {
-      username: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      isCompany: false,
-      companyName: "",
-      regNo: "",
-      city: "",
-      state: "",
-      address: "",
-      password: "",
-      password2: ""
+      user: {
+        username: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        isCompany: false,
+        companyName: "",
+        regNo: "",
+        city: "",
+        state: "",
+        address: "",
+        password: "",
+        password2: ""
+      }
     }
   },
   methods: {
@@ -110,7 +121,21 @@ export default {
     },
     password2Updated(password2) {
       this.password2 = password2;
-    }
+    },
+    createUser() {
+      this.sendCreatUserRequest();
+    },
+    sendCreatUserRequest() {
+      UserService.sendCreateUserRequest(this.user)
+    },
+
+
   }
 }
+
 </script>
+<style scoped>
+:deep(.mb-3) {
+  margin-bottom: 0.3rem !important;
+}
+</style>

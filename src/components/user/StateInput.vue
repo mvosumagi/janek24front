@@ -1,10 +1,9 @@
 <template>
-  <div class="row mb-3 align-items-center">
-    <label class="col-4 text-start">State</label>
-    <div class="col-8">
-      <input :value="state" @input="handleStateInput" type="text" class="form-control"/>
-    </div>
+  <div class="form-floating mb-3">
+    <input :value="state" @input="handleStateInput" type="text" class="form-control" placeholder="State"/>
+    <label>State</label>
   </div>
+
 </template>
 
 <script>

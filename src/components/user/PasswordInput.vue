@@ -1,12 +1,10 @@
 <template>
-  <div class="row mb-3 align-items-center">
-    <label class="col-4 text-start">Password</label>
-    <div class="col-8">
+  <div class="form-floating mb-3">
       <input :value="password" @input="handlePasswordInput" type="password"
              class="form-control"/>
+      <label >Password</label>
     </div>
-  </div>
-</template>
+ </template>
 
 <script>
 export default {

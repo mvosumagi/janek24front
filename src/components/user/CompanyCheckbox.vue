@@ -1,10 +1,9 @@
 <template>
-  <div class="row mb-3 align-items-center">
-    <label class="col-4 text-start">Company</label>
-    <div class="col-8 text-start">
-      <input :value="iscompany" @change="handleIsCompanyCheck" type="checkbox"  class="form-check-input"/>
-    </div>
+  <div class="form-floating mb-3">
+    <input :value="iscompany" @change="handleIsCompanyCheck" type="checkbox" class="form-check-input"/>
+    <label>Company</label>
   </div>
+
 </template>
 
 <script>
