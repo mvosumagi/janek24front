@@ -1,33 +1,29 @@
 <template>
   <div>
-    <UsernameInput :username="username" @event-username-updated="usernameUpdated"/>
-    <FirstnameInput :firstname="firstName" @event-first-name-updated="firstNameUpdated"/>
-    <LastNameInput :lastname="lastName" @event-last-name-updated="lastNameUpdated"/>
-    <EmailInput :email="email" @event-email-updated="emailUpdated"/>
-    <PhoneInput :phone="phone" @event-phone-updated="phoneUpdated"/>
+    <UsernameInput :username="user.username" @event-username-updated="usernameUpdated"/>
 
-    <CompanyCheckbox :isCompany="isCompany" @event-is-company-updated="isCompanyUpdated"/>
+    <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated"/>
+    <LastNameInput :lastname="user.lastName" @event-last-name-updated="lastNameUpdated"/>
 
-    <div v-if="isCompany">
-      <CompanyNameInput :companyName="companyName" @event-companyname-updated="companyNameUpdated"/>
-      <RegNoInput :regNo="regNo" @event-regno-updated="regNoUpdated"/>
+    <EmailInput :email="user.email" @event-email-updated="emailUpdated"/>
+    <PhoneInput :phone="user.phone" @event-phone-updated="phoneUpdated"/>
+
+    <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated"/>
+
+    <div v-if="user.isCompany">
+      <CompanyNameInput :company-name="user.companyName" @event-companyname-updated="companyNameUpdated"/>
+      <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
     </div>
 
-    <CityInput :city="city" @event-city-updated="cityUpdated"/>
-    <StateInput :state="state" @event-state-updated="stateUpdated"/>
-    <AddressInput :address="address" @event-address-updated="addressUpdated"/>
-    <PasswordInput :password="password" @event-password-updated="passwordUpdated"/>
-    <PasswordConfirmInput :password2="password2" @event-password-confirm-updated="password2Updated"/>
+    <CityInput :city="user.city" @event-city-updated="cityUpdated"/>
+    <StateInput :state="user.state" @event-state-updated="stateUpdated"/>
+    <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
 
+    <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
+    <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+
+    <button @click="createUser" type="button">Create user</button>
   </div>
-
-  <div>
-
-    <button @click="createUser" type="submit">Create user</button>
-
-  </div>
-
-
 </template>
 
 <script>
@@ -84,58 +80,57 @@ export default {
   },
   methods: {
     usernameUpdated(username) {
-      this.username = username
+      this.user.username = username
     },
-    firstNameUpdated(firstName) {
-      this.firstName = firstName
+    firstNameUpdated(v) {
+      this.user.firstName = v
     },
-    lastNameUpdated(lastName) {
-      this.lastName = lastName
+    lastNameUpdated(v) {
+      this.user.lastName = v
     },
-    emailUpdated(email) {
-      this.email = email
+    emailUpdated(v) {
+      this.user.email = v
     },
-    phoneUpdated(phone) {
-      this.phone = phone
+    phoneUpdated(v) {
+      this.user.phone = v
     },
-    isCompanyUpdated(isCompany) {
-      this.isCompany = isCompany;
+    isCompanyUpdated(v) {
+      this.user.isCompany = v
     },
-    companyNameUpdated(companyName) {
-      this.companyName = companyName;
+    companyNameUpdated(v) {
+      this.user.companyName = v
     },
-    regNoUpdated(regNo) {
-      this.regNo = regNo;
+    regNoUpdated(v) {
+      this.user.regNo = v
     },
-    cityUpdated(city) {
-      this.city = city;
+    cityUpdated(v) {
+      this.user.city = v
     },
-    stateUpdated(state) {
-      this.state = state;
+    stateUpdated(v) {
+      this.user.state = v
     },
-    addressUpdated(address) {
-      this.address = address;
+    addressUpdated(v) {
+      this.user.address = v
     },
-    passwordUpdated(password) {
-      this.password = password;
+    passwordUpdated(v) {
+      this.user.password = v
     },
-    password2Updated(password2) {
-      this.password2 = password2;
+    password2Updated(v) {
+      this.user.password2 = v
     },
+
     createUser() {
-      this.sendCreatUserRequest();
+      this.sendCreateUserRequest()
     },
-    sendCreatUserRequest() {
+    sendCreateUserRequest() {
       UserService.sendCreateUserRequest(this.user)
-    },
-
-
+    }
   }
 }
-
 </script>
+
 <style scoped>
 :deep(.mb-3) {
-  margin-bottom: 0.3rem !important;
+  margin-bottom: .3rem !important;
 }
 </style>
