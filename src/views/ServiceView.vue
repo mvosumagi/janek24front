@@ -7,40 +7,40 @@
     </div>
 
 
-    <div class="row justify-content-center">
-      <div class="col col-3">
-        <ServicesDropdown :cities="services" :selected-service-id="selectedServiceId"
-                          @event-new-service-selected="handleSelectedServiceChange"
-        />
-      </div>
-      <div class="col col-6">
-        <AlertDanger :message="errorMessage"/>
-        <AlertSuccess :message="successMessage"/>
+    <!--    <div class="row justify-content-center">-->
+    <!--      <div class="col col-3">-->
+    <!--        <ServicesDropdown :cities="services" :selected-service-id="selectedServiceId"-->
+    <!--                          @event-new-service-selected="handleSelectedServiceChange"-->
+    <!--        />-->
+    <!--      </div>-->
+    <!--      <div class="col col-6">-->
+    <!--        <AlertDanger :message="errorMessage"/>-->
+    <!--        <AlertSuccess :message="successMessage"/>-->
 
-        />
-      </div>
+    <!--        />-->
+    <!--      </div>-->
 
-      <div class="mb-3">
-        <label class="form-label">Service name</label>
-        <input v-model="servicename" type="email" class="form-control">
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Detailed description</label>
-        <input v-model="detailedDescription" type="email" class="form-control">
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Unit cost</label>
-        <input v-model="unitPrice " type="email" class="form-control">
-      </div>
-
-
-      <button @click=" " type="submit" class="btn btn-outline-primary">Back</button>
-
-
+    <div class="mb-3">
+      <label class="form-label">Service name</label>
+      <input v-model="servicename" type="email" class="form-control">
     </div>
+
+    <div class="mb-3">
+      <label class="form-label">Detailed description</label>
+      <input v-model="detailedDescription" type="email" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Unit cost</label>
+      <input v-model="unitPrice " type="email" class="form-control">
+    </div>
+
+
+    <button @click=" " type="submit" class="btn btn-outline-primary">Back</button>
+
+
   </div>
+<!--  </div>-->
 </template>
 
 
@@ -66,12 +66,12 @@ export default {
       successMessage: '',
 
 
-      services: [
-        {
-          serviceId: 0,
-          serviceName: ''
-        }
-      ],
+      // services: [
+      //   {
+      //     serviceId: 0,
+      //     serviceName: ''
+      //   }
+      // ],
 
 
       errorResponse: {
@@ -83,11 +83,11 @@ export default {
   },
   methods: {
 
-    getServices() {
-      ServiceService.sendGetServicesRequest()
-          .then(response => this.services = response.data)
-          .catch(() => NavigationService.navigateToErrorView())
-    },
+    // getServices() {
+    //   ServiceService.sendGetServicesRequest()
+    //       .then(response => this.services = response.data)
+    //       .catch(() => NavigationService.navigateToErrorView())
+    // },
 
 
     resetErrorMessage() {

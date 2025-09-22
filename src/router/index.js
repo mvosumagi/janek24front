@@ -7,6 +7,7 @@ import LoginView from "@/views/LoginView.vue";
 import MyOrdersView from "@/views/MyOrdersView.vue";
 import MyServicesView from "@/views/MyServicesView.vue";
 import NotAuthorizedView from "@/views/NotAuthorizedView.vue";
+import SearchView from "@/views/SearchView.vue";
 
 
 const routes = [
@@ -15,7 +16,6 @@ const routes = [
         name: 'homeRoute',
         component: HomeView
     },
-
     {
         path: '/error',
         name: 'errorRoute',
@@ -24,11 +24,6 @@ const routes = [
     {
         path: '/service',
         name: 'serviceRoute',
-        component: ServiceView
-    },
-    {
-        path: '/search',
-        name: 'searchRoute',
         component: ServiceView
     },
 
@@ -42,14 +37,20 @@ const routes = [
         name: 'userRoute',
         component: UserView
     },
+
     {
-        path: '/myorders',
+        path: '/search',
+        name: 'searchRoute',
+        component: SearchView
+    },
+    {
+        path: '/my-orders',
         name: 'myOrdersRoute',
         component: MyOrdersView
     },
 
     {
-        path: '/myservices',
+        path: '/my-services',
         name: 'myServicesRoute',
         component: MyServicesView
     },
