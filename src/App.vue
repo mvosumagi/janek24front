@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <Buttons />
+    <Buttons/>
 
     <nav class="menu">
-      <router-link v-if="$route.path !== '/home'" to="/home">Home</router-link>
-      <router-link v-if="$route.path !== '/service'" to="/service">Service</router-link>
-      <router-link v-if="$route.path !== '/my-orders'" to="/my-orders">My Orders</router-link>
-      <router-link v-if="$route.path !== '/search'" to="/search">Search</router-link>
+      <router-link to="/home">Home</router-link> |
+      <router-link to="/service">Service</router-link> |
+      <router-link to="/my-orders">My Orders</router-link> |
+      <router-link to="/search">Search</router-link>
     </nav>
+    <router-view/>
+
   </div>
 </template>
 
