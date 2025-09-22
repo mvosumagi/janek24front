@@ -1,8 +1,8 @@
-import axios from "axios";
+
 
 export default {
 
     sendCreateUserRequest(user) {
-        return axios.put('/user',user)
+        return this.user=user;
     }
 }

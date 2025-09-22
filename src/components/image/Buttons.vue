@@ -1,77 +1,57 @@
 <template>
-<button id="loginBtn">Login</button>
-<button id="logoutBtn">Logout</button>
-<button id="userBtn">User</button>
+  <div>
+    <button id="loginBtn" @click="goToLogin">Login</button>
+    <button id="logoutBtn" @click="goToHome">Logout</button>
+    <button id="userBtn" @click="goToUser">User</button>
+  </div>
 </template>
+
 <script>
-
-    userBtn.addEventListener('click', () => {
-        window.location.href = "user";
-    });
-
-    loginBtn.addEventListener('click', () => {
-        window.location.href = "login";
-    });
-
-    logoutBtn.addEventListener('click', () => {
-        window.location.href = "home";
-    });
-
+export default {
+  name: 'Buttons',
+  methods: {
+    goToLogin() {
+      window.location.href = "login";
+    },
+    goToHome() {
+      window.location.href = "home";
+    },
+    goToUser() {
+      window.location.href = "user";
+    }
+  }
+}
 </script>
-<style>
 
-    body {
-        background-color: #f0f0f0;
-        color: #333333;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 40px;
-    }
+<style scoped>
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  color: white;
+}
 
-    h1 {
-        color: #007BFF;
-    }
+#logoutBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #dc3545;
+}
 
-    button {
-        padding: 10px 20px;
-        font-size: 16px;
-        margin: 10px;
-        cursor: pointer;
-        border: none;
-        border-radius: 4px;
-        color: white;
-    }
+#loginBtn {
+  position: fixed;
+  top: 20px;
+  right: 120px;
+  background-color: #28a745;
+}
 
-    #logoutBtn {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-    }
-
-    #loginBtn {
-        position: fixed;
-        top: 20px;
-        right: 120px;
-    }
-
-    #userBtn {
-        position: fixed;
-        top: 20px;
-        right: 210px;
-    }
-
-    #loginBtn {
-        background-color: #28a745;
-    }
-
-
-    #logoutBtn {
-        background-color: #dc3545;
-    }
-
-    #userBtn {
-        background-color: #28a745;
-    }
-
-
+#userBtn {
+  position: fixed;
+  top: 20px;
+  right: 210px;
+  background-color: #28a745;
+}
 </style>
