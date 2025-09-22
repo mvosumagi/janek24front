@@ -23,14 +23,12 @@
 </template>
 
 <script>
-import Buttons from './components/image/Buttons.vue';
+
 import SessionStorageService from "@/services/SessionStorageService";
 
 export default {
   name: 'App',
-  components: {
-    Buttons
-  },
+  components: {},
   data() {
     return {
       isLoggedIn: false,
