@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Buttons from './components/image/Buttons.vue'; // ✅ Make sure this path is correct!
+import Buttons from './components/image/Buttons.vue';
 
 export default {
   name: 'App',
