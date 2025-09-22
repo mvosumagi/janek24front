@@ -1,18 +1,24 @@
-<script setup>
-
-</script>
-
 <template>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <div class="mb-3">
+          <label class="form-label">Kasutajanimi</label>
+          <input v-model="username" type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Parool</label>
+          <input v-model="password" type="password" class="form-control">
+        </div>
+        <button @click="login" type="submit" class="btn btn-outline-primary">Logi sisse</button>
+      </div>
+    </div>
+  </div>
 
-  <div class="mb-3">
-    <label class="form-label">Kasutajanimi</label>
-    <input v-model="username" type="text" class="form-control">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Parool</label>
-    <input v-model="password" type="password" class="form-control">
-  </div>
-  <button @click="login" type="submit" class="btn btn-outline-primary">Logi sisse</button>
+
+
+
+
 
 </template>
 
@@ -26,6 +32,10 @@ export default {
     return {
       username: '',
       password: '',
+      errorResponse: {
+        message: "",
+        errorCode: 0
+      }
     }
   }
   ,
@@ -34,7 +44,6 @@ export default {
       LoginService.sendLoginRequest(this.username, this.password)
           .then(response => this.handleLoginRequestResponse(response))
           .catch(error => this.handleLoginRequestError(error))
-          .catch(error => (error))
     },
 
     login() {
@@ -59,16 +68,16 @@ export default {
       this.loginResponse = response.data
       sessionStorage.setItem('userId', this.loginResponse.userId)
       sessionStorage.setItem('roleName', this.loginResponse.roleName)
-      // this.$emit('event-user-logged-in')
-      // // todo: menüüst ära peita "Sisse logimine"
-      // // todo: menüüsse kuvada "Logi välja"
+      this.$emit('event-user-logged-in')
       NavigationService.navigateToUserView()
     },
+
     handleLoginRequestError(error) {
       this.errorResponse = error.response.data
 
       if (error.response.status === 403 && this.errorResponse.errorCode === 111) {
         this.errorMessage = this.errorResponse.message
+        alert(this.errorMessage)
         setTimeout(this.resetErrorMessage, 4000)
       } else {
         NavigationService.navigateToErrorView()
