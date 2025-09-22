@@ -1,0 +1,77 @@
+<template>
+<button id="loginBtn">Login</button>
+<button id="logoutBtn">Logout</button>
+<button id="userBtn">User</button>
+</template>
+<script>
+
+    userBtn.addEventListener('click', () => {
+        window.location.href = "user";
+    });
+
+    loginBtn.addEventListener('click', () => {
+        window.location.href = "login";
+    });
+
+    logoutBtn.addEventListener('click', () => {
+        window.location.href = "home";
+    });
+
+</script>
+<style>
+
+    body {
+        background-color: #f0f0f0;
+        color: #333333;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        color: #007BFF;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 10px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        color: white;
+    }
+
+    #logoutBtn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+    }
+
+    #loginBtn {
+        position: fixed;
+        top: 20px;
+        right: 120px;
+    }
+
+    #userBtn {
+        position: fixed;
+        top: 20px;
+        right: 210px;
+    }
+
+    #loginBtn {
+        background-color: #28a745;
+    }
+
+
+    #logoutBtn {
+        background-color: #dc3545;
+    }
+
+    #userBtn {
+        background-color: #28a745;
+    }
+
+
+</style>

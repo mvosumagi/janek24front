@@ -7,6 +7,24 @@
     <router-link v-if="$route.path !== '/search'" to="/search"> Search</router-link>
 
   </nav>
+
+  <template>
+    <div id="app">
+      <Buttons/>
+    </div>
+  </template>
+
+  <script>
+    import Buttons from "@/components/image/Buttons.vue";
+
+    export default {
+      name: 'App',
+      components: {
+        Buttons,
+      },
+    };
+  </script>
+
   <router-view/>
 
 </template>
@@ -31,8 +49,9 @@
 
 import {defineComponent} from "vue";
 import ServiceView from "@/views/ServiceView.vue";
+import Buttons from "@/components/image/Buttons.vue";
 
 export default defineComponent({
-  components: {ServiceView}
+  components: {Buttons, ServiceView}
 })
 </script>
