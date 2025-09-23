@@ -50,7 +50,7 @@ const routes = [
     },
 
     {
-        path: '/my-services',
+        path: '/my-service',
         name: 'myServicesRoute',
         component: MyServicesView
     },
