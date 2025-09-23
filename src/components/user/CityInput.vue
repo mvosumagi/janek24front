@@ -1,9 +1,15 @@
 <template>
-  <div class="form-floating mb-3">
-    <input :value="city" @input="handleCityInput" type="text" class="form-control" placeholder="City"/>
-    <label class="col-4 text-start">City</label>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <div class="mb-3">
+          <label class="col-4 text-start">City </label>
+          <input :value="city" @input="handleCityInput" type="text" placeholder="City"/>
+        </div>
+      </div>
+    </div>
   </div>
- </template>
+</template>
 
 <script>
 export default {

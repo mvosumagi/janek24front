@@ -1,7 +1,15 @@
 <template>
-  <div class="form-floating mb-3">
-    <input :value="email" @input="handleEmailInput" type="text" class="form-control" placeholder="User e-mail"/>
-    <label>E-mail</label>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <div class="mb-3">
+          <label>E-mail </label>
+    <input :value="email" @input="handleEmailInput" type="text"
+           placeholder="User e-mail"/>
+
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

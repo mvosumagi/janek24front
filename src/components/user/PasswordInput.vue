@@ -1,9 +1,14 @@
 <template>
-  <div class="form-floating mb-3">
-      <input :value="password" @input="handlePasswordInput" type="password"
-             class="form-control"/>
-      <label >Password</label>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <div class="mb-3">
+          <label >Password </label>
+      <input :value="password" @input="handlePasswordInput" type="password"/>
+        </div>
+      </div>
     </div>
+  </div>
  </template>
 
 <script>

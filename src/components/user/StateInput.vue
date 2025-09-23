@@ -1,9 +1,14 @@
 <template>
-  <div class="form-floating mb-3">
-    <input :value="state" @input="handleStateInput" type="text" class="form-control" placeholder="State"/>
-    <label>State</label>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <div class="mb-3">
+          <label>State </label>
+          <input :value="state" @input="handleStateInput" type="text" placeholder="State"/>
+        </div>
+      </div>
+    </div>
   </div>
-
 </template>
 
 <script>

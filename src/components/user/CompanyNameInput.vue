@@ -1,8 +1,13 @@
 <template>
-  <div class="form-floating mb-3">
-    <input :value="companyName" @input="handleCompanyNameInput" type="text" class="form-control"
-           placeholder="Company name"/>
-    <label>Company name</label>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <div class="mb-3">
+          <label class="col-4 text-start">Company name </label>
+          <input :value="companyName" @input="handleCompanyNameInput" type="text" placeholder="Company name"/>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
