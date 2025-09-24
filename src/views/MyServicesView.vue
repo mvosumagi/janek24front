@@ -26,13 +26,12 @@
         <th>Delete</th>
       </tr>
       </thead>
-      <tbody id="tabelBody">
+      <tbody id="tableBody">
       <!-- Teenused renderdatakse siia -->
       </tbody>
     </table>
 <!--    <button @click="addRow()">Add new service</button>-->
     <button @click="goToService" type="submit" class="btn btn-outline-primary">Add New Service</button>
-
 
   </section>
 
