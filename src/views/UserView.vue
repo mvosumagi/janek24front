@@ -1,29 +1,31 @@
 <template>
   <div>
-    <UsernameInput :username="user.username" @event-username-updated="usernameUpdated"/>
+    <UsernameInput :username="user.username" @event-username-updated="usernameUpdated" />
 
-    <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated"/>
-    <LastNameInput :lastname="user.lastName" @event-last-name-updated="lastNameUpdated"/>
+    <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated" />
+    <LastNameInput :lastname="user.lastName" @event-last-name-updated="lastNameUpdated" />
 
-    <EmailInput :email="user.email" @event-email-updated="emailUpdated"/>
-    <PhoneInput :phone="user.phoneNumber" @event-phone-updated="phoneUpdated"/>
-    <CountryInput :country="user.countryId" @event-country-updated="countryUpdated"/>
-    <CityInput :city="user.cityId" @event-city-updated="cityUpdated"/>
-    <StateInput :state="user.state" @event-state-updated="stateUpdated"/>
-    <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
-    <PostalCodeInput :postalcode="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
+    <EmailInput :email="user.email" @event-email-updated="emailUpdated" />
+    <PhoneInput :phone="user.phoneNumber" @event-phone-updated="phoneUpdated" />
 
-    <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
-    <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+    <CountryInput :country-id="user.countryId" @event-country-updated="countryUpdated" />
+    <CityInput :country-id="user.countryId" :city-id="user.cityId" @event-city-updated="cityUpdated" />
 
-    <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated"/>
+    <StateInput :state="user.state" @event-state-updated="stateUpdated" />
+    <AddressInput :address="user.address" @event-address-updated="addressUpdated" />
+    <PostalCodeInput :postal-code="user.postalCode" @event-postal-code-updated="postalCodeUpdated" />
+
+    <PasswordInput :password="user.password" @event-password-updated="passwordUpdated" />
+    <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated" />
+
+    <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated" />
 
     <div v-if="user.isCompany">
-      <CompanyNameInput :company-name="user.companyName" @event-companyname-updated="companyNameUpdated"/>
-      <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
+      <CompanyNameInput :company-name="user.companyName" @event-companyname-updated="companyNameUpdated" />
+      <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated" />
     </div>
 
-    <button @click="createUser" type="button">Create user</button>
+    <button @click="createUser" type="button" class="btn btn-outline-primary">Create user</button>
   </div>
 </template>
 
@@ -50,7 +52,6 @@ export default {
   components: {
     CountryInput,
     PostalCodeInput,
-    PostCodeInput: PostalCodeInput,
     EmailInput,
     FirstnameInput,
     UsernameInput,
@@ -73,75 +74,106 @@ export default {
         lastName: "",
         email: "",
         phoneNumber: "",
-        countryId: 1,
-        cityId: 1,
+        countryId: "",
+        cityId: "",
         state: "",
         postalCode: "",
         address: "",
         password: "",
+        password2: "",
         isCompany: false,
         companyName: "",
-        regNo: "",
-
-      }
+        regNo: ""
+      },
+      usernameTaken: false,
+      usernameCheckTimer: null,
+      alertTimer: null
+    }
+  },
+  computed: {
+    passwordsMatch() {
+      return !this.user.password2 || this.user.password === this.user.password2;
     }
   },
   methods: {
-    usernameUpdated(username) {
-      this.user.username = username
+    softAlert(msg) {
+      if (this.alertTimer) return;
+      alert(msg);
+      this.alertTimer = setTimeout(() => { this.alertTimer = null; }, 1200);
     },
-    firstNameUpdated(firstName) {
-      this.user.firstName = firstName
-    },
-    lastNameUpdated(lastName) {
-      this.user.lastName = lastName
-    },
-    emailUpdated(email) {
-      this.user.email = email
-    },
-    phoneUpdated(phone) {
-      this.user.phone = phone
-    },
-    isCompanyUpdated(isCompany) {
-      this.user.isCompany = isCompany
-    },
-    companyNameUpdated(companyName) {
-      this.user.companyName = companyName
-    },
-    regNoUpdated(regNo) {
-      this.user.regNo = regNo
-    },
-    cityUpdated(city) {
-      this.user.city = city
-    },
-    stateUpdated(state) {
-      this.user.state = state
-    },
-    addressUpdated(address) {
-      this.user.address = address
-    },
-    postCodeUpdated(postalCode) {
-      this.user.postalCode = postalCode
-    },
-    passwordUpdated(password) {
-      this.user.password = password
-    },
-    password2Updated(password2) {
-      this.user.password2 = password2
+    requiredFilled() {
+      const req = ["username","firstName","lastName","email","countryId","cityId","postalCode","password"];
+      if (this.user.isCompany) req.push("companyName","regNo");
+      return req.every(k => !!this.user[k]);
     },
 
-    createUser() {
-      this.sendCreateUserRequest()
+    usernameUpdated(v) { this.user.username = v; this.debouncedCheckUsername(); },
+    firstNameUpdated(v) { this.user.firstName = v; },
+    lastNameUpdated(v) { this.user.lastName = v; },
+    emailUpdated(v) { this.user.email = v; },
+    phoneUpdated(v) { this.user.phoneNumber = v; },
+
+    countryUpdated(v) { this.user.countryId = v; this.user.cityId = ""; },
+    cityUpdated(v) { this.user.cityId = v; },
+
+    stateUpdated(v) { this.user.state = v; },
+    addressUpdated(v) { this.user.address = v; },
+    postalCodeUpdated(v) { this.user.postalCode = v; },
+
+    passwordUpdated(v) { this.user.password = v; },
+    password2Updated(v) { this.user.password2 = v; },
+
+    isCompanyUpdated(v) {
+      this.user.isCompany = v;
+      if (!v) { this.user.companyName = ""; this.user.regNo = ""; }
     },
-    sendCreateUserRequest() {
-      UserService.sendCreateUserRequest(this.user)
+    companyNameUpdated(v) { this.user.companyName = v; },
+    regNoUpdated(v) { this.user.regNo = v; },
+
+    async checkUsernameAvailability() {
+      if (!this.user.username) { this.usernameTaken = false; return; }
+      try {
+        const available = await UserService.checkUsername(this.user.username);
+        this.usernameTaken = !available;
+        if (this.usernameTaken) this.softAlert("Kasutajanimi on juba võetud");
+      } catch {
+        this.usernameTaken = false;
+      }
+    },
+    debouncedCheckUsername() {
+      clearTimeout(this.usernameCheckTimer);
+      this.usernameCheckTimer = setTimeout(this.checkUsernameAvailability, 400);
+    },
+
+    async createUser() {
+      if (this.user.password !== this.user.password2) { this.softAlert("Paroolid erinevad"); return; }
+      if (!this.requiredFilled()) { this.softAlert("Täida kõik väljad"); return; }
+      if (this.usernameTaken) { this.softAlert("Kasutajanimi on juba võetud"); return; }
+      const { password2, ...payload } = this.user;
+      try {
+        const response = await UserService.sendCreateUserRequest(payload);
+        if (response.status === 200 || response.status === 201) {
+          alert("User created successfully");
+        }
+      } catch {
+        this.softAlert("Kasutaja loomine ebaõnnestus");
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-:deep(.mb-3) {
-  margin-bottom: .3rem !important;
-}
+:deep(.mb-3) { margin-bottom: .3rem !important; }
+:deep(.mb-3){ margin-bottom:.3rem!important; }
+:deep(input[type="text"]),
+:deep(input[type="password"]),
+:deep(input[type="email"]),
+:deep(select){
+  width: 200px;}
+
+
 </style>
+
+
+

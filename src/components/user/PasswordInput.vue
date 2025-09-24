@@ -3,13 +3,13 @@
     <div class="row justify-content-center">
       <div class="col col-4">
         <div class="mb-3">
-          <label >Password </label>
-      <input :value="password" @input="handlePasswordInput" type="password"/>
+          <label>Password</label>
+          <input :value="password" @input="handlePasswordInput" type="password" />
         </div>
       </div>
     </div>
   </div>
- </template>
+</template>
 
 <script>
 export default {
@@ -17,14 +17,10 @@ export default {
   props: {
     password: String
   },
-
   methods: {
-
     handlePasswordInput(event) {
-      this.$emit("event-email-updated", String(event.target.value))
+      this.$emit("event-password-updated", String(event.target.value))
     }
   }
-
-
 }
 </script>
