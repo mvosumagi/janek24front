@@ -3,6 +3,7 @@
     <template v-if="isLoggedIn">
       <button id="logoutBtn" @click="goToHome">Logout</button>
       <button id="userBtn" @click="goToUser">User</button>
+      <button id="addNewServiceBtn" @click="goAddNewService">Add New Service</button>
     </template>
     <template v-else>
       <button id="loginBtn" @click="goToLogin">Login</button>
@@ -11,7 +12,7 @@
     <nav class="menu">
       <router-link to="/home">Home</router-link>
       |
-      <router-link to="/service">Service</router-link>
+      <router-link to="/my-service">My Services</router-link>
       |
       <router-link to="/my-orders">My Orders</router-link>
       |
@@ -51,6 +52,9 @@ export default {
     },
     goToUser() {
       window.location.href = "user";
+    },
+    goAddNewService() {
+      window.location.href = "service";
     }
 
   }

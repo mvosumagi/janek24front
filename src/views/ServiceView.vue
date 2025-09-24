@@ -2,14 +2,17 @@
   <div class="container text-center">
     <div class="row">
       <div class="col">
-        <h1>My Services</h1>
+        <h1>Add a New Service</h1>
       </div>
     </div>
 
     <section class="search">
       <div class="search-container">
-        <input type="text" placeholder="What service do you need?" id="searchInput">
-        <button onclick="performSearch()">Find Services</button>
+
+        <!-- Replace button with dropdown -->
+        <ServicesDropdown />
+
+
       </div>
     </section>
 
@@ -32,7 +35,8 @@
       <img src="" class="img-thumbnail" alt="placeholder">
     </div>
 
-
+<!--    <input type="text" placeholder="What service do you need?" id="searchInput">&ndash;&gt;-->
+    <button onclick="">Add New Service</button>
 
 
 
@@ -48,4 +52,10 @@
 
 <script>
 
+import {defineComponent} from "vue";
+import ServicesDropdown from "@/components/modal/ServicesDropdown.vue";
+
+export default defineComponent({
+  components: {ServicesDropdown}
+})
 </script>

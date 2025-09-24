@@ -30,8 +30,8 @@
       <!-- Teenused renderdatakse siia -->
       </tbody>
     </table>
-    <button @click="addRow()">Add new service</button>
-
+<!--    <button @click="addRow()">Add new service</button>-->
+    <button @click="goToService" type="submit" class="btn btn-outline-primary">Add New Service</button>
 
 
   </section>
@@ -45,6 +45,11 @@
 <script>
 
 export default {
-  name: 'myServicesRoute'
+  methods: {
+    goToService() {
+      this.$router.push('/service')
+    }
+  }
 }
+
 </script>
