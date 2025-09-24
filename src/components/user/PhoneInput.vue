@@ -1,7 +1,14 @@
 <template>
-  <div class="form-floating mb-3">
-    <input :value="phone" @input="handlePhoneInput"  type="text" class="form-control" placeholder="Phone number"/>
-    <label>Phone number</label>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <div class="mb-3">
+          <label>Phone number </label>
+    <input :value="phone" @input="handlePhoneInput"  type="text" placeholder="Phone number"/>
+
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

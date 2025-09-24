@@ -1,7 +1,14 @@
 <template>
-  <div class="form-floating mb-3">
-    <input  :value="regNo"   @input="handleRegNoInput"   type="text"         class="form-control"         placeholder="Registration No"/>
-    <label>Registration No</label>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <div class="mb-3">
+          <label>Registration No </label>
+          <input :value="regNo" @input="handleRegNoInput" type="text" placeholder="Registration No"/>
+
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

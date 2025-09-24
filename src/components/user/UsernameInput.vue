@@ -1,7 +1,13 @@
 <template>
-  <div class="form-floating mb-3">
-    <input :value="username" @change="handleUserNameInput" type="text" class="form-control" placeholder="username"/>
-    <label>Username</label>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <div class="mb-3">
+          <label>Username</label>
+    <input :value="username" @change="handleUserNameInput" type="text"  placeholder="username"/>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

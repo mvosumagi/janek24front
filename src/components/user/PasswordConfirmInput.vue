@@ -1,8 +1,13 @@
 <template>
-  <div class="form-floating mb-3">
-    <input :value="password2" @input="handlePasswordConfirmInput" type="password"
-           class="form-control"/>
-    <label>Retype password</label>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <div class="mb-3">
+          <label>Retype password </label>
+    <input :value="password2" @input="handlePasswordConfirmInput" type="password"/>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
