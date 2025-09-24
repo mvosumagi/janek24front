@@ -7,37 +7,38 @@
     </div>
   </div>
 
-  <button type="button" class="btn btn-primary">Add new service</button>
-
   <section>
 
+<!--    <table id="myServicesTable">-->
     <table class="table table-striped">
-
-      <!-- On cells (`td` or `th`) -->
+      <thead>
       <tr>
-        <td class="">#</td>
-        <td class="">Service</td>
-        <td class="">Type</td>
-        <td class="">Valid from</td>
-        <td class="">Valid to</td>
-        <td class="">React time</td>
-        <td class="">Unit cost</td>
-        <td class="">Review</td>
-        <td class="">Picture</td>
-        <td class="">Status</td>
-        <td class="">Edit</td>
-        <td class="">Delete</td>
-
-
+        <th>#</th>
+        <th>Service</th>
+        <th>Type</th>
+        <th>Valid from</th>
+        <th>Valid to</th>
+        <th>Unit cost</th>
+        <th>Review</th>
+        <th>Picture</th>
+        <th>Status</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
-
+      </thead>
+      <tbody id="tabelBody">
+      <!-- Teenused renderdatakse siia -->
+      </tbody>
     </table>
+    <button @click="addRow()">Add new service</button>
+
+
 
   </section>
 
 </template>
 
-<style scoped>
+<style>
 
 </style>
 
