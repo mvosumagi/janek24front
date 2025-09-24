@@ -6,7 +6,15 @@
     <LastNameInput :lastname="user.lastName" @event-last-name-updated="lastNameUpdated"/>
 
     <EmailInput :email="user.email" @event-email-updated="emailUpdated"/>
-    <PhoneInput :phone="user.phone" @event-phone-updated="phoneUpdated"/>
+    <PhoneInput :phone="user.phoneNumber" @event-phone-updated="phoneUpdated"/>
+    <CountryInput :country="user.countryId" @event-country-updated="countryUpdated"/>
+    <CityInput :city="user.cityId" @event-city-updated="cityUpdated"/>
+    <StateInput :state="user.state" @event-state-updated="stateUpdated"/>
+    <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
+    <PostalCodeInput :postalcode="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
+
+    <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
+    <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
 
     <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated"/>
 
@@ -14,13 +22,6 @@
       <CompanyNameInput :company-name="user.companyName" @event-companyname-updated="companyNameUpdated"/>
       <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
     </div>
-
-    <CityInput :city="user.city" @event-city-updated="cityUpdated"/>
-    <StateInput :state="user.state" @event-state-updated="stateUpdated"/>
-    <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
-
-    <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
-    <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
 
     <button @click="createUser" type="button">Create user</button>
   </div>
@@ -41,10 +42,15 @@ import AddressInput from "@/components/user/AddressInput.vue";
 import PasswordInput from "@/components/user/PasswordInput.vue";
 import PasswordConfirmInput from "@/components/user/PasswordConfirmInput.vue";
 import UserService from "@/services/UserService";
+import PostalCodeInput from "@/components/user/PostalCodeInput.vue";
+import CountryInput from "@/components/user/CountryInput.vue";
 
 export default {
   name: "UserView",
   components: {
+    CountryInput,
+    PostalCodeInput,
+    PostCodeInput: PostalCodeInput,
     EmailInput,
     FirstnameInput,
     UsernameInput,
@@ -61,21 +67,22 @@ export default {
   },
   data() {
     return {
-
       user: {
         username: "",
         firstName: "",
         lastName: "",
         email: "",
-        phone: "",
+        phoneNumber: "",
+        countryId: 1,
+        cityId: 1,
+        state: "",
+        postalCode: "",
+        address: "",
+        password: "",
         isCompany: false,
         companyName: "",
         regNo: "",
-        city: "",
-        state: "",
-        address: "",
-        password: "",
-        password2: ""
+
       }
     }
   },
@@ -83,41 +90,44 @@ export default {
     usernameUpdated(username) {
       this.user.username = username
     },
-    firstNameUpdated(v) {
-      this.user.firstName = v
+    firstNameUpdated(firstName) {
+      this.user.firstName = firstName
     },
-    lastNameUpdated(v) {
-      this.user.lastName = v
+    lastNameUpdated(lastName) {
+      this.user.lastName = lastName
     },
-    emailUpdated(v) {
-      this.user.email = v
+    emailUpdated(email) {
+      this.user.email = email
     },
-    phoneUpdated(v) {
-      this.user.phone = v
+    phoneUpdated(phone) {
+      this.user.phone = phone
     },
-    isCompanyUpdated(v) {
-      this.user.isCompany = v
+    isCompanyUpdated(isCompany) {
+      this.user.isCompany = isCompany
     },
-    companyNameUpdated(v) {
-      this.user.companyName = v
+    companyNameUpdated(companyName) {
+      this.user.companyName = companyName
     },
-    regNoUpdated(v) {
-      this.user.regNo = v
+    regNoUpdated(regNo) {
+      this.user.regNo = regNo
     },
-    cityUpdated(v) {
-      this.user.city = v
+    cityUpdated(city) {
+      this.user.city = city
     },
-    stateUpdated(v) {
-      this.user.state = v
+    stateUpdated(state) {
+      this.user.state = state
     },
-    addressUpdated(v) {
-      this.user.address = v
+    addressUpdated(address) {
+      this.user.address = address
     },
-    passwordUpdated(v) {
-      this.user.password = v
+    postCodeUpdated(postalCode) {
+      this.user.postalCode = postalCode
     },
-    password2Updated(v) {
-      this.user.password2 = v
+    passwordUpdated(password) {
+      this.user.password = password
+    },
+    password2Updated(password2) {
+      this.user.password2 = password2
     },
 
     createUser() {
