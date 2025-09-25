@@ -8,7 +8,4 @@ export default {
         let roleName = sessionStorage.getItem('roleName')
         return roleName !== null;
     },
-    getUsername() {
-        return sessionStorage.getItem('username') || '' }
-
 }

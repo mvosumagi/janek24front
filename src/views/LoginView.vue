@@ -68,7 +68,6 @@ export default {
       this.loginResponse = response.data
       sessionStorage.setItem('userId', this.loginResponse.userId)
       sessionStorage.setItem('roleName', this.loginResponse.roleName)
-      sessionStorage.setItem('username', this.loginResponse.username || this.username)
       this.$emit('event-user-logged-in')
       NavigationService.navigateToUserView()
     },
