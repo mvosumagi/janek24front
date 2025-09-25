@@ -6,10 +6,9 @@
       </div>
     </div>
 
-    <!--    <section class="search">-->
+
     <div class="search-container">
 
-      <!-- Replace button with dropdown -->
       <div class="row justify-content-center">
         <div class="col col-3">
           <ServicesDropdown :services="services" :selected-service-id="selectedServiceId"
@@ -42,7 +41,6 @@
         <img src="" class="img-thumbnail" alt="placeholder">
       </div>
 
-      <!--    <input type="text" placeholder="What service do you need?" id="searchInput">&ndash;&gt;-->
       <button onclick="">Add New Service</button>
 
 
