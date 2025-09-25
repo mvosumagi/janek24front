@@ -8,13 +8,18 @@ import MyOrdersView from "@/views/MyOrdersView.vue";
 import MyServicesView from "@/views/MyServicesView.vue";
 import NotAuthorizedView from "@/views/NotAuthorizedView.vue";
 import SearchView from "@/views/SearchView.vue";
-
+import EmailView from '@/views/EmailView.vue'
 
 const routes = [
     {
         path: '/home',
         name: 'homeRoute',
         component: HomeView
+    },
+    {
+        path: '/email',
+        name: 'email',
+        component: EmailView
     },
     {
         path: '/error',
@@ -54,8 +59,6 @@ const routes = [
         name: 'myServicesRoute',
         component: MyServicesView
     },
-
-
 
 
     {
