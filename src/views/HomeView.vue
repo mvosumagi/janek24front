@@ -61,7 +61,11 @@ export default {
           .catch(err => console.error(err))
     },
     searchServices() {
-      SearchService.sendSearchRequest(this.partialDescription);
+      if (!this.partialDescription.trim()) return;
+      this.$router.push({
+        name: 'searchRoute',
+        query: { searchQuery: this.partialDescription }
+      });
     }
 
   }
