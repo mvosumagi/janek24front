@@ -48,15 +48,11 @@ const routes = [
         name: 'myOrdersRoute',
         component: MyOrdersView
     },
-
     {
         path: '/my-service',
         name: 'myServicesRoute',
         component: MyServicesView
     },
-
-
-
 
     {
         path: '/not-authorized',
