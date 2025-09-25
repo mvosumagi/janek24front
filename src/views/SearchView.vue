@@ -1,39 +1,103 @@
-<script setup>
+<script>
+import axios from 'axios';
 
+export default {
+  data() {
+    return {
+      searchQuery: '',
+      services: []
+    };
+  },
+  methods: {
+    searchServices() {
+      if (!this.searchQuery.trim()) {
+        return; // Avoid empty queries
+      }
+
+      axios
+          .get('/services/search', {
+            params: { searchQuery: this.searchQuery },
+            headers: {
+              Accept: 'application/json'
+            }
+          })
+          .then(response => {
+            this.services = response.data;
+            console.log('Search results:', this.services);
+          })
+          .catch(error => {
+            console.error('Search failed:', error);
+          });
+    }
+  }
+};
 </script>
+
 
 <template>
 
-  <section class="search">
-    <div class="search-container">
-      <input type="text" placeholder="What service do you need?" id="searchInput">
-      <button onclick="performSearch()">Find Services</button>
+  <section class="search my-4">
+    <div class="input-group">
+      <input
+          type="text"
+          class="form-control"
+          placeholder="What service do you need?"
+          v-model="searchQuery"
+      />
+      <button class="btn btn-primary" @click="searchServices">
+        Find Services
+      </button>
     </div>
   </section>
-
   <section class="info-section">
-    <h2>Popular Services</h2>
-    <div class="info-grid">
-      <!-- Reusable info boxes -->
-      <div class="info-box" onclick="selectService('cleaning')">
-        <div class="img">🏠</div>
-        <h3>Home Cleaning</h3>
-        <p>Professional house cleaning services to keep your home spotless and organized.</p>
-      </div>
+    <h2>Services</h2>
 
-      <div class="info-box" onclick="selectService('landscaping')">
-        <div class="img">🌿</div>
-        <h3>Lawn Care</h3>
-        <p>Landscaping, lawn maintenance, and garden services to beautify your outdoor space.</p>
-      </div>
 
-      <div class="info-box" onclick="selectService('tech')">
-        <div class="img">💻</div>
-        <h3>Tech Support</h3>
-        <p>Computer repair, smartphone help, and technology assistance from certified experts.</p>
+    <!-- Kaart2 -->
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card" style="width: 100%;">
+          <img src="null" class="card-img-top" alt="null">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">
+                Some quick example text to build on the card title and make up the bulk of the card’s content.
+              </p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">An item</li>
+              <li class="list-group-item">A second item</li>
+              <li class="list-group-item">A third item</li>
+            </ul>
+            <div class="card-body">
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>
+        </div>
+      <div class="col-md-6">
+        <div class="card" style="width: 100%;">
+          <img src="null" class="card-img-top" alt="null">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the bulk of the card’s content.
+            </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">An item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div class="info-box" onclick="selectService('handyman')">
+    <div class="info-box" onclick="selectService('handyman')">
         <div class="img">🔧</div>
         <h3>Handyman</h3>
         <p>General repairs, installations, and home improvements by skilled professionals.</p>
@@ -50,7 +114,6 @@
         <h3>Tutoring</h3>
         <p>Academic support and educational tutoring for students of all ages and subjects.</p>
       </div>
-    </div>
   </section>
 
 
