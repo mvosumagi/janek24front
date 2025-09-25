@@ -13,6 +13,7 @@ export default {
       if (!this.partialDescription.trim()) {
         return;
       }
+
       axios
           .get('/services', {
             params: {
@@ -33,28 +34,9 @@ export default {
   }
 };
 </script>
-
-
 <template>
-
-  <section class="search my-4">
-    <div class="input-group">
-      <input
-          type="text"
-          class="form-control"
-          placeholder="What service do you need?"
-          v-model="partialDescription"
-      />
-      <button class="btn btn-primary" @click="searchServices">
-        Find Services
-      </button>
-    </div>
-  </section>
   <section class="info-section">
     <h2>Services</h2>
-
-
-    <!-- Kaart2 -->
     <div class="row">
       <div class="col-md-6">
         <div class="card" style="width: 100%;">
@@ -98,23 +80,7 @@ export default {
       </div>
     </div>
 
-    <div class="info-box" onclick="selectService('handyman')">
-        <div class="img">🔧</div>
-        <h3>Handyman</h3>
-        <p>General repairs, installations, and home improvements by skilled professionals.</p>
-      </div>
 
-      <div class="info-box" onclick="selectService('petcare')">
-        <div class="img">🐕</div>
-        <h3>Pet Care</h3>
-        <p>Pet sitting, dog walking, grooming, and veterinary transport services.</p>
-      </div>
-
-      <div class="info-box" onclick="selectService('tutoring')">
-        <div class="img">📚</div>
-        <h3>Tutoring</h3>
-        <p>Academic support and educational tutoring for students of all ages and subjects.</p>
-      </div>
   </section>
 
 
