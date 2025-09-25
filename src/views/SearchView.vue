@@ -4,29 +4,30 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      searchQuery: '',
+      partialDescription: '',
       services: []
     };
   },
   methods: {
     searchServices() {
-      if (!this.searchQuery.trim()) {
-        return; // Avoid empty queries
+      if (!this.partialDescription.trim()) {
+        return;
       }
-
       axios
-          .get('/services/search', {
-            params: { searchQuery: this.searchQuery },
+          .get('/services', {
+            params: {
+              partialDescription: (this.partialDescription || '').trim()
+            },
             headers: {
               Accept: 'application/json'
             }
           })
           .then(response => {
-            this.services = response.data;
-            console.log('Search results:', this.services);
+            this.services = response.data
+            console.log('Search results:', this.services)
           })
           .catch(error => {
-            console.error('Search failed:', error);
+            console.error('Search failed:', error)
           });
     }
   }
@@ -42,7 +43,7 @@ export default {
           type="text"
           class="form-control"
           placeholder="What service do you need?"
-          v-model="searchQuery"
+          v-model="partialDescription"
       />
       <button class="btn btn-primary" @click="searchServices">
         Find Services
