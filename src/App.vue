@@ -3,7 +3,7 @@
     <template v-if="isLoggedIn">
       <button id="logoutBtn" @click="goToHome">Logout</button>
       <button id="userBtn" @click="goToUser">User</button>
-      <button id="addNewServiceBtn" @click="goAddNewService">Add New Service</button>
+<!--      <button id="addNewServiceBtn" @click="goAddNewService">Add New Service</button>-->
     </template>
     <template v-else>
       <button id="loginBtn" @click="goToLogin">Login</button>

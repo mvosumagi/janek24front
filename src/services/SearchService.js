@@ -1,14 +1,11 @@
 import axios from 'axios'
 
 export default {
-    sendSearchRequest(searchQuery) {
+    sendSearchRequest(partialDescription) {
 
-        //     return axios.get('services/search', {headers: {Prefer: prefer, Accept: 'application/json'}})
-        // }
-        // }
-        return axios.get('services/search', {
+        return axios.get('services', {
             params: {
-                q: searchQuery
+                partialDescription : partialDescription
             },
 
             headers: {
