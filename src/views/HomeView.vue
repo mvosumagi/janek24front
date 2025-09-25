@@ -56,15 +56,21 @@ export default {
     fetchAllServices() {
       axios.get('http://localhost:8080/api/my-service')
           .then(res => {
-            this.services = res.data
+            this.services = res.data;
           })
-          .catch(err => console.error(err))
+          .catch(err => console.error(err));
     },
-    searchServices() {
-      SearchService.sendSearchRequest(this.partialDescription);
-    }
 
+    searchServices() {
+      if (!this.partialDescription.trim()) return;
+
+      this.$router.push({
+        name: 'searchRoute',
+        query: { searchQuery: this.partialDescription }
+      });
+    }
   }
+
 
 }
 </script>
