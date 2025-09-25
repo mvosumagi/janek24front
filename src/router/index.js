@@ -8,6 +8,7 @@ import MyOrdersView from "@/views/MyOrdersView.vue";
 import MyServicesView from "@/views/MyServicesView.vue";
 import NotAuthorizedView from "@/views/NotAuthorizedView.vue";
 import SearchView from "@/views/SearchView.vue";
+import OrderingView from "@/views/OrderingView.vue"
 import EmailView from '@/views/EmailView.vue'
 
 const routes = [
@@ -53,15 +54,11 @@ const routes = [
         name: 'myOrdersRoute',
         component: MyOrdersView
     },
-
     {
         path: '/my-service',
         name: 'myServicesRoute',
         component: MyServicesView
     },
-
-
-
 
     {
         path: '/not-authorized',

@@ -4,7 +4,6 @@
       <button id="logoutBtn" @click="goToHome">Logout</button>
       <button id="userBtn" @click="goToUser">{{ username || 'User' }}</button>
       <!--      <button id="addNewServiceBtn" @click="goAddNewService">Add New Service</button>-->
-
     </template>
     <template v-else>
       <button id="loginBtn" @click="goToLogin">Login</button>
@@ -35,8 +34,7 @@ import SessionStorageService from "@/services/SessionStorageService";
 
 export default {
   name: 'App',
-  components: {
-  },
+  components: {},
   data() {
     return {
       isLoggedIn: false,
@@ -45,7 +43,8 @@ export default {
       unreadEmailsCount: 3,
       username: ''
     }
-  },
+      },
+
   methods: {
     updateNavMenu() {
       this.isLoggedIn = SessionStorageService.isLoggedIn()
