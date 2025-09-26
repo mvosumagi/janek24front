@@ -4,9 +4,11 @@
       <div class="col col-4">
         <div class="mb-3">
           <label class="col-4 text-start">Country</label>
-          <select :value="countryId" @change="onSelect" class="form-select">
+          <select :value="countryId" @change="handleCountryDropdownChange" class="form-select">
             <option disabled :value="0">-- Select country --</option>
-            <option v-for="c in countries" :key="c.id" :value="c.id">{{ c.name }}</option>
+            <option v-for="country in countries" :key="country.countryId" :value="country.countryId">
+              {{ country.countryName }}
+            </option>
           </select>
           <small v-if="loading">Loading countries…</small>
           <small v-if="error" class="text-danger">Failed to load countries</small>
@@ -18,9 +20,10 @@
 
 <script>
 import CountryService from "@/services/CountryService";
+import NavigationService from "@/services/NavigationService";
 
 export default {
-  name: "CountryDropdown",
+  countryName: "CountryDropdown",
   props: {
     countryId: Number
   },
@@ -28,8 +31,8 @@ export default {
     return {
       countries: [
         {
-          id: 0,
-          name: ""
+          countryId: 0,
+          countryName: ""
         }
       ],
       loading: false,
@@ -41,23 +44,12 @@ export default {
       this.loading = true;
       this.error = false;
       CountryService.getCountries()
-          .then(response => )
-          .catch()
-          .finally()
-
-
-      try {
-        this.countries = await
-      } catch (e) {
-        console.error("Failed to load countries", e);
-        this.error = true;
-      } finally {
-        this.loading = false;
-      }
+          .then(response => this.countries = response.data)
+          .catch(() => NavigationService.navigateToErrorView() )
+          .finally(() => this.loading = false)
     },
-    onSelect(e) {
-      const id = e.target.value === "" ? "" : Number(e.target.value);
-      this.$emit("event-country-updated", id);
+    handleCountryDropdownChange(e) {
+      this.$emit("event-country-updated", Number(e.target.value));
     }
   },
   mounted() {
