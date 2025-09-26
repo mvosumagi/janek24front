@@ -9,7 +9,6 @@ import MyServicesView from "@/views/MyServicesView.vue";
 import NotAuthorizedView from "@/views/NotAuthorizedView.vue";
 import SearchView from "@/views/SearchView.vue";
 import OrderingView from "@/views/OrderingView.vue"
-import EmailView from '@/views/EmailView.vue'
 
 const routes = [
     {
@@ -18,9 +17,13 @@ const routes = [
         component: HomeView
     },
     {
+        path: '/inbox',
+        name: 'Inbox',
+        component: () => import('@/views/InboxView.vue')
+    },
+    {
         path: '/email',
-        name: 'email',
-        component: EmailView
+        redirect: '/inbox'
     },
     {
         path: '/error',

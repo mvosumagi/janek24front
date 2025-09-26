@@ -1,7 +1,8 @@
 <template>
   <div>
-    <UsernameInput :username="user.username" @event-username-updated="usernameUpdated"/>
-
+    <div v-if="true">
+      <UsernameInput :username="user.username" @event-username-updated="usernameUpdated"/>
+    </div>
     <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated"/>
     <LastNameInput :lastname="user.lastName" @event-last-name-updated="lastNameUpdated"/>
 
@@ -15,8 +16,14 @@
     <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
     <PostalCodeInput :postal-code="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
 
+    <div v-if="true">
     <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
+    </div>
+
+    <div v-if="true">
     <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+    </div>
+
 
     <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated"/>
 
@@ -25,8 +32,11 @@
       <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
     </div>
 
+    <div v-if="true">
     <button @click="createUser" type="button" class="btn btn-outline-primary">Create user</button>
-  </div>
+    </div>
+    <button @click="createUser" type="button" class="btn btn-outline-primary">Save Changes</button>
+    </div>
 </template>
 
 <script>
