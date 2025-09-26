@@ -1,13 +1,17 @@
 <template>
+  <br>
+  <br>
+  <br>
+
   <div class="home">
     <div class="container text-center">
       <div class="row">
         <div class="col">
           <section class="intro">
-            <h1>Trusted Home Services At Your Fingertips</h1>
+            <h1><Strong>Trusted Home Services At Your Fingertips</Strong></h1>
             <p>
-              Connect with trusted professionals in your area for home services, repairs, and more.
-              Book with confidence, get quality results.
+              <b>Connect with trusted professionals in your area for home services, repairs, and more.
+              Book with confidence, get quality results.</b>
             </p>
           </section>
         </div>
@@ -15,7 +19,7 @@
     </div>
 
     <div class="container mt-4">
-      <h2 class="mb-4 text-center">Search Services</h2>
+      <h2 class="mb-4 text-center"></h2>
       <div class="input-group mb-4">
         <input
             type="text"
