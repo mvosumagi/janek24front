@@ -9,18 +9,22 @@
       </nav>
 
       <div class="actions">
+
+        <div v-if="isLoggedIn">
         <router-link to="/inbox" class="mail-wrapper" aria-label="Open inbox">
           <i class="fas fa-envelope"></i>
           <span v-if="hasUnreadEmails" class="badge">{{ unreadEmailsCount }}</span>
           <span v-else class="no-new">No new</span>
         </router-link>
-
+      </div>
         <template v-if="isLoggedIn">
           <button class="btn small" @click="goToUser">User</button>
-          <button class="btn small danger" @click="goToHome">Logout</button>
+          <button class="btn small danger" @click="logout">Logout</button>
+
         </template>
         <template v-else>
           <button class="btn small success" @click="goToLogin">Login</button>
+
         </template>
       </div>
     </header>
@@ -56,7 +60,14 @@ export default {
     goToLogin() { window.location.href = "login"; },
     goToHome()  { window.location.href = "home";  },
     goToUser()  { window.location.href = "user";  },
-    goAddNewService() { window.location.href = "service"; }
+    goAddNewService() { window.location.href = "service"; },
+    logout() {
+      sessionStorage.clear();
+      localStorage.removeItem("unreadEmailsCount");
+      this.isLoggedIn = false;
+      this.isAdmin = false;
+      this.goToHome();
+    }
   },
   mounted() {
     this.updateNavMenu();

@@ -14,7 +14,7 @@ export default {
     },
 
     async checkUsername(username) {
-        const { data } = await axios.get("/api/users/check-username", {
+        const { data } = await axios.get("/user/availability", {
             params: { username }
         });
         return !!data.available;

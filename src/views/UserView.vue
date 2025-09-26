@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-if="true">
+
+    <div v-if="!isLoggedIn">
       <UsernameInput :username="user.username" @event-username-updated="usernameUpdated"/>
     </div>
     <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated"/>
@@ -16,12 +16,12 @@
     <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
     <PostalCodeInput :postal-code="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
 
-    <div v-if="true">
-    <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
+    <div v-if="!isLoggedIn">
+      <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
     </div>
 
-    <div v-if="true">
-    <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+    <div v-if="!isLoggedIn">
+      <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
     </div>
 
 
@@ -32,11 +32,21 @@
       <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
     </div>
 
-    <div v-if="true">
-    <button @click="createUser" type="button" class="btn btn-outline-primary">Create user</button>
+    <div v-if="!isLoggedIn">
+      <button @click="createUser" type="button" class="btn btn-outline-primary">Create user</button>
     </div>
-    <button @click="createUser" type="button" class="btn btn-outline-primary">Save Changes</button>
+
+    <div v-if="isLoggedIn">
+      <button @click="createUser" type="button" class="btn btn-outline-primary">Save Changes</button>
     </div>
+
+    <div v-if="isLoggedIn">
+      <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
+      <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+      <button @click="" type="button" class="btn btn-outline-primary">Change Password</button>
+    </div>
+
+
 </template>
 
 <script>
@@ -56,6 +66,7 @@ import PasswordConfirmInput from "@/components/user/PasswordConfirmInput.vue";
 import UserService from "@/services/UserService";
 import PostalCodeInput from "@/components/user/PostalCodeInput.vue";
 import CountryInput from "@/components/user/CountryInput.vue";
+import SessionStorageService from "@/services/SessionStorageService";
 
 export default {
   name: "UserView",
@@ -78,6 +89,7 @@ export default {
   },
   data() {
     return {
+      isLoggedIn: false,
       user: {
         username: "",
         firstName: "",
@@ -106,6 +118,9 @@ export default {
     }
   },
   methods: {
+    updateAuth() {
+      this.isLoggedIn = !!(SessionStorageService?.isLoggedIn?.() || sessionStorage.getItem("userId"));
+    },
     softAlert(msg) {
       if (this.alertTimer) return;
       alert(msg);
@@ -216,6 +231,25 @@ export default {
       } catch {
         this.softAlert("Kasutaja loomine ebaõnnestus");
       }
+    }
+  },
+  mounted() {
+    this.updateAuth();
+    window.addEventListener("storage", this.updateAuth);
+    window.addEventListener("session-storage", this.updateAuth);
+    window.addEventListener("local-storage", this.updateAuth);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) this.updateAuth();
+    });
+  },
+  beforeUnmount() {
+    window.removeEventListener("storage", this.updateAuth);
+    window.removeEventListener("session-storage", this.updateAuth);
+    window.removeEventListener("local-storage", this.updateAuth);
+  },
+  watch: {
+    $route() {
+      this.updateAuth();
     }
   }
 }

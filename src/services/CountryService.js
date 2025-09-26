@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default {
   async getCountries() {
-    const { data } = await axios.get("/api/countries");
+    const { data } = await axios.get("/countries");
     return data;
   }
 };
