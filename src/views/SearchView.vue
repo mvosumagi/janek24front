@@ -91,7 +91,7 @@ export default {
       const q = this.partialDescription.trim()
       if (!q) return
       if (q !== this.$route.query.q) {
-        this.$router.push({ name: 'searchRoute', query: { q } })
+        this.$router.push({name: 'searchRoute', query: {q}})
       } else {
         this.fetchResults(q)
       }
@@ -100,8 +100,8 @@ export default {
       this.loading = true
       axios
           .get('/services', {
-            params: { partialDescription: q },
-            headers: { Accept: 'application/json' }
+            params: {partialDescription: q},
+            headers: {Accept: 'application/json'}
           })
           .then(res => {
             this.services = Array.isArray(res.data) ? res.data : []
@@ -115,7 +115,7 @@ export default {
           })
     },
     goToOrder(serviceId) {
-      this.$router.push({ name: 'OrderingView', params: { serviceId } })
+      this.$router.push({name: 'OrderingView', params: {serviceId}})
     }
   }
 }

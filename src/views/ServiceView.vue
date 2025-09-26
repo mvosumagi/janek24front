@@ -28,7 +28,7 @@
       <div class="mb-3">
         <label class="form-label">Detailed description</label>
         <input type="email" class="form-control"
-        placeholder="placeholder">
+               placeholder="placeholder">
       </div>
 
       <div class="mb-3">
@@ -70,9 +70,9 @@ export default {
 
       services: [
 
-        { serviceId: 1, serviceName: 'Childcare' },
-        { serviceId: 2, serviceName: 'Lawn care' },
-        { serviceId: 3, serviceName: 'Pet walking' }
+        {serviceId: 1, serviceName: 'Childcare'},
+        {serviceId: 2, serviceName: 'Lawn care'},
+        {serviceId: 3, serviceName: 'Pet walking'}
         // {
         //   serviceId: 0,
         //   serviceName: ''
