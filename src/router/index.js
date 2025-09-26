@@ -1,14 +1,14 @@
-import {createRouter, createWebHistory} from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import ErrorView from "@/views/ErrorView.vue";
-import ServiceView from "@/views/ServiceView.vue";
-import UserView from "@/views/UserView.vue";
-import LoginView from "@/views/LoginView.vue";
-import MyOrdersView from "@/views/MyOrdersView.vue";
-import MyServicesView from "@/views/MyServicesView.vue";
-import NotAuthorizedView from "@/views/NotAuthorizedView.vue";
-import SearchView from "@/views/SearchView.vue";
-import OrderingView from "@/views/OrderingView.vue"
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '@/views/HomeView.vue'
+import ErrorView from '@/views/ErrorView.vue'
+import ServiceView from '@/views/ServiceView.vue'
+import UserView from '@/views/UserView.vue'
+import LoginView from '@/views/LoginView.vue'
+import MyOrdersView from '@/views/MyOrdersView.vue'
+import MyServicesView from '@/views/MyServicesView.vue'
+import NotAuthorizedView from '@/views/NotAuthorizedView.vue'
+import SearchView from '@/views/SearchView.vue'
+import OrderingView from '@/views/OrderingView.vue'
 
 const routes = [
     {
@@ -18,8 +18,13 @@ const routes = [
     },
     {
         path: '/inbox',
-        name: 'Inbox',
+        name: 'inboxRoute',
         component: () => import('@/views/InboxView.vue')
+    },
+    {
+        path: '/inbox-legacy',
+        name: 'Inbox',
+        redirect: { name: 'inboxRoute' }
     },
     {
         path: '/email',
@@ -35,7 +40,6 @@ const routes = [
         name: 'serviceRoute',
         component: ServiceView
     },
-
     {
         path: '/login',
         name: 'loginRoute',
@@ -46,7 +50,6 @@ const routes = [
         name: 'userRoute',
         component: UserView
     },
-
     {
         path: '/search',
         name: 'searchRoute',
@@ -62,7 +65,6 @@ const routes = [
         name: 'myServicesRoute',
         component: MyServicesView
     },
-
     {
         path: '/not-authorized',
         name: 'notAuthorizedRoute',
@@ -73,16 +75,18 @@ const routes = [
         name: 'OrderingView',
         component: OrderingView
     },
-
     {
         path: '/about',
         name: 'about',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: function () {
-            return import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-        }
+        component: () => import('@/views/AboutView.vue')
+    },
+    {
+        path: '/',
+        redirect: '/home'
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        redirect: '/error'
     }
 ]
 
