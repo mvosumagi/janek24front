@@ -11,6 +11,7 @@
 
       <div class="row justify-content-center">
         <div class="col col-3">
+          <label class="form-label">Provider Service Category</label>
           <ServicesDropdown :services="services" :selected-service-id="selectedServiceId"
                             @event-new-service-selected="handleSelectedServiceChange"
           />
@@ -20,8 +21,24 @@
 
       <div class="mb-3">
         <label class="form-label">Service name</label>
-        <input type="text" class="form-control" v-model="serviceName" readonly
-               placeholder="placeholder">
+
+        <div class="container text-center">
+          <div class="row align-items-start">
+            <div class="col">
+              One of three columns
+            </div>
+            <div class="col">
+              One of three columns
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+
+
 
       </div>
 
@@ -41,23 +58,20 @@
         <img src="" class="img-thumbnail" alt="placeholder">
       </div>
 
-      <button onclick="">Add New Service</button>
+      <button onclick="">Add a New Service</button>
 
 
     </div>
   </div>
 </template>
 
-
 <style scoped>
 
 </style>
 
-
 <script>
 
-import ServicesDropdown from "@/components/modal/ServicesDropdown.vue";
-
+import ServicesDropdown from "@/components/provider_service/ServicesDropdown.vue";
 export default {
   name: 'ServiceView',
   components: {ServicesDropdown},
@@ -67,12 +81,11 @@ export default {
       serviceName: sessionStorage.getItem('serviceName'),
       selectedServiceId: 0,
 
-
       services: [
 
-        {serviceId: 1, serviceName: 'Childcare'},
-        {serviceId: 2, serviceName: 'Lawn care'},
-        {serviceId: 3, serviceName: 'Pet walking'}
+        // {serviceId: 1, serviceName: 'Childcare'},
+        // {serviceId: 2, serviceName: 'Lawn care'},
+        // {serviceId: 3, serviceName: 'Pet walking'}
         // {
         //   serviceId: 0,
         //   serviceName: ''
