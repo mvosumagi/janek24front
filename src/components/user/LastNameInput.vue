@@ -1,15 +1,9 @@
 <template>
-  <div class="container text-center">
-    <div class="row justify-content-center">
-      <div class="col col-4">
-        <div class="mb-3">
-          <label>Last name </label>
+  <div class="mb-3">
+    <label>Last name </label>
     <input :value="lastname" @change="handleLastNameInput" type="text"
            placeholder="Last name"/>
 
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 

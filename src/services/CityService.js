@@ -1,8 +1,9 @@
 import axios from "axios";
 
 export default {
-  async listByCountry(countryId) {
-    const { data } = await axios.get(`/countries/${countryId}/cities`);
-    return data;
+
+  getCountryCities(countryId) {
+    return axios.get(`/countries/${countryId}/cities`);
   }
+
 };

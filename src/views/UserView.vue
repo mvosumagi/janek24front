@@ -1,50 +1,64 @@
 <template>
+  <div class="container text-center">
 
-    <div v-if="!isLoggedIn">
-      <UsernameInput :username="user.username" @event-username-updated="usernameUpdated"/>
+    <AlertDanger :message="errorMessage"/>
+    <AlertSuccess :message="successMessage"/>
+
+    <div class="row justify-content-center">
+      <div class="col col-4">
+        <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated"/>
+
+        <div v-if="!isLoggedIn">
+          <UsernameInput :username="user.username" @event-username-updated="usernameUpdated"/>
+        </div>
+
+        <LastNameInput :lastname="user.lastName" @event-last-name-updated="lastNameUpdated"/>
+
+        <EmailInput :email="user.email" @event-email-updated="emailUpdated"/>
+        <PhoneInput :phone="user.phoneNumber" @event-phone-updated="phoneUpdated"/>
+
+        <CountryDropdown :country-id="user.countryId" @event-country-updated="handleCountryUpdate"/>
+        <CityDropdown :country-id="user.countryId" :city-id="user.cityId" @event-city-updated="setUserCityId"/>
+
+        <StateInput :state="user.state" @event-state-updated="stateUpdated"/>
+        <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
+        <PostalCodeInput :postal-code="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
+
+        <div v-if="!isLoggedIn">
+          <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
+        </div>
+
+        <div v-if="!isLoggedIn">
+          <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+        </div>
+
+
+        <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated"/>
+
+        <div v-if="user.isCompany">
+          <CompanyNameInput :company-name="user.companyName" @event-companyname-updated="companyNameUpdated"/>
+          <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
+        </div>
+
+        <div v-if="!isLoggedIn">
+          <button @click="createUser" type="button" class="btn btn-outline-primary">Create user</button>
+        </div>
+
+        <div v-if="isLoggedIn">
+          <button @click="createUser" type="button" class="btn btn-outline-primary">Save Changes</button>
+        </div>
+
+        <div v-if="isLoggedIn">
+          <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
+          <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+          <button @click="" type="button" class="btn btn-outline-primary">Change Password</button>
+        </div>
+
+
+      </div>
     </div>
-    <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated"/>
-    <LastNameInput :lastname="user.lastName" @event-last-name-updated="lastNameUpdated"/>
+  </div>
 
-    <EmailInput :email="user.email" @event-email-updated="emailUpdated"/>
-    <PhoneInput :phone="user.phoneNumber" @event-phone-updated="phoneUpdated"/>
-
-    <CountryInput :country-id="user.countryId" @event-country-updated="countryUpdated"/>
-    <CityInput :country-id="user.countryId" :city-id="user.cityId" @event-city-updated="cityUpdated"/>
-
-    <StateInput :state="user.state" @event-state-updated="stateUpdated"/>
-    <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
-    <PostalCodeInput :postal-code="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
-
-    <div v-if="!isLoggedIn">
-      <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
-    </div>
-
-    <div v-if="!isLoggedIn">
-      <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
-    </div>
-
-
-    <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated"/>
-
-    <div v-if="user.isCompany">
-      <CompanyNameInput :company-name="user.companyName" @event-companyname-updated="companyNameUpdated"/>
-      <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
-    </div>
-
-    <div v-if="!isLoggedIn">
-      <button @click="createUser" type="button" class="btn btn-outline-primary">Create user</button>
-    </div>
-
-    <div v-if="isLoggedIn">
-      <button @click="createUser" type="button" class="btn btn-outline-primary">Save Changes</button>
-    </div>
-
-    <div v-if="isLoggedIn">
-      <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
-      <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
-      <button @click="" type="button" class="btn btn-outline-primary">Change Password</button>
-    </div>
 
 
 </template>
@@ -58,20 +72,24 @@ import PhoneInput from "@/components/user/PhoneInput.vue";
 import CompanyCheckbox from "@/components/user/CompanyCheckbox.vue";
 import RegNoInput from "@/components/user/RegNoInput.vue";
 import CompanyNameInput from "@/components/user/CompanyNameInput.vue";
-import CityInput from "@/components/user/CityInput.vue";
+import CityDropdown from "@/components/user/CityDropdown.vue";
 import StateInput from "@/components/user/StateInput.vue";
 import AddressInput from "@/components/user/AddressInput.vue";
 import PasswordInput from "@/components/user/PasswordInput.vue";
 import PasswordConfirmInput from "@/components/user/PasswordConfirmInput.vue";
 import UserService from "@/services/UserService";
 import PostalCodeInput from "@/components/user/PostalCodeInput.vue";
-import CountryInput from "@/components/user/CountryInput.vue";
+import CountryDropdown from "@/components/user/CountryDropdown.vue";
 import SessionStorageService from "@/services/SessionStorageService";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
+import AlertSuccess from "@/components/alert/AlertSuccess.vue";
 
 export default {
   name: "UserView",
   components: {
-    CountryInput,
+    AlertSuccess,
+    AlertDanger,
+    CountryDropdown,
     PostalCodeInput,
     EmailInput,
     FirstnameInput,
@@ -81,7 +99,7 @@ export default {
     CompanyCheckbox,
     CompanyNameInput,
     RegNoInput,
-    CityInput,
+    CityDropdown,
     StateInput,
     AddressInput,
     PasswordInput,
@@ -90,23 +108,27 @@ export default {
   data() {
     return {
       isLoggedIn: false,
+
+      errorMessage: "",
+      successMessage: "",
+      password2: "",
       user: {
         username: "",
         firstName: "",
         lastName: "",
         email: "",
         phoneNumber: "",
-        countryId: "",
-        cityId: "",
+        countryId: 0,
+        cityId: 0,
         state: "",
-        postalCode: "",
         address: "",
         password: "",
-        password2: "",
-        isCompany: false,
+        postalCode: "",
+        isCompany: true,
         companyName: "",
         regNo: ""
       },
+
       usernameTaken: false,
       usernameCheckTimer: null,
       alertTimer: null
@@ -121,13 +143,22 @@ export default {
     updateAuth() {
       this.isLoggedIn = !!(SessionStorageService?.isLoggedIn?.() || sessionStorage.getItem("userId"));
     },
-    softAlert(msg) {
-      if (this.alertTimer) return;
-      alert(msg);
-      this.alertTimer = setTimeout(() => {
-        this.alertTimer = null;
-      }, 1200);
+
+    displayErrorMessage(message) {
+      this.errorMessage = message
+      setTimeout(this.resetAllMessages, 3000)
     },
+
+    displaySuccessMessage(message) {
+      this.successMessage = message
+      setTimeout(this.resetAllMessages, 3000)
+    },
+
+    resetAllMessages() {
+      this.errorMessage = ""
+      this.successMessage = ""
+    },
+
     requiredFilled() {
       const req = ["username", "firstName", "lastName", "email", "countryId", "cityId", "postalCode", "password"];
       if (this.user.isCompany) req.push("companyName", "regNo");
@@ -151,11 +182,11 @@ export default {
       this.user.phoneNumber = phoneNumber;
     },
 
-    countryUpdated(countryId) {
+    handleCountryUpdate(countryId) {
       this.user.countryId = countryId;
-      this.user.cityId = "";
+      this.user.cityId = 0;
     },
-    cityUpdated(cityId) {
+    setUserCityId(cityId) {
       this.user.cityId = cityId;
     },
 
@@ -198,7 +229,7 @@ export default {
       try {
         const available = await UserService.checkUsername(this.user.username);
         this.usernameTaken = !available;
-        if (this.usernameTaken) this.softAlert("Kasutajanimi on juba võetud");
+        if (this.usernameTaken) this.displayErrorMessage("Kasutajanimi on juba võetud");
       } catch {
         this.usernameTaken = false;
 
@@ -211,26 +242,24 @@ export default {
 
     async createUser() {
       if (this.user.password !== this.user.password2) {
-        this.softAlert("Paroolid erinevad");
+        this.displayErrorMessage("Paroolid erinevad");
         return;
       }
       if (!this.requiredFilled()) {
-        this.softAlert("Täida kõik väljad");
+        this.displayErrorMessage("Täida kõik väljad");
         return;
       }
       if (this.usernameTaken) {
-        this.softAlert("Kasutajanimi on juba võetud");
+        this.displayErrorMessage("Kasutajanimi on juba võetud");
         return;
       }
       const {password2, ...payload} = this.user;
-      try {
-        const response = await UserService.sendCreateUserRequest(payload);
-        if (response.status === 200 || response.status === 201) {
-          alert("User created successfully");
-        }
-      } catch {
-        this.softAlert("Kasutaja loomine ebaõnnestus");
-      }
+
+      UserService.sendCreateUserRequest(this.user)
+          .then(() => this.displaySuccessMessage("User created successfully"))
+          .catch(() => this.displayErrorMessage("Kasutaja loomine ebaõnnestus"))
+
+
     }
   },
   mounted() {

@@ -9,7 +9,7 @@ export default {
 
     navigateToErrorView() {
       //  todo: kommenteeri productionis sisse
-          router.push({name: 'errorRoute'})
+      //    router.push({name: 'errorRoute'})
     }
 }
 

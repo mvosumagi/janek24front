@@ -1,13 +1,7 @@
 <template>
-  <div class="container text-center">
-    <div class="row justify-content-center">
-      <div class="col col-4">
-        <div class="mb-3">
-          <label>Username</label>
-    <input :value="username" @change="handleUserNameInput" type="text"  placeholder="username"/>
-        </div>
-      </div>
-    </div>
+  <div class="mb-3">
+    <label class="me-3">Username</label>
+    <input :value="username" @input="handleUserNameInput" type="text" placeholder="username"/>
   </div>
 </template>
 
@@ -17,11 +11,9 @@ export default {
   props: {
     username: String
   },
-
   methods: {
-
     handleUserNameInput(event) {
-      this.$emit("event-username-updated", String(event.target.value))
+      this.$emit("event-username-updated", event.target.value)
     }
   }
 }

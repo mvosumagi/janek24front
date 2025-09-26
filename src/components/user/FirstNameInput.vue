@@ -1,18 +1,12 @@
 <template>
-  <div class="container text-center">
-    <div class="row justify-content-center">
-      <div class="col col-4">
-        <div class="mb-3">
-          <label>First name </label>
-          <input
-              :value="firstname"
-              @change="handleFirstNameInput"
-              type="text"
-              placeholder="First name"
-          />
-        </div>
-      </div>
-    </div>
+  <div class="mb-3">
+    <label>First name </label>
+    <input
+        :value="firstname"
+        @change="handleFirstNameInput"
+        type="text"
+        placeholder="First name"
+    />
   </div>
 </template>
 

@@ -4,15 +4,9 @@
       <div class="col col-4">
         <div class="mb-3">
           <label class="col-4 text-start">Country</label>
-          <select
-              :value="countryId"
-              @change="onSelect"
-              class="form-select"
-          >
-            <option disabled value="">-- Select country --</option>
-            <option v-for="c in countries" :key="c.id" :value="c.id">
-              {{ c.name }}
-            </option>
+          <select :value="countryId" @change="onSelect" class="form-select">
+            <option disabled :value="0">-- Select country --</option>
+            <option v-for="c in countries" :key="c.id" :value="c.id">{{ c.name }}</option>
           </select>
           <small v-if="loading">Loading countries…</small>
           <small v-if="error" class="text-danger">Failed to load countries</small>
@@ -26,26 +20,34 @@
 import CountryService from "@/services/CountryService";
 
 export default {
-  name: "CountryInput",
+  name: "CountryDropdown",
   props: {
-    countryId: {
-      type: [Number, String],
-      default: ""
-    }
+    countryId: Number
   },
   data() {
     return {
-      countries: [],
+      countries: [
+        {
+          id: 0,
+          name: ""
+        }
+      ],
       loading: false,
       error: false
     };
   },
   methods: {
-    async fetchCountries() {
+    getCountries() {
       this.loading = true;
       this.error = false;
+      CountryService.getCountries()
+          .then(response => )
+          .catch()
+          .finally()
+
+
       try {
-        this.countries = await CountryService.getCountries();
+        this.countries = await
       } catch (e) {
         console.error("Failed to load countries", e);
         this.error = true;
@@ -59,7 +61,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchCountries();
+    this.getCountries();
   }
 };
 </script>
