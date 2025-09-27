@@ -2,7 +2,6 @@
   <br>
   <br>
   <br>
-
   <div class="home">
     <div class="container text-center">
       <div class="row">
@@ -17,7 +16,6 @@
         </div>
       </div>
     </div>
-
     <div class="container mt-4">
       <h2 class="mb-4 text-center"></h2>
       <div class="input-group mb-4">
@@ -32,7 +30,6 @@
       </div>
     </div>
   </div>
-
   <div class="row row-cols-1 row-cols-md-3 g-4" v-if="services && services.length">
     <div class="col" v-for="service in services" :key="service.serviceId || service.id">
       <div class="card h-100">
@@ -51,13 +48,10 @@
       </div>
     </div>
   </div>
-
-
   <img src="/kuidastöötab2.png" alt="Public Image"/>
 </template>
 
 <script>
-import axios from 'axios'
 import SearchService from "@/services/SearchService";
 import NavigationService from "@/services/NavigationService";
 
@@ -77,13 +71,11 @@ export default {
     }
   },
   methods: {
-
     getServices() {
       SearchService.sendSearchRequest(this.partialDescription)
           .then(response => this.handleSearchResponse(response))
           .catch(() => NavigationService.navigateToErrorView());
     },
-
     handleSearchResponse(response) {
       const allServices = response.data;
       const shuffled = allServices
@@ -93,7 +85,6 @@ export default {
 
       this.services = shuffled.slice(0, 6);
     },
-
     goSearch() {
       const q = this.partialDescription.trim()
       if (!q) return
@@ -103,10 +94,7 @@ export default {
   mounted() {
     this.getServices()
   }
-
-
 }
 </script>
-
 <style scoped>
 </style>
