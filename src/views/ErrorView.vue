@@ -19,8 +19,3 @@ export default {
   name: 'ErrorView'
 }
 </script>
-
-
-<style scoped>
-
-</style>

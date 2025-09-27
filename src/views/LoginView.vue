@@ -82,20 +82,7 @@ export default {
       } else {
         NavigationService.navigateToErrorView()
       }
-
     },
-
-
-
-
-
-
   }
 }
-
 </script>
-
-
-<style scoped>
-
-</style>

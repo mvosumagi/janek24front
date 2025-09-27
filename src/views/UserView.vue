@@ -284,24 +284,4 @@ export default {
 }
 </script>
 
-<style scoped>
-:deep(.mb-3) {
-  margin-bottom: .3rem !important;
-}
-
-:deep(.mb-3) {
-  margin-bottom: .3rem !important;
-}
-
-:deep(input[type="text"]),
-:deep(input[type="password"]),
-:deep(input[type="email"]),
-:deep(select) {
-  width: 200px;
-}
-
-
-</style>
-
-
 
