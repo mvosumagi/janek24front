@@ -11,5 +11,11 @@
   </div>
 </template>
 <script>
-export default{ name:"StateInput", props:{ state:String }, methods:{ onChange(e){ this.$emit("event-state-updated", String(e.target.value)) } } }
+export default {
+  name: "StateInput", props: {state: String}, methods: {
+    onChange(e) {
+      this.$emit("event-state-updated", String(e.target.value))
+    }
+  }
+}
 </script>

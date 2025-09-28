@@ -15,11 +15,9 @@ export default {
     }
   },
   methods: {
-
     handleServiceDropdownChange(event) {
       this.$emit('event-new-service-selected', Number(event.target.value))
     },
-
   }
 }
 </script>

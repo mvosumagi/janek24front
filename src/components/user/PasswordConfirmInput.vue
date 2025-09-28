@@ -11,5 +11,11 @@
   </div>
 </template>
 <script>
-export default{ name:"PasswordConfirmInput", props:{ password2:String }, methods:{ onChange(e){ this.$emit("event-password-confirm-updated", String(e.target.value)) } } }
+export default {
+  name: "PasswordConfirmInput", props: {password2: String}, methods: {
+    onChange(e) {
+      this.$emit("event-password-confirm-updated", String(e.target.value))
+    }
+  }
+}
 </script>

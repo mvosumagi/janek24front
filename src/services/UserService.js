@@ -9,13 +9,12 @@ export default {
             prefer = "code=200, example=default";
         }
         return axios.post("/user", user, {
-            headers: { Prefer: prefer, Accept: "application/json" },
+            headers: {Prefer: prefer, Accept: "application/json"},
         });
     },
-
     async checkUsername(username) {
-        const { data } = await axios.get("/user/availability", {
-            params: { username }
+        const {data} = await axios.get("/user/availability", {
+            params: {username}
         });
         return !!data.available;
     }

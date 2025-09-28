@@ -22,7 +22,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import CityService from "@/services/CityService";
 import NavigationService from "@/services/NavigationService";
@@ -39,8 +38,6 @@ export default {
         this.getCities(newCountryId)
       }
     },
-
-
   },
   data() {
     return {
@@ -50,15 +47,13 @@ export default {
           cityName: ""
         }
       ],
-      loading: false, error: false };
+      loading: false, error: false
+    };
   },
-
   methods: {
-
     countryIsSelected(countryId) {
       return countryId !== 0
     },
-
     getCities(countryId) {
       CityService.getCountryCities(countryId)
           .then(response => this.cities = response.data)

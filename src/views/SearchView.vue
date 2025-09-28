@@ -111,7 +111,6 @@
 <!--  }-->
 <!--}-->
 <!--</script>-->
-
 <template>
   <div class="container my-4">
     <section class="search mb-4">
@@ -126,11 +125,9 @@
         <button class="btn btn-primary" @click="submitSearch">Find Services</button>
       </div>
     </section>
-
     <section class="info-section">
       <h2>Services</h2>
     </section>
-
     <div class="row row-cols-1 row-cols-md-3 g-4" v-if="services.length">
       <div class="col" v-for="service in services" :key="service.serviceId || service.id">
         <div class="card h-100">
@@ -149,7 +146,6 @@
         </div>
       </div>
     </div>
-
     <div v-else class="text-muted">
       <em v-if="loading">Loading…</em>
       <em v-else-if="queryFromUrl">No results for “{{ queryFromUrl }}”.</em>
@@ -157,7 +153,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import SearchService from "@/services/SearchService";
 
@@ -204,7 +199,7 @@ export default {
       const q = this.partialDescription.trim();
       if (!q) return;
       if (q !== this.$route.query.q) {
-        this.$router.push({ name: 'searchRoute', query: { q } });
+        this.$router.push({name: 'searchRoute', query: {q}});
       } else {
         const userId = sessionStorage.getItem("userId");
         this.fetchResults(q, userId);
@@ -225,7 +220,7 @@ export default {
           });
     },
     goToOrder(serviceId) {
-      this.$router.push({ name: 'OrderingView', params: { serviceId } });
+      this.$router.push({name: 'OrderingView', params: {serviceId}});
     }
   }
 };

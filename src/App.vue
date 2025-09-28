@@ -7,7 +7,6 @@
         <!--        <router-link to="/my-orders">My Orders</router-link>-->
         <router-link to="/search">Search</router-link>
         <router-link to="/about">About</router-link>
-
       </nav>
       <div class="actions">
         <div v-if="isLoggedIn">
@@ -22,7 +21,6 @@
           </router-link>
         </div>
         <template v-if="isLoggedIn">
-
           <button class="btn small" @click="goToUser">User</button>
           <button class="btn small danger" @click="logout">Logout</button>
         </template>
@@ -31,11 +29,9 @@
         </template>
       </div>
     </header>
-
     <router-view @event-user-logged-in="updateNavMenu"/>
   </div>
 </template>
-
 <script>
 import SessionStorageService from "@/services/SessionStorageService";
 import MyOrdersView from "@/views/MyOrdersView.vue";
@@ -62,8 +58,6 @@ export default {
     }
   },
   methods: {
-
-
     goToMyServices() {
       const userId = sessionStorage.getItem("userId");
       this.$router.push({name: 'myServicesRoute', params: {customerId: userId}});
@@ -122,7 +116,6 @@ export default {
   }
 };
 </script>
-
 <style>
 :root {
   --gap: 12px;

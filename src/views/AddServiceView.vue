@@ -89,17 +89,14 @@
 
 <template>
   <div class="container text-center">
-
     <div class="card mb-4 shadow-sm">
       <div class="card-body">
         <h5 class="card-title">Add a New Service</h5>
-
         <!--    <div class="row">-->
         <!--      <div class="col">-->
         <!--        <h1>Add a New Service</h1>-->
         <!--      </div>-->
         <!--    </div>-->
-
         <!-- Loading state -->
         <div v-if="loading" class="text-center py-4">
           <div class="spinner-border" role="status">
@@ -107,17 +104,14 @@
           </div>
           <p class="mt-2">Creating your service...</p>
         </div>
-
         <!-- Error state -->
         <div v-if="error" class="alert alert-danger" role="alert">
           <strong>Error:</strong> {{ error }}
         </div>
-
         <!-- Success state -->
         <div v-if="success" class="alert alert-success" role="alert">
           <strong>Success!</strong> Service created successfully!
         </div>
-
         <!-- Form -->
         <form @submit.prevent="submitService" v-if="!loading">
           <table class="table">
@@ -141,14 +135,12 @@
             <tr>
               <td><label for="serviceName">Service name</label></td>
               <td>
-
                 <ServicesDropdown
                     :services="services"
                     :selected-service-id="selectedServiceId"
                     @event-new-service-selected="handleSelectedServiceChange"
                 />
               </td>
-
             </tr>
             <tr>
               <td><label for="unitCost">€ Unit cost</label></td>
@@ -195,7 +187,6 @@
                 <div v-if="imagePreview" class="mt-2">
                   <!--              <img :src="imagePreview" alt="Preview" class="img-thumbnail" width="100">-->
                   <img :src="imagePreview" alt="Preview" class="img-thumbnail preview-thumb">
-
                   <button type="button" @click="removeImage" class="btn btn-sm btn-outline-danger ms-2">
                     Remove
                   </button>
@@ -219,7 +210,6 @@
             </tr>
             </tbody>
           </table>
-
           <!-- Form buttons -->
           <div class="text-center mt-4">
             <button
@@ -243,12 +233,10 @@
     </div>
   </div>
 </template>
-
 <script>
 import ServicesDropdown from "@/components/provider_service/ServicesDropdown.vue";
 // Import your service for API calls
 // import ServiceProviderService from "@/services/ServiceProviderService"; // You'll need to create this
-
 export default {
   name: 'ServiceView',
   components: {ServicesDropdown},
@@ -257,12 +245,10 @@ export default {
       loading: false,
       error: null,
       success: false,
-
       // Service selection
       serviceId: Number(sessionStorage.getItem('serviceId')),
       serviceName: sessionStorage.getItem('serviceName'),
       selectedServiceId: 0,
-
       // Form data
       formData: {
         category: '',
@@ -272,15 +258,12 @@ export default {
         validDays: 30,
         photoFile: null
       },
-
       // Image preview
       imagePreview: null,
-
       // Dropdown options
       services: [
         // Will be loaded from API or props
       ],
-
       categories: [
         {id: 1, name: 'Childcare'},
         {id: 2, name: 'Pet Care'},
@@ -292,7 +275,6 @@ export default {
       ]
     }
   },
-
   computed: {
     isFormValid() {
       return (
@@ -303,7 +285,6 @@ export default {
       );
     }
   },
-
   methods: {
     handleSelectedServiceChange(selectedServiceId) {
       this.selectedServiceId = selectedServiceId;
@@ -313,7 +294,6 @@ export default {
         this.formData.serviceName = selected.serviceName;
       }
     },
-
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
@@ -323,27 +303,22 @@ export default {
           event.target.value = '';
           return;
         }
-
         // Validate file type
         if (!file.type.startsWith('image/')) {
           this.error = 'Please select a valid image file';
           event.target.value = '';
           return;
         }
-
         this.formData.photoFile = file;
-
         // Create preview
         const reader = new FileReader();
         reader.onload = (e) => {
           this.imagePreview = e.target.result;
         };
         reader.readAsDataURL(file);
-
         this.error = null;
       }
     },
-
     removeImage() {
       this.formData.photoFile = null;
       this.imagePreview = null;
@@ -353,52 +328,41 @@ export default {
         fileInput.value = '';
       }
     },
-
     async submitService() {
       if (!this.isFormValid) {
         this.error = 'Please fill in all required fields';
         return;
       }
-
       this.loading = true;
       this.error = null;
       this.success = false;
-
       try {
         // Create FormData for file upload
         const formData = new FormData();
-
         // Add all form fields
         formData.append('category', this.formData.category);
         formData.append('serviceName', this.formData.serviceName);
         formData.append('unitCost', this.formData.unitCost);
         formData.append('description', this.formData.description);
         formData.append('validDays', this.formData.validDays);
-
         // Calculate valid dates
         const now = new Date();
         const validTo = new Date(now.getTime() + (this.formData.validDays * 24 * 60 * 60 * 1000));
         formData.append('validFrom', now.toISOString());
         formData.append('validTo', validTo.toISOString());
-
-
         // Add photo if selected
         if (this.formData.photoFile) {
           formData.append('photo', this.formData.photoFile);
         }
-
         // Send to API
         const response = await ServiceProviderService.createService(formData);
-
         if (response && response.data) {
           this.success = true;
-
           // Clear form after successful submission
           setTimeout(() => {
             this.goToMyServices();
           }, 2000);
         }
-
       } catch (error) {
         console.error('Failed to create service:', error);
         this.error = error.response?.data?.message || 'Failed to create service. Please try again.';
@@ -406,15 +370,12 @@ export default {
         this.loading = false;
       }
     },
-
     goBack() {
       this.$router.push('/my-services');
     },
-
     goToMyServices() {
       this.$router.push('/my-services');
     },
-
     // Load services for dropdown (if needed)
     async loadServices() {
       try {
@@ -425,11 +386,9 @@ export default {
       }
     }
   },
-
   mounted() {
     // Load services if needed
     // this.loadServices();
-
     // Set initial service name if available
     if (this.serviceName) {
       this.formData.serviceName = this.serviceName;

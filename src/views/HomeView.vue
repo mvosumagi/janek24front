@@ -34,7 +34,7 @@
     <div class="col" v-for="service in services" :key="service.serviceId || service.id">
       <div class="card h-100">
         <!-- Popular Badge -->
-<!--        <div v-if="service.unitCost > 35" class="popular-badge">Popular</div>-->
+        <!--        <div v-if="service.unitCost > 35" class="popular-badge">Popular</div>-->
         <div class="card-body">
           <h5 class="card-title">{{ service.serviceName }}</h5>
           <p class="card-text">
@@ -50,10 +50,8 @@
       </div>
     </div>
   </div>
-  <img src="../assets/HowItWorks.png" alt="Public Image" class="large-image" />
-
+  <img src="../assets/HowItWorks.png" alt="Public Image" class="large-image"/>
 </template>
-
 <script>
 import SearchService from "@/services/SearchService";
 import NavigationService from "@/services/NavigationService";
@@ -85,7 +83,6 @@ export default {
           .map(value => ({value, sort: Math.random()}))
           .sort((a, b) => a.sort - b.sort)
           .map(({value}) => value);
-
       this.services = shuffled.slice(0, 6);
     },
     goSearch() {

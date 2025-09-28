@@ -14,14 +14,7 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-
 </template>
-
 <script>
 import LoginService from "@/services/LoginService";
 import NavigationService from "@/services/NavigationService";
@@ -37,21 +30,19 @@ export default {
         errorCode: 0
       }
     }
-  }
-  ,
+  },
   methods: {
     sendLoginRequest() {
       LoginService.sendLoginRequest(this.username, this.password)
           .then(response => this.handleLoginRequestResponse(response))
           .catch(error => this.handleLoginRequestError(error))
     },
-
     login() {
       if (this.allFieldsAreWithCorrectInput()) {
         this.sendLoginRequest()
       } else {
         this.sendLoginRequest()
-      this.handleFieldsIncorrectInputAlert();
+        this.handleFieldsIncorrectInputAlert();
       }
     },
     handleFieldsIncorrectInputAlert() {
@@ -71,10 +62,8 @@ export default {
       this.$emit('event-user-logged-in')
       NavigationService.navigateToUserView()
     },
-
     handleLoginRequestError(error) {
       this.errorResponse = error.response.data
-
       if (error.response.status === 403 && this.errorResponse.errorCode === 111) {
         this.errorMessage = this.errorResponse.message
         alert(this.errorMessage)

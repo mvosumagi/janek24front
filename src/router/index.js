@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import ErrorView from '@/views/ErrorView.vue'
 import AddServiceView from '@/views/AddServiceView.vue'
@@ -24,7 +24,7 @@ const routes = [
     {
         path: '/inbox-legacy',
         name: 'Inbox',
-        redirect: { name: 'inboxRoute' }
+        redirect: {name: 'inboxRoute'}
     },
     {
         path: '/email',
@@ -67,9 +67,6 @@ const routes = [
         component: MyServicesView,
         props: true
     },
-
-
-
     {
         path: '/not-authorized',
         name: 'notAuthorizedRoute',
@@ -94,10 +91,8 @@ const routes = [
         redirect: '/error'
     }
 ]
-
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
-
 export default router

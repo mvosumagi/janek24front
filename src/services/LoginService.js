@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export default {
-
     sendLoginRequest(username, password) {
         let prefer
         if (username === 'error') {
@@ -11,7 +10,6 @@ export default {
         } else {
             prefer = 'code=200, example=rain';
         }
-
         return axios.get('/login', {
             params: {
                 username: username,

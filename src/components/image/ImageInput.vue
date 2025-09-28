@@ -1,6 +1,7 @@
 <template>
   <div class="mb-3">
-    <input ref="fileInput" class="form-control" type="file" @change="handleImage" accept="image/x-png,image/jpeg,image/gif">
+    <input ref="fileInput" class="form-control" type="file" @change="handleImage"
+           accept="image/x-png,image/jpeg,image/gif">
   </div>
 </template>
 
@@ -22,7 +23,6 @@ export default {
       const selectedImage = event.target.files[0];
       this.emitBase64(selectedImage);
     },
-
     emitBase64(fileObject) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -34,14 +34,12 @@ export default {
       }
       reader.readAsDataURL(fileObject);
     },
-
     clearFileInput() {
       if (this.$refs.fileInput) {
         this.$refs.fileInput.value = ''
         this.$emit('event-reset-image-select-complete')
       }
     },
-
   }
 }
 </script>

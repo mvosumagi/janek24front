@@ -4,7 +4,6 @@
     <input :value="username" @input="handleUserNameInput" type="text" placeholder="username"/>
   </div>
 </template>
-
 <script>
 export default {
   name: "UsernameInput",

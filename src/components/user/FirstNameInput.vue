@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="mb-3">
     <label>First name </label>
@@ -11,7 +9,6 @@
     />
   </div>
 </template>
-
 <script>
 export default {
   name: "FirstNameInput",

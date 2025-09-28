@@ -6,11 +6,8 @@
       </div>
     </div>
   </div>
-
   <section>
-
     <table id="myServicesTable" class="table table-striped">
-
       <thead>
       <tr>
         <th>#</th>
@@ -26,9 +23,9 @@
         <th>Delete</th>
       </tr>
       </thead>
-<!--            <tbody id="tableBody">-->
-<!--            &lt;!&ndash; Teenused renderdatakse siia &ndash;&gt;-->
-<!--            </tbody>-->
+      <!--            <tbody id="tableBody">-->
+      <!--            &lt;!&ndash; Teenused renderdatakse siia &ndash;&gt;-->
+      <!--            </tbody>-->
       <tbody>
       <tr v-for="(service, index) in myServices" :key="service.serviceId">
         <td>{{ index + 1 }}</td>
@@ -50,19 +47,11 @@
         </td>
       </tr>
       </tbody>
-
     </table>
     <button @click="goToService" type="submit" class="btn btn-outline-primary">Add a New Service</button>
   </section>
-
 </template>
-
-<style>
-
-</style>
-
 <script>
-
 export default {
   methods: {
     goToService() {

@@ -4,13 +4,12 @@
       <div class="col col-4">
         <div class="mb-3">
           <label>Password</label>
-          <input :value="password" @input="handlePasswordInput" type="password" />
+          <input :value="password" @input="handlePasswordInput" type="password"/>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: "PasswordInput",

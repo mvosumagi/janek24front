@@ -1,6 +1,5 @@
 // @/services/ApiClient.js
 import axios from 'axios';
-
 // Create API client instance
 const apiClient = axios.create({
     baseURL: process.env.VUE_APP_API_BASE_URL || 'http://localhost:8080',
@@ -9,7 +8,6 @@ const apiClient = axios.create({
         'Content-Type': 'application/json',
     },
 });
-
 // Request interceptor to add auth token
 apiClient.interceptors.request.use(
     (config) => {
@@ -23,7 +21,6 @@ apiClient.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-
 // Response interceptor for error handling
 apiClient.interceptors.response.use(
     (response) => response,
@@ -38,5 +35,4 @@ apiClient.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
 export default apiClient;

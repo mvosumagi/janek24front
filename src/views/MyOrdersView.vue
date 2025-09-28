@@ -1,7 +1,5 @@
 <script setup>
-
 </script>
-
 <template>
   <div class="container text-center">
     <div class="row">
@@ -10,9 +8,7 @@
       </div>
     </div>
   </div>
-
   <section>
-
     <!--    <table id="myOrdersTable">-->
     <table class="table table-striped">
       <thead>
@@ -34,7 +30,5 @@
       <!-- Teenused renderdatakse siia -->
       </tbody>
     </table>
-
   </section>
-
 </template>

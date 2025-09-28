@@ -4,7 +4,7 @@
       <div class="col col-4">
         <div class="mb-3">
           <label>Address</label>
-          <input :value="address" @input="handleAddressInput" type="text"  placeholder="Kännu 5 Kuuse küla"/>
+          <input :value="address" @input="handleAddressInput" type="text" placeholder="Kännu 5 Kuuse küla"/>
         </div>
       </div>
     </div>

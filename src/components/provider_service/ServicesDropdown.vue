@@ -6,7 +6,6 @@
     </option>
   </select>
 </template>
-
 <script>
 import SearchService from "@/services/SearchService";
 

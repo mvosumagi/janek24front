@@ -4,14 +4,12 @@
       <div class="col col-4">
         <div class="mb-3">
           <label>Phone number</label>
-
           <div style="display:flex; gap:6px; align-items:center;">
             <select :value="selectedDial" @change="onDialChange">
               <option v-for="c in countries" :key="c.dial" :value="c.dial">
                 {{ c.flag }} {{ c.label }} ({{ c.dial }})
               </option>
             </select>
-
             <input
                 :value="localNumber"
                 @change="onLocalNumberChange"
@@ -25,24 +23,23 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: "PhoneInput",
-  props: { phone: String },
+  props: {phone: String},
   data() {
     return {
       countries: [
-        { code: "EE", label: "Estonia",  dial: "+372", flag: "🇪🇪" },
-        { code: "LV", label: "Latvia",   dial: "+371", flag: "🇱🇻" },
-        { code: "LT", label: "Lithuania",dial: "+370", flag: "🇱🇹" },
-        { code: "FI", label: "Finland",  dial: "+358", flag: "🇫🇮" },
-        { code: "SE", label: "Sweden",   dial: "+46",  flag: "🇸🇪" },
-        { code: "DE", label: "Germany",  dial: "+49",  flag: "🇩🇪" },
-        { code: "FR", label: "France",   dial: "+33",  flag: "🇫🇷" },
-        { code: "GB", label: "UK",       dial: "+44",  flag: "🇬🇧" },
-        { code: "US", label: "USA",      dial: "+1",   flag: "🇺🇸" },
-        { code: "IN", label: "India",    dial: "+91",  flag: "🇮🇳" }
+        {code: "EE", label: "Estonia", dial: "+372", flag: "🇪🇪"},
+        {code: "LV", label: "Latvia", dial: "+371", flag: "🇱🇻"},
+        {code: "LT", label: "Lithuania", dial: "+370", flag: "🇱🇹"},
+        {code: "FI", label: "Finland", dial: "+358", flag: "🇫🇮"},
+        {code: "SE", label: "Sweden", dial: "+46", flag: "🇸🇪"},
+        {code: "DE", label: "Germany", dial: "+49", flag: "🇩🇪"},
+        {code: "FR", label: "France", dial: "+33", flag: "🇫🇷"},
+        {code: "GB", label: "UK", dial: "+44", flag: "🇬🇧"},
+        {code: "US", label: "USA", dial: "+1", flag: "🇺🇸"},
+        {code: "IN", label: "India", dial: "+91", flag: "🇮🇳"}
       ],
       selectedDial: "+372",
       localNumber: ""

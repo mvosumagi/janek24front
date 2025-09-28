@@ -1,41 +1,42 @@
 <template>
   <div class="container py-4">
     <h1 class="mb-4">Inbox</h1>
-
     <form @submit.prevent="onSend" novalidate>
       <fieldset :disabled="sending || loading">
         <div class="mb-3">
           <label class="form-label" for="from">From (username)</label>
-          <input id="from" type="text" class="form-control" v-model.trim="form.from" autocomplete="off" />
+          <input id="from" type="text" class="form-control" v-model.trim="form.from" autocomplete="off"/>
         </div>
         <div class="mb-3">
           <label class="form-label" for="to">To (comma/space separated usernames)</label>
-          <input id="to" type="text" class="form-control" v-model.trim="form.to" autocomplete="off" />
+          <input id="to" type="text" class="form-control" v-model.trim="form.to" autocomplete="off"/>
         </div>
         <div class="mb-3">
           <label class="form-label" for="cc">CC (optional)</label>
-          <input id="cc" type="text" class="form-control" v-model.trim="form.cc" autocomplete="off" />
+          <input id="cc" type="text" class="form-control" v-model.trim="form.cc" autocomplete="off"/>
         </div>
         <div class="mb-3">
           <label class="form-label" for="subject">Subject</label>
-          <input id="subject" type="text" class="form-control" v-model.trim="form.subject" />
+          <input id="subject" type="text" class="form-control" v-model.trim="form.subject"/>
         </div>
         <div class="mb-3">
           <label class="form-label" for="body">Body</label>
           <textarea id="body" rows="8" class="form-control" v-model="form.body"></textarea>
         </div>
         <div class="d-flex flex-wrap gap-2 mt-3">
-          <button type="submit" class="btn btn-outline-primary" :disabled="!isValid || sending">{{ sending ? 'Sending…' : 'Send' }}</button>
+          <button type="submit" class="btn btn-outline-primary" :disabled="!isValid || sending">
+            {{ sending ? 'Sending…' : 'Send' }}
+          </button>
           <button type="button" class="btn btn-outline-secondary" @click="resetForm" :disabled="sending">Reset</button>
-          <button type="button" class="btn btn-outline-dark" @click="loadInbox" :disabled="loading">{{ loading ? 'Loading…' : 'Load Inbox' }}</button>
+          <button type="button" class="btn btn-outline-dark" @click="loadInbox" :disabled="loading">
+            {{ loading ? 'Loading…' : 'Load Inbox' }}
+          </button>
           <button type="button" class="btn btn-outline-secondary" @click="goBack">Back</button>
           <button type="button" class="btn btn-outline-secondary" @click="goHome">Home</button>
         </div>
       </fieldset>
     </form>
-
-    <hr class="my-4" />
-
+    <hr class="my-4"/>
     <div class="d-flex justify-content-between align-items-center mb-2">
       <h2 class="h5 m-0">My Inbox</h2>
       <div class="d-flex gap-2">
@@ -43,11 +44,8 @@
         <span v-if="loading" class="text-muted small align-self-center">Updating…</span>
       </div>
     </div>
-
     <div v-if="error" class="alert alert-danger" role="alert">{{ error }}</div>
-
     <div v-if="!loading && inbox.length === 0" class="text-muted">No messages.</div>
-
     <div v-else class="list-group" role="list">
       <button
           v-for="m in inbox"
@@ -68,7 +66,6 @@
         <span :class="['badge','rounded-pill', statusClass(m.status)]">{{ statusText(m.status) }}</span>
       </button>
     </div>
-
     <div v-if="selected" class="card mt-3">
       <div class="card-header d-flex justify-content-between align-items-center">
         <div>
@@ -79,33 +76,31 @@
           <button class="btn btn-sm btn-outline-primary" @click="reply">Reply</button>
           <button class="btn btn-sm btn-outline-primary" @click="replyAll">Reply All</button>
           <button class="btn btn-sm btn-outline-primary" @click="forward">Forward</button>
-          <button class="btn btn-sm btn-outline-secondary" @click="markRead" :disabled="!selected || selected.status === 'R'">Mark read</button>
+          <button class="btn btn-sm btn-outline-secondary" @click="markRead"
+                  :disabled="!selected || selected.status === 'R'">Mark read
+          </button>
         </div>
       </div>
       <div class="card-body">
-        <pre class="mb-0" style="white-space: pre-wrap;" v-text="selected.message" />
+        <pre class="mb-0" style="white-space: pre-wrap;" v-text="selected.message"/>
       </div>
     </div>
   </div>
 </template>
-
 <script setup>
-import { onMounted, reactive, ref, computed, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
+import {computed, nextTick, onMounted, reactive, ref} from 'vue'
+import {useRouter} from 'vue-router'
 import InboxService from '@/services/InboxService'
 
 const router = useRouter()
-
 const loading = ref(false)
 const sending = ref(false)
 const error = ref('')
-
-const form = reactive({ from: '', to: '', cc: '', subject: '', body: '' })
+const form = reactive({from: '', to: '', cc: '', subject: '', body: ''})
 const inbox = ref([])
 const selected = ref(null)
 const myUserId = ref(null)
 const myUsername = ref('')
-
 const isValid = computed(() => !!(form.from && form.to && form.subject && form.body))
 
 function formatDate(iso) {
@@ -121,16 +116,23 @@ function formatDate(iso) {
 
 function statusClass(s) {
   switch (s) {
-    case 'N': return 'bg-primary'
-    case 'R': return 'bg-secondary'
-    default: return 'bg-dark'
+    case 'N':
+      return 'bg-primary'
+    case 'R':
+      return 'bg-secondary'
+    default:
+      return 'bg-dark'
   }
 }
+
 function statusText(s) {
   switch (s) {
-    case 'N': return 'New'
-    case 'R': return 'Read'
-    default: return 'Arch'
+    case 'N':
+      return 'New'
+    case 'R':
+      return 'Read'
+    default:
+      return 'Arch'
   }
 }
 
@@ -191,6 +193,7 @@ function resetForm() {
   form.body = ''
   selected.value = null
 }
+
 function resetBody() {
   form.subject = ''
   form.body = ''
@@ -213,7 +216,7 @@ function reply() {
   form.cc = ''
   form.subject = prefix('Re', selected.value.title)
   form.body = `\n\n--- Original message from ${selected.value.senderUsername} ---\n${selected.value.message}`
-  nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
+  nextTick(() => window.scrollTo({top: 0, behavior: 'smooth'}))
 }
 
 function replyAll() {
@@ -226,7 +229,7 @@ function replyAll() {
   form.cc = ''
   form.subject = prefix('Re', selected.value.title)
   form.body = `\n\n--- Original message ---\n${selected.value.message}`
-  nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
+  nextTick(() => window.scrollTo({top: 0, behavior: 'smooth'}))
 }
 
 function forward() {
@@ -235,7 +238,7 @@ function forward() {
   form.cc = ''
   form.subject = prefix('Fwd', selected.value.title)
   form.body = `\n\n--- Forwarded message from ${selected.value.senderUsername} ---\n${selected.value.message}`
-  nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
+  nextTick(() => window.scrollTo({top: 0, behavior: 'smooth'}))
 }
 
 async function markRead() {
@@ -251,6 +254,7 @@ async function markRead() {
 function goBack() {
   router.back()
 }
+
 function goHome() {
   router.push('/home')
 }
@@ -267,7 +271,8 @@ onMounted(async () => {
   }
 })
 </script>
-
 <style scoped>
-pre { font-family: inherit; }
+pre {
+  font-family: inherit;
+}
 </style>
