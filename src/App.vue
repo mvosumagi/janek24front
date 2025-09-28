@@ -6,6 +6,8 @@
         <!--        <router-link to="/my-services">My Services</router-link>-->
         <!--        <router-link to="/my-orders">My Orders</router-link>-->
         <router-link to="/search">Search</router-link>
+        <router-link to="/about">About</router-link>
+
       </nav>
       <div class="actions">
         <div v-if="isLoggedIn">
