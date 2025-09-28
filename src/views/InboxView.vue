@@ -271,8 +271,3 @@ onMounted(async () => {
   }
 })
 </script>
-<style scoped>
-pre {
-  font-family: inherit;
-}
-</style>
