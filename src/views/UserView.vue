@@ -8,8 +8,11 @@
       <div class="card-body">
         <h5 class="card-title">Personal Information</h5>
 
-        <div class="row justify-content-center">
-          <div class="col col-4">
+<!--        <div class="row justify-content-center">-->
+<!--          <div class="col col-4">-->
+
+        <table class="table">
+          <tbody>
             <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated"/>
 
             <div v-if="!isLoggedIn">
@@ -58,12 +61,14 @@
               <button @click="" type="button" class="btn btn-outline-primary">Change Password</button>
             </div>
 
+          </tbody>
+        </table>
+
           </div>
-        </div>
-      </div>
+<!--        </div>-->
+<!--      </div>-->
     </div>
   </div>
-
 
 </template>
 

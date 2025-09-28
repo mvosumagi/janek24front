@@ -89,11 +89,16 @@
 
 <template>
   <div class="container text-center">
-    <div class="row">
-      <div class="col">
-        <h1>Add a New Service</h1>
-      </div>
-    </div>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Add a New Service</h5>
+
+<!--    <div class="row">-->
+<!--      <div class="col">-->
+<!--        <h1>Add a New Service</h1>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <!-- Loading state -->
     <div v-if="loading" class="text-center py-4">
@@ -235,6 +240,8 @@
         </button>
       </div>
     </form>
+      </div>
+    </div>
   </div>
 </template>
 
