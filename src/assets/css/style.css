@@ -1,7 +1,49 @@
+/*UserView*/
+
+.card-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.card-body > *:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+}
+
+.alert {
+    margin-bottom: 1rem;
+}
+
+
+/*HomeView*/
+.popular-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: #007bff; /* Bootstrap primary blue */
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 0.25rem;
+    z-index: 10;
+}
+.large-image {
+    width: 100%;
+    max-width: 800px;
+    display: block;
+    margin: 0 auto;
+}
+
 /*homeview*/
 .home {
     min-height: 100vh;
-    background: url('~@/assets/logo.png') center center / cover no-repeat;
+    background: url('~@/assets/hero-background.jpg') center center / cover no-repeat;
     background-attachment: fixed;
     position: relative;
     padding-top: 2rem;
@@ -300,6 +342,11 @@ label {
     max-height: 80px;
     max-width: 80px;
 }
+.preview-thumb {
+    width: 60px;
+    height: auto;
+}
+
 /*.img-thumbnail {*/
 /*    max-height: 80px;*/
 /*    object-fit: cover;*/

@@ -33,6 +33,8 @@
   <div class="row row-cols-1 row-cols-md-3 g-4" v-if="services && services.length">
     <div class="col" v-for="service in services" :key="service.serviceId || service.id">
       <div class="card h-100">
+        <!-- Popular Badge -->
+<!--        <div v-if="service.unitCost > 35" class="popular-badge">Popular</div>-->
         <div class="card-body">
           <h5 class="card-title">{{ service.serviceName }}</h5>
           <p class="card-text">
@@ -48,7 +50,8 @@
       </div>
     </div>
   </div>
-  <img src="/kuidastöötab2.png" alt="Public Image"/>
+  <img src="../assets/HowItWorks.png" alt="Public Image" class="large-image" />
+
 </template>
 
 <script>

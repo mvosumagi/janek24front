@@ -4,61 +4,65 @@
     <AlertDanger :message="errorMessage"/>
     <AlertSuccess :message="successMessage"/>
 
-    <div class="row justify-content-center">
-      <div class="col col-4">
-        <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated"/>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Personal Information</h5>
 
-        <div v-if="!isLoggedIn">
-          <UsernameInput :username="user.username" @event-username-updated="usernameUpdated"/>
+        <div class="row justify-content-center">
+          <div class="col col-4">
+            <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated"/>
+
+            <div v-if="!isLoggedIn">
+              <UsernameInput :username="user.username" @event-username-updated="usernameUpdated"/>
+            </div>
+
+            <LastNameInput :lastname="user.lastName" @event-last-name-updated="lastNameUpdated"/>
+
+            <EmailInput :email="user.email" @event-email-updated="emailUpdated"/>
+            <PhoneInput :phone="user.phoneNumber" @event-phone-updated="phoneUpdated"/>
+
+            <CountryDropdown :country-id="user.countryId" @event-country-updated="handleCountryUpdate"/>
+            <CityDropdown :country-id="user.countryId" :city-id="user.cityId" @event-city-updated="setUserCityId"/>
+
+            <StateInput :state="user.state" @event-state-updated="stateUpdated"/>
+            <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
+            <PostalCodeInput :postal-code="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
+
+            <div v-if="!isLoggedIn">
+              <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
+            </div>
+
+            <div v-if="!isLoggedIn">
+              <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+            </div>
+
+
+            <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated"/>
+
+            <div v-if="user.isCompany">
+              <CompanyNameInput :company-name="user.companyName" @event-companyname-updated="companyNameUpdated"/>
+              <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
+            </div>
+
+            <div v-if="!isLoggedIn">
+              <button @click="createUser" type="button" class="btn btn-outline-primary">Create user</button>
+            </div>
+
+            <div v-if="isLoggedIn">
+              <button @click="createUser" type="button" class="btn btn-outline-primary">Save Changes</button>
+            </div>
+
+            <div v-if="isLoggedIn">
+              <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
+              <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+              <button @click="" type="button" class="btn btn-outline-primary">Change Password</button>
+            </div>
+
+          </div>
         </div>
-
-        <LastNameInput :lastname="user.lastName" @event-last-name-updated="lastNameUpdated"/>
-
-        <EmailInput :email="user.email" @event-email-updated="emailUpdated"/>
-        <PhoneInput :phone="user.phoneNumber" @event-phone-updated="phoneUpdated"/>
-
-        <CountryDropdown :country-id="user.countryId" @event-country-updated="handleCountryUpdate"/>
-        <CityDropdown :country-id="user.countryId" :city-id="user.cityId" @event-city-updated="setUserCityId"/>
-
-        <StateInput :state="user.state" @event-state-updated="stateUpdated"/>
-        <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
-        <PostalCodeInput :postal-code="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
-
-        <div v-if="!isLoggedIn">
-          <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
-        </div>
-
-        <div v-if="!isLoggedIn">
-          <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
-        </div>
-
-
-        <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated"/>
-
-        <div v-if="user.isCompany">
-          <CompanyNameInput :company-name="user.companyName" @event-companyname-updated="companyNameUpdated"/>
-          <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
-        </div>
-
-        <div v-if="!isLoggedIn">
-          <button @click="createUser" type="button" class="btn btn-outline-primary">Create user</button>
-        </div>
-
-        <div v-if="isLoggedIn">
-          <button @click="createUser" type="button" class="btn btn-outline-primary">Save Changes</button>
-        </div>
-
-        <div v-if="isLoggedIn">
-          <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
-          <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
-          <button @click="" type="button" class="btn btn-outline-primary">Change Password</button>
-        </div>
-
-
       </div>
     </div>
   </div>
-
 
 
 </template>
@@ -283,5 +287,3 @@ export default {
   }
 }
 </script>
-
-

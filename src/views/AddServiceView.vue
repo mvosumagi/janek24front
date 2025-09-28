@@ -189,7 +189,9 @@
             <small class="text-muted">Supported formats: JPG, PNG, GIF (max 5MB)</small>
             <!-- Preview uploaded image -->
             <div v-if="imagePreview" class="mt-2">
-              <img :src="imagePreview" alt="Preview" class="img-thumbnail" width="100">
+<!--              <img :src="imagePreview" alt="Preview" class="img-thumbnail" width="100">-->
+              <img :src="imagePreview" alt="Preview" class="img-thumbnail preview-thumb">
+
               <button type="button" @click="removeImage" class="btn btn-sm btn-outline-danger ms-2">
                 Remove
               </button>
