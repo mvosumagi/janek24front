@@ -18,12 +18,14 @@
         </router-link>
       </div>
         <template v-if="isLoggedIn">
-          <button class="btn small" @click="goToUser">User</button>
+          <button class="btn small danger" @click="goToUser">User</button>
           <button class="btn small danger" @click="logout">Logout</button>
 
         </template>
         <template v-else>
+          <button class="btn small danger " @click="goToUser">Register User</button>
           <button class="btn small success" @click="goToLogin">Login</button>
+
 
         </template>
       </div>

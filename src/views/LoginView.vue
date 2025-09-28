@@ -15,11 +15,6 @@
     </div>
   </div>
 
-
-
-
-
-
 </template>
 
 <script>
@@ -51,7 +46,7 @@ export default {
         this.sendLoginRequest()
       } else {
         this.sendLoginRequest()
-      this.handleFieldsIncorrectInputAlert();
+        this.handleFieldsIncorrectInputAlert();
       }
     },
     handleFieldsIncorrectInputAlert() {
@@ -69,7 +64,7 @@ export default {
       sessionStorage.setItem('userId', this.loginResponse.userId)
       sessionStorage.setItem('roleName', this.loginResponse.roleName)
       this.$emit('event-user-logged-in')
-      NavigationService.navigateToUserView()
+      NavigationService.navigateToHomeView()
     },
 
     handleLoginRequestError(error) {
@@ -84,10 +79,6 @@ export default {
       }
 
     },
-
-
-
-
 
 
   }

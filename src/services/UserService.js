@@ -1,4 +1,5 @@
 import axios from "axios";
+import data from "bootstrap/js/src/dom/data";
 
 export default {
     sendCreateUserRequest(user) {
@@ -9,15 +10,19 @@ export default {
             prefer = "code=200, example=default";
         }
         return axios.post("/user", user, {
-            headers: { Prefer: prefer, Accept: "application/json" },
+            headers: {Prefer: prefer, Accept: "application/json"},
         });
     },
 
-    async checkUsername(username) {
-        const { data } = await axios.get("/user/availability", {
-            params: { username }
+    checkUsername(username) {
+        axios.get("/user/availability", {
+            params: {username}
         });
         return !!data.available;
-    }
-};
+    },
 
+    getUser(userId) {
+        axios.get("/user", {params: {userId}});
+        return data;
+    },
+};

@@ -6,6 +6,11 @@ export default {
         router.push({name: 'userRoute'})
     },
 
+    navigateToHomeView() {
+        router.push({name: 'homeRoute'})
+    },
+
+
 
     navigateToErrorView() {
       //  todo: kommenteeri productionis sisse
