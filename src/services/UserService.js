@@ -22,7 +22,7 @@ export default {
     },
 
     getUser(userId) {
-        axios.get("/user", {params: {userId}});
-        return data;
+        return axios.get("/user", {params: {userId}})
+        .then(res => res.data?.data ?? res.data);
     },
 };

@@ -60,7 +60,6 @@
   </div>
 
 
-
 </template>
 
 <script>
@@ -257,13 +256,41 @@ export default {
 
       UserService.sendCreateUserRequest(this.user)
           .then(() => this.displaySuccessMessage("User created successfully"))
-          .catch(() => this.displayErrorMessage("Kasutaja loomine ebaõnnestus"))
+          .catch(() => this.displayErrorMessage("User creation succes"))
+    },
 
-
+    async loadUser() {
+      this.loading = true;
+      this.errorMessage = "";
+      try {
+        const id = sessionStorage.getItem("userId");
+        if (!id) throw new Error("missing id");
+        const data = await UserService.getUser(id);
+        this.user.username    = data.username    || "";
+        this.user.firstName   = data.firstName   || data.firstname || "";
+        this.user.lastName    = data.lastName    || data.lastname  || "";
+        this.user.email       = data.email       || "";
+        this.user.phoneNumber = data.phoneNumber || data.phone     || "";
+        this.user.countryId   = Number(data.countryId || 0);
+        this.user.cityId      = Number(data.cityId    || 0);
+        this.user.state       = data.state       || "";
+        this.user.address     = data.address     || "";
+        this.user.postalCode  = data.postalCode  || "";
+        this.user.isCompany   = !!data.isCompany;
+        this.user.companyName = data.companyName || "";
+        this.user.regNo       = data.regNo       || "";
+        this.displaySuccessMessage(""); // Data loaded kui vaja debugida
+      } catch (e) {
+        this.displayErrorMessage("User Data load failed");
+      } finally {
+        this.loading = false;
+      }
     }
+
   },
   mounted() {
     this.updateAuth();
+    if (this.isLoggedIn) this.loadUser();
     window.addEventListener("storage", this.updateAuth);
     window.addEventListener("session-storage", this.updateAuth);
     window.addEventListener("local-storage", this.updateAuth);
