@@ -56,15 +56,20 @@ const routes = [
         component: SearchView
     },
     {
-        path: '/my-orders',
+        path: '/my-orders/:customerId',
         name: 'myOrdersRoute',
-        component: MyOrdersView
+        component: MyOrdersView,
+        props: true
     },
     {
-        path: '/my-service',
+        path: '/my-services/:customerId',
         name: 'myServicesRoute',
-        component: MyServicesView
+        component: MyServicesView,
+        props: true
     },
+
+
+
     {
         path: '/not-authorized',
         name: 'notAuthorizedRoute',

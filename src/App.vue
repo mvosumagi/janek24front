@@ -3,28 +3,29 @@
     <header class="topbar">
       <nav class="menu">
         <router-link to="/home">Home</router-link>
-        <router-link to="/my-service">My Services</router-link>
-        <router-link to="/my-orders">My Orders</router-link>
+        <!--        <router-link to="/my-services">My Services</router-link>-->
+        <!--        <router-link to="/my-orders">My Orders</router-link>-->
         <router-link to="/search">Search</router-link>
       </nav>
-
       <div class="actions">
-
         <div v-if="isLoggedIn">
-        <router-link to="/inbox" class="mail-wrapper" aria-label="Open inbox">
-          <i class="fas fa-envelope"></i>
-          <span v-if="hasUnreadEmails" class="badge">{{ unreadEmailsCount }}</span>
-          <span v-else class="no-new">No new</span>
-        </router-link>
-      </div>
+          <button class="btn small" @click="goToMyServices">My Services</button>
+          <button class="btn small" @click="goToMyOrders">My Orders</button>
+        </div>
+        <div v-if="isLoggedIn">
+          <router-link to="/inbox" class="mail-wrapper" aria-label="Open inbox">
+            <i class="fas fa-envelope"></i>
+            <span v-if="hasUnreadEmails" class="badge">{{ unreadEmailsCount }}</span>
+            <span v-else class="no-new">No new</span>
+          </router-link>
+        </div>
         <template v-if="isLoggedIn">
+
           <button class="btn small" @click="goToUser">User</button>
           <button class="btn small danger" @click="logout">Logout</button>
-
         </template>
         <template v-else>
           <button class="btn small success" @click="goToLogin">Login</button>
-
         </template>
       </div>
     </header>
@@ -35,6 +36,8 @@
 
 <script>
 import SessionStorageService from "@/services/SessionStorageService";
+import MyOrdersView from "@/views/MyOrdersView.vue";
+import MyServicesView from "@/views/MyServicesView.vue";
 
 export default {
   name: "App",
@@ -46,21 +49,48 @@ export default {
     };
   },
   computed: {
+    MyServicesView() {
+      return MyServicesView
+    },
+    MyOrdersView() {
+      return MyOrdersView
+    },
     hasUnreadEmails() {
       return Number(this.unreadEmailsCount) > 0;
     }
   },
   methods: {
+
+
+    goToMyServices() {
+      const userId = sessionStorage.getItem("userId");
+      this.$router.push({name: 'myServicesRoute', params: {customerId: userId}});
+    },
+    goToMyOrders() {
+      const userId = sessionStorage.getItem("userId");
+      this.$router.push({name: 'myOrdersRoute', params: {customerId: userId}});
+    },
     updateNavMenu() {
       this.isLoggedIn = !!(SessionStorageService?.isLoggedIn?.() || sessionStorage.getItem("userId"));
       this.isAdmin = !!(SessionStorageService?.isAdmin?.() || sessionStorage.getItem("role") === "ADMIN");
       const badge = Number(sessionStorage.getItem("unreadEmailsCount") || localStorage.getItem("unreadEmailsCount"));
       if (Number.isFinite(badge)) this.unreadEmailsCount = badge;
     },
-    goToLogin() { window.location.href = "login"; },
-    goToHome()  { window.location.href = "home";  },
-    goToUser()  { window.location.href = "user";  },
-    goAddNewService() { window.location.href = "service"; },
+    goToLogin() {
+      window.location.href = "login";
+    },
+    goToHome() {
+      window.location.href = "home";
+    },
+    goToUser() {
+      window.location.href = "user";
+    },
+    goToOrder() {
+      window.location.href = "my-orders";
+    },
+    goAddNewService() {
+      window.location.href = "service";
+    },
     logout() {
       sessionStorage.clear();
       localStorage.removeItem("unreadEmailsCount");
@@ -74,7 +104,9 @@ export default {
     window.addEventListener("storage", this.updateNavMenu);
     window.addEventListener("session-storage", this.updateNavMenu);
     window.addEventListener("local-storage", this.updateNavMenu);
-    document.addEventListener("visibilitychange", () => { if (!document.hidden) this.updateNavMenu(); });
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) this.updateNavMenu();
+    });
   },
   beforeUnmount() {
     window.removeEventListener("storage", this.updateNavMenu);
@@ -82,13 +114,17 @@ export default {
     window.removeEventListener("local-storage", this.updateNavMenu);
   },
   watch: {
-    $route() { this.updateNavMenu(); }
+    $route() {
+      this.updateNavMenu();
+    }
   }
 };
 </script>
 
 <style>
-:root { --gap: 12px; }
+:root {
+  --gap: 12px;
+}
 
 body {
   background-color: #f7f7f7;
@@ -118,7 +154,10 @@ body {
   position: relative;
 }
 
-.menu a + a { margin-left: 12px; }
+.menu a + a {
+  margin-left: 12px;
+}
+
 .menu a + a::before {
   content: "|";
   position: absolute;
@@ -140,9 +179,19 @@ body {
   color: #fff;
   background: #6c757d;
 }
-.btn.small { padding: 6px 12px; font-size: 14px; }
-.btn.success { background: #28a745; }
-.btn.danger  { background: #dc3545; }
+
+.btn.small {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.btn.success {
+  background: #28a745;
+}
+
+.btn.danger {
+  background: #dc3545;
+}
 
 .mail-wrapper {
   position: relative;
@@ -152,7 +201,10 @@ body {
   color: #333;
   text-decoration: none;
 }
-.mail-wrapper i { font-size: 22px; }
+
+.mail-wrapper i {
+  font-size: 22px;
+}
 
 .badge {
   position: absolute;
@@ -170,5 +222,8 @@ body {
   text-align: center;
 }
 
-.no-new { font-size: 12px; color: #888; }
+.no-new {
+  font-size: 12px;
+  color: #888;
+}
 </style>

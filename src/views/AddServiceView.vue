@@ -94,81 +94,80 @@
       <div class="card-body">
         <h5 class="card-title">Add a New Service</h5>
 
-<!--    <div class="row">-->
-<!--      <div class="col">-->
-<!--        <h1>Add a New Service</h1>-->
-<!--      </div>-->
-<!--    </div>-->
+        <!--    <div class="row">-->
+        <!--      <div class="col">-->
+        <!--        <h1>Add a New Service</h1>-->
+        <!--      </div>-->
+        <!--    </div>-->
 
-    <!-- Loading state -->
-    <div v-if="loading" class="text-center py-4">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Submitting...</span>
-      </div>
-      <p class="mt-2">Creating your service...</p>
-    </div>
+        <!-- Loading state -->
+        <div v-if="loading" class="text-center py-4">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Submitting...</span>
+          </div>
+          <p class="mt-2">Creating your service...</p>
+        </div>
 
-    <!-- Error state -->
-    <div v-if="error" class="alert alert-danger" role="alert">
-      <strong>Error:</strong> {{ error }}
-    </div>
+        <!-- Error state -->
+        <div v-if="error" class="alert alert-danger" role="alert">
+          <strong>Error:</strong> {{ error }}
+        </div>
 
-    <!-- Success state -->
-    <div v-if="success" class="alert alert-success" role="alert">
-      <strong>Success!</strong> Service created successfully!
-    </div>
+        <!-- Success state -->
+        <div v-if="success" class="alert alert-success" role="alert">
+          <strong>Success!</strong> Service created successfully!
+        </div>
 
-    <!-- Form -->
-    <form @submit.prevent="submitService" v-if="!loading">
-      <table class="table">
-        <tbody>
-        <tr>
-          <td><label for="category">Provider Service Category</label></td>
-          <td>
-            <select
-                id="category"
-                v-model="formData.category"
-                class="form-control"
-                required
-            >
-              <option value="">Select Category</option>
-              <option v-for="category in categories" :key="category.id" :value="category.name">
-                {{ category.name }}
-              </option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td><label for="serviceName">Service name</label></td>
-          <td>
+        <!-- Form -->
+        <form @submit.prevent="submitService" v-if="!loading">
+          <table class="table">
+            <tbody>
+            <tr>
+              <td><label for="category">Provider Service Category</label></td>
+              <td>
+                <select
+                    id="category"
+                    v-model="formData.category"
+                    class="form-control"
+                    required
+                >
+                  <option value="">Select Category</option>
+                  <option v-for="category in categories" :key="category.id" :value="category.name">
+                    {{ category.name }}
+                  </option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="serviceName">Service name</label></td>
+              <td>
 
-            <ServicesDropdown
-                :services="services"
-                :selected-service-id="selectedServiceId"
-                @event-new-service-selected="handleSelectedServiceChange"
-            />
-          </td>
+                <ServicesDropdown
+                    :services="services"
+                    :selected-service-id="selectedServiceId"
+                    @event-new-service-selected="handleSelectedServiceChange"
+                />
+              </td>
 
-
-        </tr>
-        <tr>
-          <td><label for="unitCost">€ Unit cost</label></td>
-          <td>
-            <input
-                id="unitCost"
-                type="number"
-                class="form-control"
-                placeholder="20"
-                v-model.number="formData.unitCost"
-                min="0"
-                step="0.01"
-                required
-            />
-          </td>
-        </tr>
-        <tr>
-          <td><label for="description">Detailed description</label></td>
-          <td>
+            </tr>
+            <tr>
+              <td><label for="unitCost">€ Unit cost</label></td>
+              <td>
+                <input
+                    id="unitCost"
+                    type="number"
+                    class="form-control"
+                    placeholder="20"
+                    v-model.number="formData.unitCost"
+                    min="0"
+                    step="0.01"
+                    required
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><label for="description">Detailed description</label></td>
+              <td>
               <textarea
                   id="description"
                   class="form-control"
@@ -178,68 +177,68 @@
                   maxlength="500"
                   required
               ></textarea>
-            <small class="text-muted">{{ formData.description.length }}/500 characters</small>
-          </td>
-        </tr>
-        <tr>
-          <td><label for="photo">Add a Photo</label></td>
-          <td>
-            <input
-                type="file"
-                id="photo"
-                class="form-control"
-                @change="handleFileUpload"
-                accept="image/*"
-            />
-            <small class="text-muted">Supported formats: JPG, PNG, GIF (max 5MB)</small>
-            <!-- Preview uploaded image -->
-            <div v-if="imagePreview" class="mt-2">
-<!--              <img :src="imagePreview" alt="Preview" class="img-thumbnail" width="100">-->
-              <img :src="imagePreview" alt="Preview" class="img-thumbnail preview-thumb">
+                <small class="text-muted">{{ formData.description.length }}/500 characters</small>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="photo">Add a Photo</label></td>
+              <td>
+                <input
+                    type="file"
+                    id="photo"
+                    class="form-control"
+                    @change="handleFileUpload"
+                    accept="image/*"
+                />
+                <small class="text-muted">Supported formats: JPG, PNG, GIF (max 5MB)</small>
+                <!-- Preview uploaded image -->
+                <div v-if="imagePreview" class="mt-2">
+                  <!--              <img :src="imagePreview" alt="Preview" class="img-thumbnail" width="100">-->
+                  <img :src="imagePreview" alt="Preview" class="img-thumbnail preview-thumb">
 
-              <button type="button" @click="removeImage" class="btn btn-sm btn-outline-danger ms-2">
-                Remove
-              </button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><label for="validDays">Service active period</label></td>
-          <td>
-            <select
-                id="validDays"
-                v-model.number="formData.validDays"
-                class="form-control"
+                  <button type="button" @click="removeImage" class="btn btn-sm btn-outline-danger ms-2">
+                    Remove
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="validDays">Service active period</label></td>
+              <td>
+                <select
+                    id="validDays"
+                    v-model.number="formData.validDays"
+                    class="form-control"
+                >
+                  <option value="30">30 days</option>
+                  <option value="60">60 days</option>
+                  <option value="90">90 days</option>
+                  <option value="365">1 year</option>
+                </select>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+          <!-- Form buttons -->
+          <div class="text-center mt-4">
+            <button
+                type="submit"
+                class="btn btn-primary me-2"
+                :disabled="loading || !isFormValid"
             >
-              <option value="30">30 days</option>
-              <option value="60">60 days</option>
-              <option value="90">90 days</option>
-              <option value="365">1 year</option>
-            </select>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-
-      <!-- Form buttons -->
-      <div class="text-center mt-4">
-        <button
-            type="submit"
-            class="btn btn-primary me-2"
-            :disabled="loading || !isFormValid"
-        >
-          {{ loading ? 'Creating...' : 'Submit Service' }}
-        </button>
-        <button
-            type="button"
-            class="btn btn-outline-secondary"
-            @click="goBack"
-            :disabled="loading"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+              {{ loading ? 'Creating...' : 'Submit Service' }}
+            </button>
+            <button
+                type="button"
+                class="btn btn-outline-secondary"
+                @click="goBack"
+                :disabled="loading"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -248,11 +247,11 @@
 <script>
 import ServicesDropdown from "@/components/provider_service/ServicesDropdown.vue";
 // Import your service for API calls
-import ServiceProviderService from "@/services/ServiceProviderService"; // You'll need to create this
+// import ServiceProviderService from "@/services/ServiceProviderService"; // You'll need to create this
 
 export default {
   name: 'ServiceView',
-  components: { ServicesDropdown },
+  components: {ServicesDropdown},
   data() {
     return {
       loading: false,
@@ -283,13 +282,13 @@ export default {
       ],
 
       categories: [
-        { id: 1, name: 'Childcare' },
-        { id: 2, name: 'Pet Care' },
-        { id: 3, name: 'Home & Garden' },
-        { id: 4, name: 'Tutoring' },
-        { id: 5, name: 'Cleaning' },
-        { id: 6, name: 'Transportation' },
-        { id: 7, name: 'Other' }
+        {id: 1, name: 'Childcare'},
+        {id: 2, name: 'Pet Care'},
+        {id: 3, name: 'Home & Garden'},
+        {id: 4, name: 'Tutoring'},
+        {id: 5, name: 'Cleaning'},
+        {id: 6, name: 'Transportation'},
+        {id: 7, name: 'Other'}
       ]
     }
   },
