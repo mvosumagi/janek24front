@@ -4,12 +4,22 @@
       <div class="col col-4">
         <div class="mb-3">
           <label>Confirm Password</label>
-          <input :value="password2" @change="onChange" type="password" placeholder="Repeat password"/>
+          <input :value="passwordRetype" @input="handlePasswordRetypeInput" type="password" placeholder="Repeat password"/>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-export default{ name:"PasswordConfirmInput", props:{ password2:String }, methods:{ onChange(e){ this.$emit("event-password-confirm-updated", String(e.target.value)) } } }
+export default {
+  name: "PasswordConfirmInput",
+  props: {
+    passwordRetype: String
+  },
+  methods: {
+    handlePasswordRetypeInput(event) {
+      this.$emit("event-password-confirm-updated", String(event.target.value))
+    }
+  }
+}
 </script>

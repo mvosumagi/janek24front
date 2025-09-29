@@ -6,16 +6,16 @@
 
     <div class="row justify-content-center">
       <div class="col col-4">
-        <FirstnameInput :firstname="user.firstName" @event-first-name-updated="firstNameUpdated"/>
+        <FirstnameInput :firstname="user.firstName" @event-first-name-updated="setUserFirstName"/>
 
         <div v-if="!isLoggedIn">
-          <UsernameInput :username="user.username" @event-username-updated="usernameUpdated"/>
+          <UsernameInput :username="username" @event-username-updated="setUsername"/>
         </div>
 
-        <LastNameInput :lastname="user.lastName" @event-last-name-updated="lastNameUpdated"/>
+        <LastNameInput :lastname="user.lastName" @event-last-name-updated="setUserLastName"/>
 
-        <EmailInput :email="user.email" @event-email-updated="emailUpdated"/>
-        <PhoneInput :phone="user.phoneNumber" @event-phone-updated="phoneUpdated"/>
+        <EmailInput :email="user.email" @event-email-updated="setUserEmail"/>
+        <PhoneInput :phone="user.phoneNumber" @event-phone-updated="setUserPhoneNumber"/>
 
         <CountryDropdown :country-id="user.countryId" @event-country-updated="handleCountryUpdate"/>
         <CityDropdown :country-id="user.countryId" :city-id="user.cityId" @event-city-updated="setUserCityId"/>
@@ -25,11 +25,11 @@
         <PostalCodeInput :postal-code="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
 
         <div v-if="!isLoggedIn">
-          <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
+          <PasswordInput :password="password" @event-password-updated="setPassword"/>
         </div>
 
         <div v-if="!isLoggedIn">
-          <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+          <PasswordConfirmInput :passwordRetype="passwordRetype" @event-password-confirm-updated="setPasswordRetype"/>
         </div>
 
 
@@ -49,8 +49,8 @@
         </div>
 
         <div v-if="isLoggedIn">
-          <PasswordInput :password="user.password" @event-password-updated="passwordUpdated"/>
-          <PasswordConfirmInput :password2="user.password2" @event-password-confirm-updated="password2Updated"/>
+          <PasswordInput :password="user.password" @event-password-updated="setPassword"/>
+          <PasswordConfirmInput :passwordRetype="user.password2" @event-password-confirm-updated="setPasswordRetype"/>
           <button @click="" type="button" class="btn btn-outline-primary">Change Password</button>
         </div>
 
@@ -82,6 +82,7 @@ import CountryDropdown from "@/components/user/CountryDropdown.vue";
 import SessionStorageService from "@/services/SessionStorageService";
 import AlertDanger from "@/components/alert/AlertDanger.vue";
 import AlertSuccess from "@/components/alert/AlertSuccess.vue";
+import NavigationService from "@/services/NavigationService";
 
 export default {
   name: "UserView",
@@ -110,9 +111,10 @@ export default {
 
       errorMessage: "",
       successMessage: "",
-      password2: "",
+      username: "",
+      password: "",
+      passwordRetype: "",
       user: {
-        username: "",
         firstName: "",
         lastName: "",
         email: "",
@@ -121,24 +123,47 @@ export default {
         cityId: 0,
         state: "",
         address: "",
-        password: "",
         postalCode: "",
         isCompany: true,
         companyName: "",
         regNo: ""
       },
 
-      usernameTaken: false,
-      usernameCheckTimer: null,
+      errorResponse: {
+        message: "",
+        errorCode: 0
+      },
+
       alertTimer: null
     }
   },
-  computed: {
-    passwordsMatch() {
-      return !this.user.password2 || this.user.password === this.user.password2;
-    }
-  },
   methods: {
+
+    createUser() {
+      if (this.password !== this.passwordRetype) {
+        this.displayErrorMessage("Paroolid erinevad");
+        return;
+      }
+      if (!this.allFieldsAreWithCorrectInput()) {
+        this.displayErrorMessage("Täida kõik väljad");
+        return;
+      }
+
+      UserService.sendCreateUserRequest(this.username, this.password ,this.user)
+          .then(() => NavigationService.navigateToLoginView())
+          .catch(error => this.handleCreateUserErrorResponse(error))
+    },
+
+    handleCreateUserErrorResponse(error) {
+      this.errorResponse = error.response.data
+
+      if ( error.response.status === 403 && this.errorResponse.errorCode === 132132) {
+        this.errorMessage = this.errorResponse.message
+      }
+      setTimeout(this.resetAllMessages, 4000)
+    },
+
+
     updateAuth() {
       this.isLoggedIn = !!(SessionStorageService?.isLoggedIn?.() || sessionStorage.getItem("userId"));
     },
@@ -158,26 +183,34 @@ export default {
       this.successMessage = ""
     },
 
-    requiredFilled() {
-      const req = ["username", "firstName", "lastName", "email", "countryId", "cityId", "postalCode", "password"];
-      if (this.user.isCompany) req.push("companyName", "regNo");
-      return req.every(k => !!this.user[k]);
+    allFieldsAreWithCorrectInput() {
+      const requiredUserFields = ["firstName", "lastName", "email", "countryId", "cityId", "postalCode"];
+      if (this.user.isCompany) requiredUserFields.push("companyName", "regNo");
+      let allRequiredFieldsHaveValue = requiredUserFields.every(userFieldName => !!this.user[userFieldName]);
+
+      let countryIsSelected = this.user.countryId > 0;
+      let cityIsSelected = this.user.cityId > 0;
+
+      return allRequiredFieldsHaveValue && countryIsSelected && cityIsSelected;
     },
 
-    usernameUpdated(username) {
-      this.user.username = username;
-      this.debouncedCheckUsername();
+    setUsername(username) {
+      this.username = username;
     },
-    firstNameUpdated(firstName) {
+
+    setUserFirstName(firstName) {
       this.user.firstName = firstName;
     },
-    lastNameUpdated(lastName) {
+
+    setUserLastName(lastName) {
       this.user.lastName = lastName;
     },
-    emailUpdated(email) {
+
+    setUserEmail(email) {
       this.user.email = email;
     },
-    phoneUpdated(phoneNumber) {
+
+    setUserPhoneNumber(phoneNumber) {
       this.user.phoneNumber = phoneNumber;
     },
 
@@ -199,11 +232,11 @@ export default {
       this.user.postalCode = postalCode;
     },
 
-    passwordUpdated(password) {
-      this.user.password = password;
+    setPassword(password) {
+      this.password = password;
     },
-    password2Updated(password2) {
-      this.user.password2 = password2;
+    setPasswordRetype(passwordRetype) {
+      this.passwordRetype = passwordRetype;
     },
 
     isCompanyUpdated(isCompany) {
@@ -220,44 +253,6 @@ export default {
       this.user.regNo = regNo;
     },
 
-    async checkUsernameAvailability() {
-      if (!this.user.username) {
-        this.usernameTaken = false;
-        return;
-      }
-      try {
-        const available = await UserService.checkUsername(this.user.username);
-        this.usernameTaken = !available;
-        if (this.usernameTaken) this.displayErrorMessage("Kasutajanimi on juba võetud");
-      } catch {
-        this.usernameTaken = false;
-
-      }
-    },
-    debouncedCheckUsername() {
-      clearTimeout(this.usernameCheckTimer);
-      this.usernameCheckTimer = setTimeout(this.checkUsernameAvailability, 400);
-    },
-
-    async createUser() {
-      if (this.user.password !== this.user.password2) {
-        this.displayErrorMessage("Paroolid erinevad");
-        return;
-      }
-      if (!this.requiredFilled()) {
-        this.displayErrorMessage("Täida kõik väljad");
-        return;
-      }
-      if (this.usernameTaken) {
-        this.displayErrorMessage("Kasutajanimi on juba võetud");
-        return;
-      }
-      const {password2, ...payload} = this.user;
-
-      UserService.sendCreateUserRequest(this.user)
-          .then(() => this.displaySuccessMessage("User created successfully"))
-          .catch(() => this.displayErrorMessage("User creation succes"))
-    },
 
     async loadUser() {
       this.loading = true;
@@ -266,19 +261,19 @@ export default {
         const id = sessionStorage.getItem("userId");
         if (!id) throw new Error("missing id");
         const data = await UserService.getUser(id);
-        this.user.username    = data.username    || "";
-        this.user.firstName   = data.firstName   || data.firstname || "";
-        this.user.lastName    = data.lastName    || data.lastname  || "";
-        this.user.email       = data.email       || "";
-        this.user.phoneNumber = data.phoneNumber || data.phone     || "";
-        this.user.countryId   = Number(data.countryId || 0);
-        this.user.cityId      = Number(data.cityId    || 0);
-        this.user.state       = data.state       || "";
-        this.user.address     = data.address     || "";
-        this.user.postalCode  = data.postalCode  || "";
-        this.user.isCompany   = !!data.isCompany;
+        this.user.username = data.username || "";
+        this.user.firstName = data.firstName || data.firstname || "";
+        this.user.lastName = data.lastName || data.lastname || "";
+        this.user.email = data.email || "";
+        this.user.phoneNumber = data.phoneNumber || data.phone || "";
+        this.user.countryId = Number(data.countryId || 0);
+        this.user.cityId = Number(data.cityId || 0);
+        this.user.state = data.state || "";
+        this.user.address = data.address || "";
+        this.user.postalCode = data.postalCode || "";
+        this.user.isCompany = !!data.isCompany;
         this.user.companyName = data.companyName || "";
-        this.user.regNo       = data.regNo       || "";
+        this.user.regNo = data.regNo || "";
         this.displaySuccessMessage(""); // Data loaded kui vaja debugida
       } catch (e) {
         this.displayErrorMessage("User Data load failed");

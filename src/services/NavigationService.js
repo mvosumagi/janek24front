@@ -10,6 +10,10 @@ export default {
         router.push({name: 'homeRoute'})
     },
 
+    navigateToLoginView() {
+        router.push({name: 'loginRoute'})
+    },
+
 
 
     navigateToErrorView() {
