@@ -1,11 +1,15 @@
 import axios from "axios";
 
 export default {
-    createService(service,userId) {
-        return axios.post("/service", service, {
+    createService(service, userId) {
+        return axios.post("/teenus", service, {
             params: {
-                userId: userId
-            }
+                userId: userId,},
         });
-    }
+    },
+    getUserServices(userId) {
+        return axios.get("/teenused", {
+            params: { userId },
+        });
+    },
 };
