@@ -204,10 +204,10 @@ export default {
       userId: sessionStorage.getItem('userId') || "",
 
       service: {
-        serviceCategoryId: '',
+        serviceCategoryId: 0,
         name: '',
         unitCost: null,
-        currencyIsId: '',
+        currencyIsId: 1,
         descriptionShort: '',
         descriptionLong: '',
         validDays: 30,
@@ -215,14 +215,18 @@ export default {
       },
 
       imagePreview: null,
-
       currencies: [],
-      categories: []
+      categories: [],
+
+      errorResponse: {
+        message: "",
+        errorCode: 0
+      }
     }
   },
   computed: {
     isFormValid() {
-      const isValid = (
+      return (
           this.service.serviceCategoryId &&
           this.service.name &&
           this.service.currencyIsId &&
@@ -230,16 +234,6 @@ export default {
           this.service.descriptionShort?.trim().length > 0 &&
           this.service.descriptionLong?.trim().length > 0
       );
-      console.log('Form validation:', {
-        serviceCategoryId: this.service.serviceCategoryId,
-        name: this.service.name,
-        currencyIsId: this.service.currencyIsId,
-        unitCost: this.service.unitCost,
-        descriptionShort: this.service.descriptionShort,
-        descriptionLong: this.service.descriptionLong,
-        isValid: isValid
-      });
-      return isValid;
     }
   },
   methods: {
@@ -323,10 +317,6 @@ export default {
     },
 
     async submitService() {
-      console.log('Submit service called');
-      console.log('Form valid:', this.isFormValid);
-      console.log('Service data:', this.service);
-
       if (!this.isFormValid) {
         this.displayErrorMessage('Please fill in all required fields');
         return;
@@ -356,35 +346,34 @@ export default {
           status: 'A'
         };
 
-        console.log('Sending service data:', serviceData);
-        console.log('With userId:', this.userId);
-
         const response = await ServiceProviderService.createService(serviceData, this.userId);
-
-        console.log('Response:', response);
 
         if (response && response.data) {
           this.displaySuccessMessage('Service created successfully!');
-
           setTimeout(() => {
-            this.goToMyServices();
-          }, 2000);
+            this.$router.push('/my-services');
+          }, 1500);
         }
       } catch (error) {
-        console.error('Failed to create service:', error);
-        console.error('Error response:', error.response);
-        const errorMessage = error.response?.data?.message || 'Failed to create service. Please try again.';
-        this.displayErrorMessage(errorMessage);
+        this.handleSubmitServiceErrorResponse(error);
       } finally {
         this.loading = false;
       }
     },
 
-    goBack() {
-      this.$router.push('/my-services');
+    handleSubmitServiceErrorResponse(error) {
+      this.errorResponse = error.response?.data || {};
+
+      if (error.response?.status === 403 && this.errorResponse.errorCode === 132132) {
+        this.errorMessage = this.errorResponse.message;
+      } else {
+        const errorMessage = error.response?.data?.message || 'Failed to create service. Please try again.';
+        this.displayErrorMessage(errorMessage);
+      }
+      setTimeout(this.resetAllMessages, 4000);
     },
 
-    goToMyServices() {
+    goBack() {
       this.$router.push('/my-services');
     },
 

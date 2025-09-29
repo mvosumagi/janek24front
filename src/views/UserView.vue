@@ -43,7 +43,6 @@
         <div v-if="!isLoggedIn">
           <button @click="createUser" type="button" class="btn btn-outline-primary">Create user</button>
         </div>
-
         <div v-if="isLoggedIn">
           <button @click="createUser" type="button" class="btn btn-outline-primary">Save Changes</button>
         </div>
