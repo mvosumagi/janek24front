@@ -67,9 +67,6 @@ export default {
     goToUser() {
       window.location.href = "user";
     },
-    goToOrder() {
-      window.location.href = "my-orders";
-    },
     goAddNewService() {
       window.location.href = "my-service";
     },
