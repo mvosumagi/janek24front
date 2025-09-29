@@ -71,7 +71,7 @@ export default {
       window.location.href = "my-orders";
     },
     goAddNewService() {
-      window.location.href = "service";
+      window.location.href = "my-service";
     },
     logout() {
       sessionStorage.clear();

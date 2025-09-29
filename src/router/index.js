@@ -56,13 +56,15 @@ const routes = [
         component: SearchView
     },
     {
-        path: '/my-orders/:customerId',
+        // path: '/my-orders/:customerId',
+        path: '/my-orders',
         name: 'myOrdersRoute',
         component: MyOrdersView,
         props: true
     },
     {
-        path: '/my-services/:customerId',
+        // path: '/my-services/:customerId',
+        path: '/my-services',
         name: 'myServicesRoute',
         component: MyServicesView,
         props: true
