@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col">
           <section class="intro">
-            <h1><Strong>Trusted Home Services At Your Fingertips</Strong></h1>
+            <h1><strong>Trusted Home Services At Your Fingertips</strong></h1>
             <p>
               <b>Connect with trusted professionals in your area for home services, repairs, and more.
                 Book with confidence, get quality results.</b>
