@@ -11,14 +11,15 @@
         <router-link to="/search">Search</router-link>
         <router-link to="/about">About</router-link>
       </nav>
+
       <div class="actions">
-             <div v-if="isLoggedIn">
-          <router-link to="/inbox" class="mail-wrapper" aria-label="Open inbox">
-            <i class="fas fa-envelope"></i>
-            <span v-if="hasUnreadEmails" class="badge">{{ unreadEmailsCount }}</span>
-            <span v-else class="no-new">No new</span>
-          </router-link>
-        </div>
+        <div v-if="isLoggedIn">
+        <router-link to="/inbox" class="mail-wrapper" aria-label="Open inbox">
+          <i class="fas fa-envelope"></i>
+          <span v-if="hasUnreadEmails" class="badge">{{ unreadEmailsCount }}</span>
+          <span v-else class="no-new">No new</span>
+        </router-link>
+      </div>
         <template v-if="isLoggedIn">
           <button class="btn small" @click="goToUser">User</button>
           <button class="btn small danger" @click="logout">Logout</button>
@@ -46,25 +47,11 @@ export default {
     };
   },
   computed: {
-    MyServicesView() {
-      return MyServicesView
-    },
-    MyOrdersView() {
-      return MyOrdersView
-    },
     hasUnreadEmails() {
       return Number(this.unreadEmailsCount) > 0;
     }
   },
   methods: {
-    goToMyServices() {
-      const userId = sessionStorage.getItem("userId");
-      this.$router.push({name: 'myServicesRoute', params: {customerId: userId}});
-    },
-    goToMyOrders() {
-      const userId = sessionStorage.getItem("userId");
-      this.$router.push({name: 'myOrdersRoute', params: {customerId: userId}});
-    },
     updateNavMenu() {
       this.isLoggedIn = !!(SessionStorageService?.isLoggedIn?.() || sessionStorage.getItem("userId"));
       this.isAdmin = !!(SessionStorageService?.isAdmin?.() || sessionStorage.getItem("role") === "ADMIN");

@@ -72,6 +72,6 @@ export default {
         NavigationService.navigateToErrorView()
       }
     },
-  }
+ }
 }
 </script>
