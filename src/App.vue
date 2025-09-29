@@ -3,17 +3,16 @@
     <header class="topbar">
       <nav class="menu">
         <router-link to="/home">Home</router-link>
-        <!--        <router-link to="/my-services">My Services</router-link>-->
-        <!--        <router-link to="/my-orders">My Orders</router-link>-->
+        <div v-if="isLoggedIn">
+        <router-link to="/my-services">My Services</router-link>
+          <router-link to="/my-orders">My Orders</router-link>
+        </div>
+
         <router-link to="/search">Search</router-link>
         <router-link to="/about">About</router-link>
       </nav>
       <div class="actions">
-        <div v-if="isLoggedIn">
-          <button class="btn small" @click="goToMyServices">My Services</button>
-          <button class="btn small" @click="goToMyOrders">My Orders</button>
-        </div>
-        <div v-if="isLoggedIn">
+             <div v-if="isLoggedIn">
           <router-link to="/inbox" class="mail-wrapper" aria-label="Open inbox">
             <i class="fas fa-envelope"></i>
             <span v-if="hasUnreadEmails" class="badge">{{ unreadEmailsCount }}</span>
