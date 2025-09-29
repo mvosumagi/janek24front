@@ -7,6 +7,8 @@ export default {
                 partialDescription: partialDescription
             }
         })
+    },
+    getServiceById(serviceId) {
+        return axios.get(`/services/${serviceId}`)
     }
 }
-
