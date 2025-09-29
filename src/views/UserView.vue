@@ -113,6 +113,7 @@ export default {
       username: "",
       password: "",
       passwordRetype: "",
+
       user: {
         firstName: "",
         lastName: "",
