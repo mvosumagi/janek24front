@@ -69,12 +69,29 @@ export default {
     goToService() {
       this.$router.push('/service');
     },
+    // editService(service) {
+    //   console.log('Edit', service);
+    // },
+    // deleteService(service) {
+    //   console.log('Delete', service);
+    // }, Lauri tegi uue
     editService(service) {
-      console.log('Edit', service);
+      this.$router.push({
+        path: '/service',
+        query: {
+          edit: true,
+          serviceId: service.serviceId || service.id // adapt to your data model
+        }
+      });
     },
+
     deleteService(service) {
-      console.log('Delete', service);
+      const index = this.myServices.findIndex(s => s.id === service.id);
+      if (index !== -1) this.myServices.splice(index, 1);
     },
+
+
+
     formatDate(val) {
       if (!val) return '—';
       const d = new Date(val);

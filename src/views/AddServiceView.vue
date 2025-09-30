@@ -5,7 +5,7 @@
 
     <div class="card mb-4 shadow-sm">
       <div class="card-body">
-        <h5 class="card-title">Add a New Service</h5>
+        <h5 class="card-title">Add or Edit Service</h5>
 
         <div v-if="loading" class="text-center py-4">
           <div class="spinner-border" role="status">
