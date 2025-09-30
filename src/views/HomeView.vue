@@ -13,6 +13,7 @@
         </div>
       </div>
     </div>
+
     <div class="container mt-4">
       <div class="input-group mb-4">
         <input
@@ -25,16 +26,18 @@
         <button class="btn btn-primary" @click="goSearch">Search</button>
       </div>
     </div>
+
     <div class="row row-cols-1 row-cols-md-3 g-4" v-if="services && services.length">
-      <div class="col" v-for="service in services" :key="service.serviceId || service.id">
+      <div class="col" v-for="service in services" :key="service.serviceId">
         <div class="card h-100">
+          <img :src="service.imageData" alt="Service Image" class="card-img-top" v-if="service.imageData"/>
           <div class="card-body">
             <h5 class="card-title">{{ service.serviceName }}</h5>
             <p class="card-text">
               <strong>Description:</strong> {{ service.descriptionShort }}
             </p>
             <p class="card-text">
-              <strong>Cost:</strong> {{ service.unitCost }} €
+              <strong>Cost:</strong> {{ service.unitCost || 'N/A' }} €
             </p>
             <button class="btn btn-success" @click="goToOrder(service.serviceId)">
               Order Service
@@ -43,6 +46,7 @@
         </div>
       </div>
     </div>
+
     <img src="../assets/HowItWorks.png" alt="Public Image" class="large-image"/>
   </div>
 </template>
@@ -68,24 +72,28 @@ export default {
     handleSearchResponse(response) {
       const allServices = response.data;
       const shuffled = allServices
-          .map(value => ({value, sort: Math.random()}))
+          .map(value => ({ value, sort: Math.random() }))
           .sort((a, b) => a.sort - b.sort)
-          .map(({value}) => value);
+          .map(({ value }) => value);
       this.services = shuffled.slice(0, 6);
     },
     goSearch() {
       const q = this.partialDescription.trim();
       if (!q) return;
-      this.$router.push({name: 'searchRoute', query: {q}});
+      this.$router.push({ name: 'searchRoute', query: { q } });
     },
     goToOrder(serviceId) {
-      this.$router.push({name: 'OrderingView', params: {serviceId}});
+      if (!serviceId) {
+        console.error('Missing serviceId');
+        return;
+      }
+      this.$router.push({ name: 'OrderingView', params: { serviceId } });
     }
   },
   mounted() {
     this.getServices();
   }
-};
+}
 </script>
 
 <style scoped>
