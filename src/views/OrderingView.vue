@@ -12,7 +12,7 @@
         <p><b>{{ service.descriptionLong }}</b></p>
       </div>
 
-      <div class="date-time-section">
+      <form @submit.prevent="submitOrder" class="date-time-section">
         <div class="form-group">
           <label for="serviceDate"><b>Select Service Date</b>:</label>
           <flat-pickr
@@ -47,8 +47,8 @@
           ></textarea>
         </div>
 
-        <button @click="submitOrder" class="btn btn-primary">Submit Order</button>
-      </div>
+        <button type="submit" class="btn btn-primary">Submit Order</button>
+      </form>
     </div>
   </div>
 </template>
@@ -58,13 +58,11 @@ import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 import SearchService from "@/services/SearchService";
 import NavigationService from "@/services/NavigationService";
-import OrderingServiceService from "@/services/OrderingService";
 import OrderingService from "@/services/OrderingService";
-
 
 export default {
   name: 'OrderingView',
-  components: { flatPickr },
+  components: {flatPickr},
   data() {
     return {
       service: {},
@@ -99,20 +97,35 @@ export default {
           .catch(() => NavigationService.navigateToErrorView());
     },
     submitOrder() {
-      console.log("Date:", this.serviceDate);
-      console.log("Time:", this.serviceTime);
-      console.log("Comment:", this.orderComment);
+      const userId = sessionStorage.getItem('userId');
+      if (!userId) {
+        alert("User not logged in. Please log in to place an order.");
+        return;
+      }
+
+      if (!this.serviceDate) {
+        alert("Please select a service date.");
+        return;
+      }
+
+      const dateString = this.serviceDate instanceof Date
+          ? this.serviceDate.toISOString().slice(0, 10)
+          : this.serviceDate;
 
       const order = {
-        serviceId: this.service.id,
-        date: this.serviceDate,
-        time: this.serviceTime,
-        comment: this.orderComment
+        providerServiceId: this.service.id,
+        date: dateString,
+        userComment: this.orderComment,
+        status: "R",
+        confirmationComment: ""
       };
 
-      OrderingServiceService.submit(order)
+      OrderingService.submit(order, userId)
           .then(() => alert("Order submitted successfully!"))
-          .catch(error => alert("Error submitting order: " + error.message));
+          .catch(error => {
+            console.error(error.response?.data || error);
+            alert("Error submitting order: " + (error.response?.data?.detail || error.message));
+          });
     }
   },
   mounted() {
@@ -120,7 +133,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .card {
@@ -175,5 +187,4 @@ textarea.form-control {
 .btn {
   margin-top: 1rem;
 }
-
 </style>
