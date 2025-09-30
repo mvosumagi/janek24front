@@ -1,44 +1,39 @@
 <template>
   <div class="container text-center">
+    <AlertDanger :message="errorMessage"/>
+    <AlertSuccess :message="successMessage"/>
+
     <div class="card mb-4 shadow-sm">
       <div class="card-body">
         <h5 class="card-title">Add a New Service</h5>
-        <!--    <div class="row">-->
-        <!--      <div class="col">-->
-        <!--        <h1>Add a New Service</h1>-->
-        <!--      </div>-->
-        <!--    </div>-->
-        <!-- Loading state -->
+
         <div v-if="loading" class="text-center py-4">
           <div class="spinner-border" role="status">
             <span class="visually-hidden">Submitting...</span>
           </div>
           <p class="mt-2">Creating your service...</p>
         </div>
-        <!-- Error state -->
-        <div v-if="error" class="alert alert-danger" role="alert">
-          <strong>Error:</strong> {{ error }}
-        </div>
-        <!-- Success state -->
-        <div v-if="success" class="alert alert-success" role="alert">
-          <strong>Success!</strong> Service created successfully!
-        </div>
-        <!-- Form -->
+
         <form @submit.prevent="submitService" v-if="!loading">
           <table class="table">
             <tbody>
             <tr>
-              <td><label for="category">Provider Service Category</label></td>
+              <td><label for="serviceCategory">Service Category</label></td>
               <td>
                 <select
-                    id="category"
-                    v-model="formData.category"
+                    id="serviceCategory"
+                    :value="service.serviceCategoryId"
+                    @change="handleServiceCategoryChange"
                     class="form-control"
                     required
                 >
-                  <option value="">Select Category</option>
-                  <option v-for="category in categories" :key="category.id" :value="category.name">
-                    {{ category.name }}
+                  <option value="">Select a category</option>
+                  <option
+                      v-for="category in categories"
+                      :key="category.id"
+                      :value="category.id"
+                  >
+                    {{ category.description }}
                   </option>
                 </select>
               </td>
@@ -46,22 +41,48 @@
             <tr>
               <td><label for="serviceName">Service name</label></td>
               <td>
-                <ServicesDropdown
-                    :services="services"
-                    :selected-service-id="selectedServiceId"
-                    @event-new-service-selected="handleSelectedServiceChange"
+                <input
+                    id="serviceName"
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter service name"
+                    :value="service.name"
+                    @input="handleServiceNameChange"
+                    required
                 />
               </td>
             </tr>
             <tr>
-              <td><label for="unitCost">€ Unit cost</label></td>
+              <td><label for="currency">Currency</label></td>
+              <td>
+                <select
+                    id="currency"
+                    :value="service.currencyIsId"
+                    @change="handleCurrencyChange"
+                    class="form-control"
+                    required
+                >
+                  <option value="">Select currency</option>
+                  <option
+                      v-for="currency in currencies"
+                      :key="currency.id"
+                      :value="currency.id"
+                  >
+                    {{ currency.description }}
+                  </option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="unitCost">Unit cost</label></td>
               <td>
                 <input
                     id="unitCost"
                     type="number"
                     class="form-control"
                     placeholder="20"
-                    v-model.number="formData.unitCost"
+                    :value="service.unitCost"
+                    @input="handleUnitCostChange"
                     min="0"
                     step="0.01"
                     required
@@ -69,18 +90,35 @@
               </td>
             </tr>
             <tr>
-              <td><label for="description">Detailed description</label></td>
+              <td><label for="descriptionShort">Short description</label></td>
               <td>
-              <textarea
-                  id="description"
-                  class="form-control"
-                  placeholder="Friendly dog walking in city center"
-                  v-model="formData.description"
-                  rows="3"
-                  maxlength="500"
-                  required
-              ></textarea>
-                <small class="text-muted">{{ formData.description.length }}/500 characters</small>
+                <input
+                    id="descriptionShort"
+                    type="text"
+                    class="form-control"
+                    placeholder="Brief service summary"
+                    :value="service.descriptionShort"
+                    @input="handleDescriptionShortChange"
+                    maxlength="100"
+                    required
+                />
+                <small class="text-muted">{{ service.descriptionShort?.length || 0 }}/100 characters</small>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="descriptionLong">Detailed description</label></td>
+              <td>
+                <textarea
+                    id="descriptionLong"
+                    class="form-control"
+                    placeholder="Friendly dog walking in city center"
+                    :value="service.descriptionLong"
+                    @input="handleDescriptionLongChange"
+                    rows="3"
+                    maxlength="500"
+                    required
+                ></textarea>
+                <small class="text-muted">{{ service.descriptionLong?.length || 0 }}/500 characters</small>
               </td>
             </tr>
             <tr>
@@ -94,9 +132,7 @@
                     accept="image/*"
                 />
                 <small class="text-muted">Supported formats: JPG, PNG, GIF (max 5MB)</small>
-                <!-- Preview uploaded image -->
                 <div v-if="imagePreview" class="mt-2">
-                  <!--              <img :src="imagePreview" alt="Preview" class="img-thumbnail" width="100">-->
                   <img :src="imagePreview" alt="Preview" class="img-thumbnail preview-thumb">
                   <button type="button" @click="removeImage" class="btn btn-sm btn-outline-danger ms-2">
                     Remove
@@ -109,7 +145,8 @@
               <td>
                 <select
                     id="validDays"
-                    v-model.number="formData.validDays"
+                    :value="service.validDays"
+                    @change="handleValidDaysChange"
                     class="form-control"
                 >
                   <option value="30">30 days</option>
@@ -121,7 +158,7 @@
             </tr>
             </tbody>
           </table>
-          <!-- Form buttons -->
+
           <div class="text-center mt-4">
             <button
                 type="submit"
@@ -144,166 +181,234 @@
     </div>
   </div>
 </template>
+
 <script>
-import ServicesDropdown from "@/components/provider_service/ServicesDropdown.vue";
-// Import your service for API calls
-// import ServiceProviderService from "@/services/ServiceProviderService"; // You'll need to create this
+import AlertDanger from "@/components/alert/AlertDanger.vue";
+import AlertSuccess from "@/components/alert/AlertSuccess.vue";
+import ServiceProviderService from "@/services/ServiceProviderService";
+import CurrencyService from "@/services/CurrencyService";
+import ServiceCategoryService from "@/services/ServiceCategoryService";
+
 export default {
-  name: 'ServiceView',
-  components: {ServicesDropdown},
+  name: 'AddServiceView',
+  components: {
+    AlertDanger,
+    AlertSuccess
+  },
   data() {
     return {
       loading: false,
-      error: null,
-      success: false,
-      // Service selection
-      serviceId: Number(sessionStorage.getItem('serviceId')),
-      serviceName: sessionStorage.getItem('serviceName'),
-      selectedServiceId: 0,
-      // Form data
-      formData: {
-        category: '',
-        serviceName: '',
+      errorMessage: "",
+      successMessage: "",
+
+      userId: sessionStorage.getItem('userId') || "",
+
+      service: {
+        serviceCategoryId: 0,
+        name: '',
         unitCost: null,
-        description: '',
+        currencyIsId: 1,
+        descriptionShort: '',
+        descriptionLong: '',
         validDays: 30,
         photoFile: null
       },
-      // Image preview
+
       imagePreview: null,
-      // Dropdown options
-      services: [
-        // Will be loaded from API or props
-      ],
-      categories: [
-        {id: 1, name: 'Childcare'},
-        {id: 2, name: 'Pet Care'},
-        {id: 3, name: 'Home & Garden'},
-        {id: 4, name: 'Tutoring'},
-        {id: 5, name: 'Cleaning'},
-        {id: 6, name: 'Transportation'},
-        {id: 7, name: 'Other'}
-      ]
+      currencies: [],
+      categories: [],
+
+      errorResponse: {
+        message: "",
+        errorCode: 0
+      }
     }
   },
   computed: {
     isFormValid() {
       return (
-          this.formData.category &&
-          this.formData.serviceName &&
-          this.formData.unitCost > 0 &&
-          this.formData.description.trim().length > 0
+          this.service.serviceCategoryId &&
+          this.service.name &&
+          this.service.currencyIsId &&
+          this.service.unitCost > 0 &&
+          this.service.descriptionShort?.trim().length > 0 &&
+          this.service.descriptionLong?.trim().length > 0
       );
     }
   },
   methods: {
-    handleSelectedServiceChange(selectedServiceId) {
-      this.selectedServiceId = selectedServiceId;
-      const selected = this.services.find(s => s.serviceId === selectedServiceId);
-      if (selected) {
-        this.serviceName = selected.serviceName;
-        this.formData.serviceName = selected.serviceName;
-      }
+    displayErrorMessage(message) {
+      this.errorMessage = message;
+      setTimeout(this.resetAllMessages, 4000);
     },
+
+    displaySuccessMessage(message) {
+      this.successMessage = message;
+      setTimeout(this.resetAllMessages, 3000);
+    },
+
+    resetAllMessages() {
+      this.errorMessage = "";
+      this.successMessage = "";
+    },
+
+    handleServiceCategoryChange(event) {
+      this.service.serviceCategoryId = Number(event.target.value);
+    },
+
+    handleServiceNameChange(event) {
+      this.service.name = event.target.value;
+    },
+
+    handleCurrencyChange(event) {
+      this.service.currencyIsId = Number(event.target.value);
+    },
+
+    handleUnitCostChange(event) {
+      this.service.unitCost = Number(event.target.value);
+    },
+
+    handleDescriptionShortChange(event) {
+      this.service.descriptionShort = event.target.value;
+    },
+
+    handleDescriptionLongChange(event) {
+      this.service.descriptionLong = event.target.value;
+    },
+
+    handleValidDaysChange(event) {
+      this.service.validDays = Number(event.target.value);
+    },
+
     handleFileUpload(event) {
       const file = event.target.files[0];
-      if (file) {
-        // Validate file size (5MB limit)
-        if (file.size > 5 * 1024 * 1024) {
-          this.error = 'File size must be less than 5MB';
-          event.target.value = '';
-          return;
-        }
-        // Validate file type
-        if (!file.type.startsWith('image/')) {
-          this.error = 'Please select a valid image file';
-          event.target.value = '';
-          return;
-        }
-        this.formData.photoFile = file;
-        // Create preview
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.imagePreview = e.target.result;
-        };
-        reader.readAsDataURL(file);
-        this.error = null;
+      if (!file) return;
+
+      if (file.size > 5 * 1024 * 1024) {
+        this.displayErrorMessage('File size must be less than 5MB');
+        event.target.value = '';
+        return;
       }
+
+      if (!file.type.startsWith('image/')) {
+        this.displayErrorMessage('Please select a valid image file');
+        event.target.value = '';
+        return;
+      }
+
+      this.service.photoFile = file;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      this.resetAllMessages();
     },
+
     removeImage() {
-      this.formData.photoFile = null;
+      this.service.photoFile = null;
       this.imagePreview = null;
-      // Clear file input
+
       const fileInput = document.getElementById('photo');
       if (fileInput) {
         fileInput.value = '';
       }
     },
+
     async submitService() {
       if (!this.isFormValid) {
-        this.error = 'Please fill in all required fields';
+        this.displayErrorMessage('Please fill in all required fields');
         return;
       }
+
+      if (!this.userId) {
+        this.displayErrorMessage('User not logged in');
+        return;
+      }
+
       this.loading = true;
-      this.error = null;
-      this.success = false;
+      this.resetAllMessages();
+
       try {
-        // Create FormData for file upload
-        const formData = new FormData();
-        // Add all form fields
-        formData.append('category', this.formData.category);
-        formData.append('serviceName', this.formData.serviceName);
-        formData.append('unitCost', this.formData.unitCost);
-        formData.append('description', this.formData.description);
-        formData.append('validDays', this.formData.validDays);
-        // Calculate valid dates
         const now = new Date();
-        const validTo = new Date(now.getTime() + (this.formData.validDays * 24 * 60 * 60 * 1000));
-        formData.append('validFrom', now.toISOString());
-        formData.append('validTo', validTo.toISOString());
-        // Add photo if selected
-        if (this.formData.photoFile) {
-          formData.append('photo', this.formData.photoFile);
-        }
-        // Send to API
-        const response = await ServiceProviderService.createService(formData);
+        const validTo = new Date(now.getTime() + (this.service.validDays * 24 * 60 * 60 * 1000));
+
+        const serviceData = {
+          serviceCategoryId: this.service.serviceCategoryId,
+          name: this.service.name,
+          descriptionShort: this.service.descriptionShort,
+          descriptionLong: this.service.descriptionLong,
+          validFrom: now.toISOString().split('T')[0],
+          validTo: validTo.toISOString().split('T')[0],
+          unitCost: this.service.unitCost,
+          currencyIsId: this.service.currencyIsId,
+          status: 'A'
+        };
+
+        const response = await ServiceProviderService.createService(serviceData, this.userId);
+
         if (response && response.data) {
-          this.success = true;
-          // Clear form after successful submission
+          this.displaySuccessMessage('Service created successfully!');
           setTimeout(() => {
-            this.goToMyServices();
-          }, 2000);
+            this.$router.push('/my-services');
+          }, 1500);
         }
       } catch (error) {
-        console.error('Failed to create service:', error);
-        this.error = error.response?.data?.message || 'Failed to create service. Please try again.';
+        this.handleSubmitServiceErrorResponse(error);
       } finally {
         this.loading = false;
       }
     },
+
+    handleSubmitServiceErrorResponse(error) {
+      this.errorResponse = error.response?.data || {};
+
+      if (error.response?.status === 403 && this.errorResponse.errorCode === 132132) {
+        this.errorMessage = this.errorResponse.message;
+      } else {
+        const errorMessage = error.response?.data?.message || 'Failed to create service. Please try again.';
+        this.displayErrorMessage(errorMessage);
+      }
+      setTimeout(this.resetAllMessages, 4000);
+    },
+
     goBack() {
       this.$router.push('/my-services');
     },
-    goToMyServices() {
-      this.$router.push('/my-services');
-    },
-    // Load services for dropdown (if needed)
-    async loadServices() {
+
+    async loadCurrencies() {
       try {
-        // const response = await ServiceProviderService.getAvailableServices();
-        // this.services = response.data;
+        const response = await CurrencyService.getCurrencies();
+        this.currencies = response.data;
+        console.log('Loaded currencies:', this.currencies);
       } catch (error) {
-        console.error('Failed to load services:', error);
+        console.error('Failed to load currencies:', error);
+        this.displayErrorMessage('Failed to load currencies');
+      }
+    },
+
+    async loadServiceCategories() {
+      try {
+        const response = await ServiceCategoryService.getServiceCategories();
+        this.categories = response.data;
+        console.log('Loaded service categories:', this.categories);
+      } catch (error) {
+        console.error('Failed to load service categories:', error);
+        this.displayErrorMessage('Failed to load service categories');
       }
     }
   },
-  mounted() {
-    // Load services if needed
-    // this.loadServices();
-    // Set initial service name if available
-    if (this.serviceName) {
-      this.formData.serviceName = this.serviceName;
-    }
+  async mounted() {
+    await this.loadCurrencies();
+    await this.loadServiceCategories();
   }
 }
 </script>
+
+<style scoped>
+.preview-thumb {
+  max-width: 200px;
+  max-height: 200px;
+}
+</style>

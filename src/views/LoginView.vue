@@ -60,7 +60,7 @@ export default {
       sessionStorage.setItem('userId', this.loginResponse.userId)
       sessionStorage.setItem('roleName', this.loginResponse.roleName)
       this.$emit('event-user-logged-in')
-      NavigationService.navigateToUserView()
+      NavigationService.navigateToHomeView()
     },
     handleLoginRequestError(error) {
       this.errorResponse = error.response.data
