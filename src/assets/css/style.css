@@ -492,7 +492,10 @@ label {
     transition: all 0.3s ease;
     margin-top: 0.5rem;
 }
-
+.preview-thumb {
+    max-width: 200px;
+    max-height: 200px;
+}
 .img-thumbnail {
     max-height: 80px;
     max-width: 80px;
