@@ -1,3 +1,8 @@
+#myServicesTable th:first-child,
+#myServicesTable td:first-child {
+    width: 50px;
+    text-align: center;
+}
 
 :root {
     --gap: 12px;
