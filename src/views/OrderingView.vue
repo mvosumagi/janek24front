@@ -108,12 +108,19 @@ export default {
         return;
       }
 
+      const serviceId = this.service.id || this.service.serviceId || this.$route.params.serviceId;
+
+      if (!serviceId) {
+        alert("Service ID is missing. Cannot submit order.");
+        return;
+      }
+
       const dateString = this.serviceDate instanceof Date
           ? this.serviceDate.toISOString().slice(0, 10)
           : this.serviceDate;
 
       const order = {
-        providerServiceId: this.service.id,
+        providerServiceId: parseInt(serviceId),
         date: dateString,
         userComment: this.orderComment,
         status: "R",
@@ -123,7 +130,6 @@ export default {
       OrderingService.submit(order, userId)
           .then(() => alert("Order submitted successfully!"))
           .catch(error => {
-            console.error(error.response?.data || error);
             alert("Error submitting order: " + (error.response?.data?.detail || error.message));
           });
     }
