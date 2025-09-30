@@ -1,9 +1,13 @@
 <template>
-  <div class="form-floating mb-3">
-          <input :value="address" @input="handleAddressInput" type="text" class="form-control"
-             placeholder="Kännu 5 Kuuse küla"/>
-      <label>Address</label>
-    </div>
+        <div class="mb-3">
+<!--          <label>Address</label>-->
+          <input
+              :value="address"
+              @input="handleAddressInput"
+              class="form-control"
+              type="text"
+              placeholder="Kännu 5 Kuuse küla"/>
+  </div>
 </template>
 
 <script>

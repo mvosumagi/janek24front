@@ -1,11 +1,14 @@
 <template>
-  <div class="form-floating mb-3">
-    <input :value="companyName" @input="handleCompanyNameInput" type="text" class="form-control"
-           placeholder="Company name"/>
-    <label>Company name</label>
-  </div>
+        <div class="mb-3">
+<!--          <label class="col-4 text-start">Company name </label>-->
+          <input
+              :value="companyName"
+              @input="handleCompanyNameInput"
+              class="form-control"
+              type="text"
+              placeholder="Company name"/>
+        </div>
 </template>
-
 <script>
 export default {
   name: "CompanyNameInput",

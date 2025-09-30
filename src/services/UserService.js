@@ -1,8 +1,17 @@
-
+import axios from "axios";
 
 export default {
+    sendCreateUserRequest(username, password, user) {
+        return axios.post("/user", user, {
+            params: {
+                username: username,
+                password: password
+            }
+        });
+    },
 
-    sendCreateUserRequest(user) {
-        this.user=user;
-    }
-}
+    getUser(userId) {
+        return axios.get("/user", {params: {userId}})
+            .then(res => res.data?.data ?? res.data);
+    },
+};

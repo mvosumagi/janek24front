@@ -1,20 +1,38 @@
 <template>
-  <div class="form-floating mb-3">
-    <input :value="email" @input="handleEmailInput" type="text" class="form-control" placeholder="User e-mail"/>
-    <label>E-mail</label>
-  </div>
+        <div class="mb-3">
+<!--          <label>Email</label>-->
+          <input
+              :value="email"
+              @input="handleEmailInput"
+              type="email"
+              class="form-control"
+              placeholder="user@example.com"
+          />
+          <div v-if="error" class="text-danger mt-1">
+            Email is not valid
+          </div>
+        </div>
 </template>
-
 <script>
 export default {
   name: "EmailInput",
   props: {
     email: String
   },
+  data() {
+    return {
+      error: false
+    }
+  },
   methods: {
-
     handleEmailInput(event) {
-      this.$emit("event-email-updated", String(event.target.value))
+      const value = String(event.target.value)
+      this.error = !this.isValidEmail(value)
+      this.$emit("event-email-updated", value)
+    },
+    isValidEmail(value) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      return re.test(value)
     }
   }
 }

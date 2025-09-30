@@ -1,10 +1,14 @@
 <template>
-  <div class="form-floating mb-3">
-    <input  :value="regNo"   @input="handleRegNoInput"   type="text"         class="form-control"         placeholder="Registration No"/>
-    <label>Registration No</label>
-  </div>
+        <div class="mb-3">
+<!--          <label>Registration No </label>-->
+          <input
+              :value="regNo"
+              @input="handleRegNoInput"
+              class="form-control"
+              type="text"
+              placeholder="Registration No"/>
+        </div>
 </template>
-
 <script>
 export default {
   name: "RegNoInput",

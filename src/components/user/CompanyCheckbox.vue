@@ -1,11 +1,12 @@
 <template>
   <div class="form-check mb-3">
-    <input :checked="isCompany" @change="handleIsCompanyCheck" type="checkbox" class="form-check-input"/>
-    <label >Company</label>
+<!--    <label>Company </label>-->
+    <input
+        :checked="isCompany"
+        @change="handleIsCompanyCheck"
+        type="checkbox"/>
   </div>
-
 </template>
-
 <script>
 export default {
   name: "CompanyCheckbox",
@@ -18,7 +19,5 @@ export default {
       this.$emit("event-is-company-updated", event.target.checked);
     }
   }
-
-
 }
 </script>

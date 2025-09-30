@@ -1,9 +1,7 @@
 import axios from "axios";
 
 export default {
-
-    sendGetServicesCategoryRequest() {
-        return axios.get('/api/service-categories')
-    },
-
-}
+    getServiceCategories() {
+        return axios.get("/service-categories");
+    }
+};

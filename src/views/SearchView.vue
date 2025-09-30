@@ -1,61 +1,116 @@
-<script setup>
-
-</script>
-
 <template>
-
-  <section class="search">
-    <div class="search-container">
-      <input type="text" placeholder="What service do you need?" id="searchInput">
-      <button onclick="performSearch()">Find Services</button>
-    </div>
-  </section>
-
-  <section class="info-section">
-    <h2>Popular Services</h2>
-    <div class="info-grid">
-      <!-- Reusable info boxes -->
-      <div class="info-box" onclick="selectService('cleaning')">
-        <div class="img">🏠</div>
-        <h3>Home Cleaning</h3>
-        <p>Professional house cleaning services to keep your home spotless and organized.</p>
+  <div class="container my-4">
+    <section class="search mb-4">
+      <div class="input-group">
+        <input
+            type="text"
+            class="form-control"
+            placeholder="What service do you need?"
+            v-model="partialDescription"
+            @keyup.enter="submitSearch"
+        />
+        <button class="btn btn-primary" @click="submitSearch">Find Services</button>
       </div>
+    </section>
 
-      <div class="info-box" onclick="selectService('landscaping')">
-        <div class="img">🌿</div>
-        <h3>Lawn Care</h3>
-        <p>Landscaping, lawn maintenance, and garden services to beautify your outdoor space.</p>
-      </div>
+    <section class="info-section">
+      <h2>Services</h2>
+    </section>
 
-      <div class="info-box" onclick="selectService('tech')">
-        <div class="img">💻</div>
-        <h3>Tech Support</h3>
-        <p>Computer repair, smartphone help, and technology assistance from certified experts.</p>
-      </div>
-
-      <div class="info-box" onclick="selectService('handyman')">
-        <div class="img">🔧</div>
-        <h3>Handyman</h3>
-        <p>General repairs, installations, and home improvements by skilled professionals.</p>
-      </div>
-
-      <div class="info-box" onclick="selectService('petcare')">
-        <div class="img">🐕</div>
-        <h3>Pet Care</h3>
-        <p>Pet sitting, dog walking, grooming, and veterinary transport services.</p>
-      </div>
-
-      <div class="info-box" onclick="selectService('tutoring')">
-        <div class="img">📚</div>
-        <h3>Tutoring</h3>
-        <p>Academic support and educational tutoring for students of all ages and subjects.</p>
+    <div class="row row-cols-1 row-cols-md-3 g-4" v-if="services.length">
+      <div class="col" v-for="service in services" :key="service.serviceId || service.id">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ service.serviceName }}</h5>
+            <p class="card-text">
+              <strong>Description:</strong> {{ service.descriptionShort }}
+            </p>
+            <p class="card-text">
+              <strong>Cost:</strong> {{ service.unitCost }} €
+            </p>
+            <button class="btn btn-success" @click="goToOrder(service.serviceId)">
+              Order Service
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
 
-
+    <div v-else class="text-muted">
+      <em v-if="loading">Loading…</em>
+      <em v-else-if="queryFromUrl">No results for “{{ queryFromUrl }}”.</em>
+      <em v-else>Try a search above.</em>
+    </div>
+  </div>
 </template>
 
-<style scoped>
+<script>
+import SearchService from "@/services/SearchService";
 
+export default {
+  name: 'SearchView',
+  data() {
+    return {
+      partialDescription: '',
+      services: [],
+      loading: false
+    }
+  },
+  computed: {
+    queryFromUrl() {
+      const q = this.$route.query.q
+      return (q || '').toString()
+    }
+  },
+  created() {
+    this.partialDescription = this.queryFromUrl
+  },
+  mounted() {
+    if (this.partialDescription.trim()) {
+      this.fetchResults(this.partialDescription.trim())
+    }
+  },
+  watch: {
+    '$route.query.q'(next) {
+      const q = (next || '').toString().trim()
+      this.partialDescription = q
+      if (q) {
+        this.fetchResults(q)
+      } else {
+        this.services = []
+      }
+    }
+  },
+  methods: {
+    submitSearch() {
+      const q = this.partialDescription.trim()
+      if (!q) return
+      if (q !== this.$route.query.q) {
+        this.$router.push({name: 'searchRoute', query: {q}})
+      } else {
+        this.fetchResults(q)
+      }
+    },
+    goToOrder(serviceId) {
+      this.$router.push({name: 'OrderingView', params: {serviceId}})
+    },
+    fetchResults(q) {
+      this.loading = true
+      SearchService.sendSearchRequest(q)
+          .then(res => {
+            this.services = Array.isArray(res.data) ? res.data : []
+          })
+          .catch(err => {
+            console.error('Search failed:', err)
+            this.services = []
+          })
+          .finally(() => {
+            this.loading = false
+          })
+    },
+  }
+}
+</script>
+
+<style scoped>
 </style>

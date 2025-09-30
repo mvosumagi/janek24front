@@ -1,19 +1,21 @@
 <template>
-  <div class="form-floating mb-3">
-    <input :value="lastname" @change="handleLastNameInput" type="text" class="form-control" placeholder="Last name"/>
-    <label>Last name</label>
+  <div class="mb-3">
+<!--    <label>Last name </label>-->
+    <input
+        :value="lastname"
+        @change="handleLastNameInput"
+        type="text"
+        class="form-control"
+        placeholder="Last name"/>
   </div>
 </template>
-
 <script>
 export default {
   name: "LastNameInput",
   props: {
     lastname: String
   },
-
   methods: {
-
     handleLastNameInput(event) {
       this.$emit("event-last-name-updated", String(event.target.value))
     }
