@@ -1,9 +1,7 @@
 <template>
-  <div class="container text-center">
-    <div class="row justify-content-center">
-      <div class="col col-4">
-        <div class="mb-3">
-          <label class="col-4 text-start">City</label>
+        <div class="borderless-select">
+<!--          <div class="mb-3">-->
+<!--          <label class="col-4 text-start">City</label>-->
           <select
               :value="cityId"
               @change="handleCityDropdownChange($event)"
@@ -18,9 +16,6 @@
           <small v-if="loading">Loading cities…</small>
           <small v-if="!loading && error" class="text-danger">Failed to load cities</small>
         </div>
-      </div>
-    </div>
-  </div>
 </template>
 <script>
 import CityService from "@/services/CityService";
