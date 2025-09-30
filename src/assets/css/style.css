@@ -4,6 +4,14 @@
     text-align: center;
 }
 
+.form-select {
+    max-width: 100%;
+}
+
+.form-select {
+    max-width: 100%;
+}
+
 :root {
     --gap: 12px;
 }
