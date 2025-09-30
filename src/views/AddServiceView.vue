@@ -488,7 +488,6 @@ export default {
 }
 </script>
 
-
 <!--<template>-->
 <!--  <div class="container text-center">-->
 <!--    <AlertDanger :message="errorMessage"/>-->
