@@ -1,22 +1,17 @@
 <template>
-  <div class="container text-center">
-    <div class="row justify-content-center">
-      <div class="col col-4">
         <div class="mb-3">
-          <label>Email</label>
+<!--          <label>Email</label>-->
           <input
               :value="email"
               @input="handleEmailInput"
               type="email"
+              class="form-control"
               placeholder="user@example.com"
           />
           <div v-if="error" class="text-danger mt-1">
             Email is not valid
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 </template>
 <script>
 export default {

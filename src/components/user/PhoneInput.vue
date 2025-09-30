@@ -1,11 +1,11 @@
 <template>
-  <div class="container text-center">
-    <div class="row justify-content-center">
-      <div class="col col-4">
+
         <div class="mb-3">
-          <label>Phone number</label>
+<!--          <label>Phone number</label>-->
           <div style="display:flex; gap:6px; align-items:center;">
-            <select :value="selectedDial" @change="onDialChange">
+            <select
+                :value="selectedDial"
+                @change="onDialChange">
               <option v-for="c in countries" :key="c.dial" :value="c.dial">
                 {{ c.flag }} {{ c.label }} ({{ c.dial }})
               </option>
@@ -14,14 +14,13 @@
                 :value="localNumber"
                 @change="onLocalNumberChange"
                 type="text"
+                class="form-control"
                 placeholder="Number"
                 style="flex:1;"
             />
           </div>
         </div>
-      </div>
-    </div>
-  </div>
+
 </template>
 <script>
 export default {

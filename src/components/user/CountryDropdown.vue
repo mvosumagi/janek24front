@@ -1,11 +1,12 @@
 <template>
-  <div class="container text-center">
-    <div class="row justify-content-center">
-      <div class="col col-4">
         <div class="mb-3">
-          <label class="col-4 text-start">Country</label>
-          <select :value="countryId" @change="handleCountryDropdownChange" class="form-select">
-            <option disabled :value="0">-- Select country --</option>
+<!--          <label class="col-4 text-start">Country</label>-->
+          <select
+              :value="countryId"
+              @change="handleCountryDropdownChange"
+              class="form-select">
+            <option disabled
+                    :value="0">-- Select country --</option>
             <option v-for="country in countries" :key="country.countryId" :value="country.countryId">
               {{ country.countryName }}
             </option>
@@ -13,9 +14,6 @@
           <small v-if="loading">Loading countries…</small>
           <small v-if="error" class="text-danger">Failed to load countries</small>
         </div>
-      </div>
-    </div>
-  </div>
 </template>
 <script>
 import CountryService from "@/services/CountryService";

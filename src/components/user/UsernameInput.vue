@@ -1,7 +1,12 @@
 <template>
   <div class="mb-3">
-    <label class="me-3">Username</label>
-    <input :value="username" @input="handleUserNameInput" type="text" placeholder="username"/>
+<!--    <label class="me-3">Username</label>-->
+    <input
+        :value="username"
+        @input="handleUserNameInput"
+        class="form-control"
+        type="text"
+        placeholder="username"/>
   </div>
 </template>
 <script>

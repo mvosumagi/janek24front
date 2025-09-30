@@ -1,11 +1,12 @@
 <template>
   <div class="mb-3">
-    <label>First name </label>
+<!--    <label>First name </label>-->
     <input
         :value="firstname"
         @change="handleFirstNameInput"
         type="text"
         placeholder="First name"
+        class="form-control"
     />
   </div>
 </template>
