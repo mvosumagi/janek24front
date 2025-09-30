@@ -84,7 +84,7 @@
                     :value="service.unitCost"
                     @input="handleUnitCostChange"
                     min="0"
-                    step="0.01"
+                    step="5"
                     required
                 />
               </td>
@@ -122,9 +122,10 @@
               </td>
             </tr>
             <tr>
-              <td><label for="photo">Add a Photo</label></td>
+              <td><label for="photo">Add a Photo (Optional)</label></td>
               <td>
                 <input
+                    ref="fileInput"
                     type="file"
                     id="photo"
                     class="form-control"
@@ -211,7 +212,7 @@ export default {
         descriptionShort: '',
         descriptionLong: '',
         validDays: 30,
-        photoFile: null
+        imageBase64: null
       },
 
       imagePreview: null,
@@ -296,23 +297,29 @@ export default {
         return;
       }
 
-      this.service.photoFile = file;
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.imagePreview = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      this.convertImageToBase64(file);
       this.resetAllMessages();
     },
 
+    convertImageToBase64(fileObject) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.service.imageBase64 = reader.result;
+        this.imagePreview = reader.result;
+      };
+      reader.onerror = (error) => {
+        console.error('Error reading file:', error);
+        this.displayErrorMessage('Failed to read image file');
+      };
+      reader.readAsDataURL(fileObject);
+    },
+
     removeImage() {
-      this.service.photoFile = null;
+      this.service.imageBase64 = null;
       this.imagePreview = null;
 
-      const fileInput = document.getElementById('photo');
-      if (fileInput) {
-        fileInput.value = '';
+      if (this.$refs.fileInput) {
+        this.$refs.fileInput.value = '';
       }
     },
 
@@ -343,7 +350,8 @@ export default {
           validTo: validTo.toISOString().split('T')[0],
           unitCost: this.service.unitCost,
           currencyIsId: this.service.currencyIsId,
-          status: 'A'
+          status: 'A',
+          imageBase64: this.service.imageBase64
         };
 
         const response = await ServiceProviderService.createService(serviceData, this.userId);
