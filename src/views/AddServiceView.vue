@@ -304,7 +304,11 @@ export default {
     convertImageToBase64(fileObject) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.service.imageBase64 = reader.result;
+        let base64String = reader.result;
+        if (base64String.includes(',')) {
+          base64String = base64String.split(',')[1];
+        }
+        this.service.imageBase64 = base64String;
         this.imagePreview = reader.result;
       };
       reader.onerror = (error) => {
