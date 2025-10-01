@@ -23,4 +23,13 @@ export default {
         })
     },
 
+    changePassword(userId, newPassword) {
+        return axios.put('/password', {
+            userId: userId,
+            newPassword: newPassword
+        })
+            .then(response => response.data);
+    }
+
+
 };

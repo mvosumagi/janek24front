@@ -132,34 +132,17 @@
               <template v-if="isLoggedIn">Save Changes</template>
               <template v-else>Create User</template>
             </button>
+
+            <a v-if="isLoggedIn" href="#" class="d-block mt-3" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+              Change Password
+            </a>
           </div>
         </form>
 
-        <div v-if="isLoggedIn" class="mt-4 pt-4 border-top">
-          <h6 class="mb-3">Change Password</h6>
-          <table class="table">
-            <tbody>
-            <tr>
-              <td><label for="newPassword">New Password</label></td>
-              <td>
-                <PasswordInput :password="user.password" @event-password-updated="setPassword"/>
-              </td>
-            </tr>
-            <tr>
-              <td><label for="confirmPassword">Confirm New Password</label></td>
-              <td>
-                <PasswordConfirmInput :passwordRetype="user.password2" @event-password-confirm-updated="setPasswordRetype"/>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-          <div class="text-center">
-            <button @click="changePassword" type="button" class="btn btn-outline-primary">Change Password</button>
-          </div>
-        </div>
-
       </div>
     </div>
+
+    <ChangePasswordModal v-if="isLoggedIn" />
   </div>
 </template>
 
@@ -185,10 +168,12 @@ import SessionStorageService from "@/services/SessionStorageService";
 import AlertDanger from "@/components/alert/AlertDanger.vue";
 import AlertSuccess from "@/components/alert/AlertSuccess.vue";
 import NavigationService from "@/services/NavigationService";
+import ChangePasswordModal from "@/components/user/ChangePasswordModal.vue";
 
 export default {
   name: "UserView",
   components: {
+    ChangePasswordModal,
     AlertSuccess,
     AlertDanger,
     CountryDropdown,
@@ -230,17 +215,13 @@ export default {
         postalCode: "",
         isCompany: true,
         companyName: "",
-        regNo: "",
-        password: "",
-        password2: ""
+        regNo: ""
       },
 
       errorResponse: {
         message: "",
         errorCode: 0
-      },
-
-      alertTimer: null
+      }
     }
   },
   methods: {
@@ -277,10 +258,6 @@ export default {
           .catch(() => this.displayErrorMessage("Failed to update profile"));
     },
 
-    changePassword() {
-
-    },
-
     handleCreateUserErrorResponse(error) {
       this.errorResponse = error.response.data
 
@@ -289,7 +266,6 @@ export default {
       }
       setTimeout(this.resetAllMessages, 4000)
     },
-
 
     updateAuth() {
       this.isLoggedIn = !!(SessionStorageService?.isLoggedIn?.() || sessionStorage.getItem("userId"));
@@ -364,12 +340,10 @@ export default {
 
     setPassword(password) {
       this.password = password;
-      this.user.password = password;
     },
 
     setPasswordRetype(passwordRetype) {
       this.passwordRetype = passwordRetype;
-      this.user.password2 = passwordRetype;
     },
 
     isCompanyUpdated(isCompany) {
@@ -387,7 +361,6 @@ export default {
     regNoUpdated(regNo) {
       this.user.regNo = regNo;
     },
-
 
     async loadUser() {
       this.loading = true;
