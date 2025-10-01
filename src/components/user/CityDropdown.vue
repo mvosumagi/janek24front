@@ -3,7 +3,7 @@
     <select
         :value="cityId"
         @change="handleCityDropdownChange($event)"
-        class="form-select"
+        class="form-control"
         :disabled="!countryId || loading || error"
     >
       <option disabled :value="0">-- Select city --</option>

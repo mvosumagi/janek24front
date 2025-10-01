@@ -7,7 +7,7 @@
                 :value="selectedDial"
                 @change="onDialChange">
               <option v-for="c in countries" :key="c.dial" :value="c.dial">
-                {{ c.flag }} {{ c.label }} ({{ c.dial }})
+                {{ c.flag }} ({{ c.dial }})
               </option>
             </select>
             <input

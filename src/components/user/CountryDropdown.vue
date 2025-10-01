@@ -3,7 +3,7 @@
     <select
         :value="countryId"
         @change="handleCountryDropdownChange"
-        class="form-select"
+        class="form-control"
     >
       <option disabled :value="0">-- Select country --</option>
       <option v-for="country in countries" :key="country.countryId" :value="country.countryId">
