@@ -1,15 +1,14 @@
 <template>
   <div class="ordering-view">
-    <h2>Order Service</h2>
-    <br />
+<!--    <h2>Order Service</h2>-->
     <div class="card">
       <img v-if="service.imageData" :src="service.imageData" alt="Service Image" class="thumbnail" />
 
-      <p class="short-desc"><strong>Summary:</strong> {{ service.descriptionShort }}</p>
+      <p class="short-desc"><strong>Service:<br></strong> {{ service.descriptionShort }}</p>
 
-      <p class="long-desc"><strong>Details:</strong><b>{{ service.descriptionLong }}</b></p>
+      <p class="long-desc"><strong>Details:<br></strong><b>{{ service.descriptionLong }}</b></p>
 
-      <p class="unitcost"><strong>Cost:</strong><b>{{ service.unitCost }}€</b></p>
+      <p class="unitcost"><strong>Cost:<br></strong><b>{{ service.unitCost }}€</b></p>
 
       <form @submit.prevent="submitOrder" class="date-time-section">
         <div class="form-group">
