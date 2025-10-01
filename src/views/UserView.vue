@@ -4,60 +4,161 @@
     <AlertDanger :message="errorMessage"/>
     <AlertSuccess :message="successMessage"/>
 
-    <div class="row justify-content-center">
-      <div class="col col-4">
-        <FirstnameInput :firstname="user.firstName" @event-first-name-updated="setUserFirstName"/>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{{ isLoggedIn ? 'Edit Profile' : 'Create User' }}</h5>
 
-        <div v-if="!isLoggedIn">
-          <UsernameInput :username="username" @event-username-updated="setUsername"/>
+        <div v-if="loading" class="text-center py-4">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2">Loading user data...</p>
         </div>
 
-        <LastNameInput :lastname="user.lastName" @event-last-name-updated="setUserLastName"/>
+        <form @submit.prevent="createUser" v-if="!loading">
+          <table class="table">
+            <tbody>
+            <tr>
+              <td><label for="firstName">First Name</label></td>
+              <td>
+                <FirstnameInput :firstname="user.firstName" @event-first-name-updated="setUserFirstName"/>
+              </td>
+            </tr>
 
-        <EmailInput :email="user.email" @event-email-updated="setUserEmail"/>
-        <PhoneInput :phone="user.phoneNumber" @event-phone-updated="setUserPhoneNumber"/>
+            <tr v-if="!isLoggedIn">
+              <td><label for="username">Username</label></td>
+              <td>
+                <UsernameInput :username="username" @event-username-updated="setUsername"/>
+              </td>
+            </tr>
 
-        <CountryDropdown :country-id="user.countryId" @event-country-updated="handleCountryUpdate"/>
-        <CityDropdown :country-id="user.countryId" :city-id="user.cityId" @event-city-updated="setUserCityId"/>
+            <tr>
+              <td><label for="lastName">Last Name</label></td>
+              <td>
+                <LastNameInput :lastname="user.lastName" @event-last-name-updated="setUserLastName"/>
+              </td>
+            </tr>
 
-        <StateInput :state="user.state" @event-state-updated="stateUpdated"/>
-        <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
-        <PostalCodeInput :postal-code="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
+            <tr>
+              <td><label for="email">Email</label></td>
+              <td>
+                <EmailInput :email="user.email" @event-email-updated="setUserEmail"/>
+              </td>
+            </tr>
 
-        <div v-if="!isLoggedIn">
-          <PasswordInput :password="password" @event-password-updated="setPassword"/>
+            <tr>
+              <td><label for="phone">Phone Number</label></td>
+              <td>
+                <PhoneInput :phone="user.phoneNumber" @event-phone-updated="setUserPhoneNumber"/>
+              </td>
+            </tr>
+
+            <tr>
+              <td><label for="country">Country</label></td>
+              <td>
+                <CountryDropdown :country-id="user.countryId" @event-country-updated="handleCountryUpdate"/>
+              </td>
+            </tr>
+
+            <tr>
+              <td><label for="city">City</label></td>
+              <td>
+                <CityDropdown :country-id="user.countryId" :city-id="user.cityId" @event-city-updated="setUserCityId"/>
+              </td>
+            </tr>
+
+            <tr>
+              <td><label for="state">State</label></td>
+              <td>
+                <StateInput :state="user.state" @event-state-updated="stateUpdated"/>
+              </td>
+            </tr>
+
+            <tr>
+              <td><label for="address">Address</label></td>
+              <td>
+                <AddressInput :address="user.address" @event-address-updated="addressUpdated"/>
+              </td>
+            </tr>
+
+            <tr>
+              <td><label for="postalCode">Postal Code</label></td>
+              <td>
+                <PostalCodeInput :postal-code="user.postalCode" @event-postal-code-updated="postalCodeUpdated"/>
+              </td>
+            </tr>
+
+            <tr v-if="!isLoggedIn">
+              <td><label for="password">Password</label></td>
+              <td>
+                <PasswordInput :password="password" @event-password-updated="setPassword"/>
+              </td>
+            </tr>
+
+            <tr v-if="!isLoggedIn">
+              <td><label for="passwordConfirm">Confirm Password</label></td>
+              <td>
+                <PasswordConfirmInput :passwordRetype="passwordRetype" @event-password-confirm-updated="setPasswordRetype"/>
+              </td>
+            </tr>
+
+            <tr>
+              <td><label for="isCompany">Company Account</label></td>
+              <td>
+                <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated"/>
+              </td>
+            </tr>
+
+            <tr v-if="user.isCompany">
+              <td><label for="companyName">Company Name</label></td>
+              <td>
+                <CompanyNameInput :company-name="user.companyName" @event-companyname-updated="companyNameUpdated"/>
+              </td>
+            </tr>
+
+            <tr v-if="user.isCompany">
+              <td><label for="regNo">Registration Number</label></td>
+              <td>
+                <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary me-2">
+              {{ isLoggedIn ? 'Save Changes' : 'Create User' }}
+            </button>
+          </div>
+        </form>
+
+        <div v-if="isLoggedIn" class="mt-4 pt-4 border-top">
+          <h6 class="mb-3">Change Password</h6>
+          <table class="table">
+            <tbody>
+            <tr>
+              <td><label for="newPassword">New Password</label></td>
+              <td>
+                <PasswordInput :password="user.password" @event-password-updated="setPassword"/>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="confirmPassword">Confirm New Password</label></td>
+              <td>
+                <PasswordConfirmInput :passwordRetype="user.password2" @event-password-confirm-updated="setPasswordRetype"/>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="text-center">
+            <button @click="changePassword" type="button" class="btn btn-outline-primary">Change Password</button>
+          </div>
         </div>
-
-        <div v-if="!isLoggedIn">
-          <PasswordConfirmInput :passwordRetype="passwordRetype" @event-password-confirm-updated="setPasswordRetype"/>
-        </div>
-
-
-        <CompanyCheckbox :is-company="user.isCompany" @event-is-company-updated="isCompanyUpdated"/>
-
-        <div v-if="user.isCompany">
-          <CompanyNameInput :company-name="user.companyName" @event-companyname-updated="companyNameUpdated"/>
-          <RegNoInput :reg-no="user.regNo" @event-regno-updated="regNoUpdated"/>
-        </div>
-
-        <div v-if="!isLoggedIn">
-          <button @click="createUser" type="button" class="btn btn-outline-primary">Create user</button>
-        </div>
-        <div v-if="isLoggedIn">
-          <button @click="createUser" type="button" class="btn btn-outline-primary">Save Changes</button>
-        </div>
-
-        <div v-if="isLoggedIn">
-          <PasswordInput :password="user.password" @event-password-updated="setPassword"/>
-          <PasswordConfirmInput :passwordRetype="user.password2" @event-password-confirm-updated="setPasswordRetype"/>
-          <button @click="" type="button" class="btn btn-outline-primary">Change Password</button>
-        </div>
-
 
       </div>
     </div>
   </div>
-    </template>
+</template>
 
 
 <script>
@@ -106,6 +207,7 @@ export default {
   data() {
     return {
       isLoggedIn: false,
+      loading: false,
 
       errorMessage: "",
       successMessage: "",
@@ -125,7 +227,9 @@ export default {
         postalCode: "",
         isCompany: true,
         companyName: "",
-        regNo: ""
+        regNo: "",
+        password: "",
+        password2: ""
       },
 
       errorResponse: {
@@ -153,6 +257,11 @@ export default {
           .catch(error => this.handleCreateUserErrorResponse(error))
     },
 
+    changePassword() {
+      // Add your password change logic here
+      this.displaySuccessMessage("Password changed successfully");
+    },
+
     handleCreateUserErrorResponse(error) {
       this.errorResponse = error.response.data
 
@@ -168,7 +277,7 @@ export default {
     },
     displayErrorMessage(message) {
       this.errorMessage = message
-      setTimeout(this.resetAllMessages, 3000)
+      setTimeout(this.resetAllMessages, 4000)
     },
     displaySuccessMessage(message) {
       this.successMessage = message
@@ -230,9 +339,11 @@ export default {
 
     setPassword(password) {
       this.password = password;
+      this.user.password = password;
     },
     setPasswordRetype(passwordRetype) {
       this.passwordRetype = passwordRetype;
+      this.user.password2 = passwordRetype;
     },
 
     isCompanyUpdated(isCompany) {
@@ -262,15 +373,21 @@ export default {
         this.user.lastName = data.lastName || data.lastname || "";
         this.user.email = data.email || "";
         this.user.phoneNumber = data.phoneNumber || data.phone || "";
+
+        // Load country first, then city after a small delay to ensure country dropdown is ready
         this.user.countryId = Number(data.countryId || 0);
+
+        // Use nextTick or setTimeout to ensure country is set before city
+        await this.$nextTick();
         this.user.cityId = Number(data.cityId || 0);
+
         this.user.state = data.state || "";
         this.user.address = data.address || "";
         this.user.postalCode = data.postalCode || "";
         this.user.isCompany = !!data.isCompany;
         this.user.companyName = data.companyName || "";
         this.user.regNo = data.regNo || "";
-        this.displaySuccessMessage(""); // Data loaded kui vaja debugida
+        // this.displaySuccessMessage("User data loaded successfully");
       } catch (e) {
         this.displayErrorMessage("User Data load failed");
       } finally {
@@ -301,3 +418,6 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+</style>

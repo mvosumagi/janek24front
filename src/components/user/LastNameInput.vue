@@ -1,8 +1,12 @@
 <template>
   <div class="mb-3">
-    <label>Last name </label>
-    <input :value="lastname" @change="handleLastNameInput" type="text"
-           placeholder="Last name"/>
+<!--    <label>Last name </label>-->
+    <input
+        :value="lastname"
+        @change="handleLastNameInput"
+        type="text"
+        class="form-control"
+        placeholder="Last name"/>
   </div>
 </template>
 <script>

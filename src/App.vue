@@ -4,7 +4,7 @@
       <nav class="menu">
         <router-link to="/home">Home</router-link>
         <div v-if="isLoggedIn">
-        <router-link to="/my-services">My Services</router-link>
+          <router-link to="/my-services">My Services</router-link>
           <router-link to="/my-orders">My Orders</router-link>
         </div>
 
@@ -14,12 +14,12 @@
 
       <div class="actions">
         <div v-if="isLoggedIn">
-        <router-link to="/inbox" class="mail-wrapper" aria-label="Open inbox">
-          <i class="fas fa-envelope"></i>
-          <span v-if="hasUnreadEmails" class="badge">{{ unreadEmailsCount }}</span>
-          <span v-else class="no-new">No new</span>
-        </router-link>
-      </div>
+          <router-link to="/inbox" class="mail-wrapper" aria-label="Open inbox">
+            <i class="fas fa-envelope"></i>
+            <span v-if="hasUnreadEmails" class="badge">{{ unreadEmailsCount }}</span>
+            <span v-else class="no-new">No new</span>
+          </router-link>
+        </div>
         <template v-if="isLoggedIn">
           <button class="btn small" @click="goToUser">User</button>
           <button class="btn small danger" @click="logout">Logout</button>
@@ -35,8 +35,6 @@
 </template>
 <script>
 import SessionStorageService from "@/services/SessionStorageService";
-import MyOrdersView from "@/views/MyOrdersView.vue";
-import MyServicesView from "@/views/MyServicesView.vue";
 
 export default {
   name: "App",

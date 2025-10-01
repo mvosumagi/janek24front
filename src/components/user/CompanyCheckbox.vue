@@ -1,7 +1,10 @@
 <template>
   <div class="form-check mb-3">
-    <label>Company </label>
-    <input :checked="isCompany" @change="handleIsCompanyCheck" type="checkbox"/>
+<!--    <label>Company </label>-->
+    <input
+        :checked="isCompany"
+        @change="handleIsCompanyCheck"
+        type="checkbox"/>
   </div>
 </template>
 <script>

@@ -4,6 +4,14 @@
     text-align: center;
 }
 
+.form-select {
+    max-width: 100%;
+}
+
+.form-select {
+    max-width: 100%;
+}
+
 :root {
     --gap: 12px;
 }
@@ -40,8 +48,10 @@ body {
     margin-left: 12px;
 }
 
+/*navigation II*/
 .menu a + a::before {
-    content: "|";
+    content: "";
+    /*content: "|";*/
     position: absolute;
     left: -10px;
     color: #999;
@@ -305,7 +315,6 @@ pre {
     color: #2c3e50;
     font-weight: 600;
 }
-
 .btn-success {
     background: linear-gradient(45deg, #28a745, #20c997);
     border: none;
@@ -313,9 +322,21 @@ pre {
     border-radius: 25px;
     font-weight: 600;
     transition: all 0.3s ease;
-    width: 100%;
+    width: fit-content;       /* fits to text length */
+    white-space: nowrap;      /* prevents wrapping */
     margin-top: 1rem;
 }
+
+/*.btn-success {*/
+/*    background: linear-gradient(45deg, #28a745, #20c997);*/
+/*    border: none;*/
+/*    padding: 0.75rem 1.5rem;*/
+/*    border-radius: 25px;*/
+/*    font-weight: 600;*/
+/*    transition: all 0.3s ease;*/
+/*    width: 100%;*/
+/*    margin-top: 1rem;*/
+/*}*/
 
 .btn-success:hover {
     background: linear-gradient(45deg, #20c997, #17a2b8);
@@ -471,7 +492,10 @@ label {
     transition: all 0.3s ease;
     margin-top: 0.5rem;
 }
-
+.preview-thumb {
+    max-width: 200px;
+    max-height: 200px;
+}
 .img-thumbnail {
     max-height: 80px;
     max-width: 80px;

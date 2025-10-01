@@ -1,14 +1,13 @@
 <template>
-  <div class="container text-center">
-    <div class="row justify-content-center">
-      <div class="col col-4">
         <div class="mb-3">
-          <label>State</label>
-          <input :value="state" @change="onChange" type="text" placeholder="State"/>
+<!--          <label>State</label>-->
+          <input
+              :value="state"
+              @change="onChange"
+              class="form-control"
+              type="text"
+              placeholder="State"/>
         </div>
-      </div>
-    </div>
-  </div>
 </template>
 <script>
 export default {

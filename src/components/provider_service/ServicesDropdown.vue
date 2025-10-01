@@ -1,7 +1,11 @@
 <template>
-  <select @change="handleServiceDropdownChange" class="borderless-select">
+  <select
+      @change="handleServiceDropdownChange"
+      class="borderless-select">
     <option disabled selected value> -- select a service --</option>
-    <option v-for="service in services" :key="service.serviceId" :value="service.serviceId">
+    <option v-for="service in services"
+            :key="service.serviceId"
+            :value="service.serviceId">
       {{ service.serviceName }}
     </option>
   </select>
