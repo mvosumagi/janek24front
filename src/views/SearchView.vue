@@ -26,7 +26,7 @@
               <strong>Description:</strong> {{ service.descriptionShort }}
             </p>
             <p class="card-text">
-              <strong>Cost:</strong> {{ service.unitCost }} €
+              <strong>Cost: {{ service.unitCost }} €</strong>
             </p>
             <button class="btn btn-success" @click="goToOrder(service.serviceId)">
               Order Service
