@@ -246,6 +246,11 @@ export default {
   methods: {
 
     createUser() {
+      if (this.isLoggedIn) {
+        this.updateUser();
+        return;
+      }
+
       if (this.password !== this.passwordRetype) {
         this.displayErrorMessage("Paroolid erinevad");
         return;
@@ -255,19 +260,31 @@ export default {
         return;
       }
 
-      UserService.sendCreateUserRequest(this.username, this.password ,this.user)
+      UserService.sendCreateUserRequest(this.username, this.password, this.user)
           .then(() => NavigationService.navigateToLoginView())
-          .catch(error => this.handleCreateUserErrorResponse(error))
+          .catch(error => this.handleCreateUserErrorResponse(error));
+    },
+
+    updateUser() {
+      if (!this.allFieldsAreWithCorrectInput()) {
+        this.displayErrorMessage("Täida kõik väljad");
+        return;
+      }
+
+      const userId = sessionStorage.getItem("userId");
+      UserService.sendPutUpdateUserRequest(userId, this.user)
+          .then(() => this.displaySuccessMessage("Profile updated successfully!"))
+          .catch(() => this.displayErrorMessage("Failed to update profile"));
     },
 
     changePassword() {
-      this.displaySuccessMessage("Password changed successfully");
+
     },
 
     handleCreateUserErrorResponse(error) {
       this.errorResponse = error.response.data
 
-      if ( error.response.status === 403 && this.errorResponse.errorCode === 132132) {
+      if (error.response.status === 403 && this.errorResponse.errorCode === 132132) {
         this.errorMessage = this.errorResponse.message
       }
       setTimeout(this.resetAllMessages, 4000)
@@ -277,14 +294,17 @@ export default {
     updateAuth() {
       this.isLoggedIn = !!(SessionStorageService?.isLoggedIn?.() || sessionStorage.getItem("userId"));
     },
+
     displayErrorMessage(message) {
       this.errorMessage = message
       setTimeout(this.resetAllMessages, 4000)
     },
+
     displaySuccessMessage(message) {
       this.successMessage = message
       setTimeout(this.resetAllMessages, 3000)
     },
+
     resetAllMessages() {
       this.errorMessage = ""
       this.successMessage = ""
@@ -325,6 +345,7 @@ export default {
       this.user.countryId = countryId;
       this.user.cityId = 0;
     },
+
     setUserCityId(cityId) {
       this.user.cityId = cityId;
     },
@@ -332,9 +353,11 @@ export default {
     stateUpdated(state) {
       this.user.state = state;
     },
+
     addressUpdated(address) {
       this.user.address = address;
     },
+
     postalCodeUpdated(postalCode) {
       this.user.postalCode = postalCode;
     },
@@ -343,6 +366,7 @@ export default {
       this.password = password;
       this.user.password = password;
     },
+
     setPasswordRetype(passwordRetype) {
       this.passwordRetype = passwordRetype;
       this.user.password2 = passwordRetype;
@@ -355,9 +379,11 @@ export default {
         this.user.regNo = "";
       }
     },
+
     companyNameUpdated(companyName) {
       this.user.companyName = companyName;
     },
+
     regNoUpdated(regNo) {
       this.user.regNo = regNo;
     },
