@@ -76,26 +76,22 @@ export default {
     handleSearchResponse(response) {
       const allServices = response.data;
       const shuffled = allServices
-          .map(value => ({ value, sort: Math.random() }))
+          .map(value => ({value, sort: Math.random()}))
           .sort((a, b) => a.sort - b.sort)
-          .map(({ value }) => value);
+          .map(({value}) => value);
       this.services = shuffled.slice(0, 6);
     },
     goSearch() {
-      const q = this.partialDescription.trim();
-      if (!q) return;
-      this.$router.push({ name: 'searchRoute', query: { q } });
+      const q = this.partialDescription.trim()
+      if (!q) return
+      this.$router.push({name: 'searchRoute', query: {q}})
     },
     goToOrder(serviceId) {
-      if (!serviceId) {
-        console.error('Missing serviceId');
-        return;
-      }
-      this.$router.push({ name: 'OrderingView', params: { serviceId } });
+      this.$router.push({name: 'OrderingView', params: {serviceId}});
     }
   },
   mounted() {
-    this.getServices();
+    this.getServices()
   }
 }
 </script>
