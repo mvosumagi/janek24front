@@ -375,11 +375,7 @@ export default {
         this.user.lastName = data.lastName || data.lastname || "";
         this.user.email = data.email || "";
         this.user.phoneNumber = data.phoneNumber || data.phone || "";
-
-        // Load country first, then city after a small delay to ensure country dropdown is ready
         this.user.countryId = Number(data.countryId || 0);
-
-        // Use nextTick or setTimeout to ensure country is set before city
         await this.$nextTick();
         this.user.cityId = Number(data.cityId || 0);
 
@@ -389,7 +385,6 @@ export default {
         this.user.isCompany = !!data.isCompany;
         this.user.companyName = data.companyName || "";
         this.user.regNo = data.regNo || "";
-        // this.displaySuccessMessage("User data loaded successfully");
       } catch (e) {
         this.displayErrorMessage("User Data load failed");
       } finally {

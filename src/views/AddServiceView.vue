@@ -412,7 +412,6 @@ export default {
     await this.loadCurrencies();
     await this.loadServiceCategories();
 
-    // Load service data if editing
     if (this.isEditing) {
       await this.loadService();
     }
