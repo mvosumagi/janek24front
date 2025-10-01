@@ -6,8 +6,10 @@
 
     <div class="card mb-4 shadow-sm">
       <div class="card-body">
-        <h5 class="card-title">{{ isLoggedIn ? 'Edit Profile' : 'Create User' }}</h5>
-
+        <h5 class="card-title">
+          <template v-if="isLoggedIn">Edit Profile</template>
+          <template v-else>Register User</template>
+        </h5>
         <div v-if="loading" class="text-center py-4">
           <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -127,7 +129,8 @@
 
           <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary me-2">
-              {{ isLoggedIn ? 'Save Changes' : 'Create User' }}
+              <template v-if="isLoggedIn">Save Changes</template>
+              <template v-else>Create User</template>
             </button>
           </div>
         </form>
@@ -258,7 +261,6 @@ export default {
     },
 
     changePassword() {
-      // Add your password change logic here
       this.displaySuccessMessage("Password changed successfully");
     },
 
