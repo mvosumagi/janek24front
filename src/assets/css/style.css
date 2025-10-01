@@ -157,7 +157,7 @@ pre {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
-    background-color: #007bff; /* Bootstrap primary blue */
+    background-color: #007bff;
     color: white;
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;
@@ -173,7 +173,7 @@ pre {
     margin: 0 auto;
 }
 
-/*homeview*/
+
 .home {
     min-height: 100vh;
     background: url('~@/assets/hero-background.jpg') center center / cover no-repeat;
@@ -183,7 +183,7 @@ pre {
     padding-bottom: 2rem;
 }
 
-/* Optional: Add overlay for better text readability */
+
 .home::before {
     content: '';
     position: absolute;
@@ -224,7 +224,7 @@ pre {
     margin: 0 auto;
 }
 
-/* Search Section */
+
 .input-group {
     max-width: 600px;
     margin: 0 auto;
@@ -261,7 +261,7 @@ pre {
     box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
 }
 
-/* Services Cards Section */
+
 .row-cols-1.row-cols-md-3 {
     padding: 2rem 1rem;
     background: #f8f9fa;
@@ -323,7 +323,7 @@ pre {
     box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
 }
 
-/* Image styling */
+
 img {
     width: 100%;
     max-width: 400px;
@@ -334,7 +334,7 @@ img {
     display: block;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .intro h1 {
         font-size: 2rem;
@@ -381,7 +381,7 @@ img {
     }
 }
 
-/* Loading animation for when services are loading */
+
 .card.loading {
     background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
     background-size: 200% 100%;
@@ -397,12 +397,12 @@ img {
     }
 }
 
-/* Smooth scroll behavior */
+
 html {
     scroll-behavior: smooth;
 }
 
-/* Additional spacing and layout improvements */
+
 .container.mt-4 {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
@@ -410,7 +410,7 @@ html {
     backdrop-filter: blur(10px);
 }
 
-/*CSS for Dropdown*/
+
 select {
     border: none;
     outline: none;
@@ -422,7 +422,7 @@ select:focus {
     box-shadow: none;
 }
 
-/*Add Service View*/
+
 .table td:first-child {
     font-weight: 500;
     text-align: right;
@@ -456,7 +456,7 @@ label {
     font-size: 0.875em;
 }
 
-/*My-services view*/
+
 .table-responsive {
     margin: 1rem 0;
 }
