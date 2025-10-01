@@ -108,7 +108,7 @@ export default {
         return;
       }
 
-      const serviceId = this.service.id || this.service.serviceId || this.$route.params.serviceId;
+      const serviceId = this.service.id || this.service.serviceId;
 
       if (!serviceId) {
         alert("Service ID is missing. Cannot submit order.");
