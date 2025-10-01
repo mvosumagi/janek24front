@@ -58,16 +58,13 @@ export default {
       if (Number.isFinite(badge)) this.unreadEmailsCount = badge;
     },
     goToLogin() {
-      this.$router.push('/login');  // ✅ Fixed
+      this.$router.push('/login');
     },
     goToHome() {
-      this.$router.push('/home');  // ✅ Fixed
+      this.$router.push('/home');
     },
     goToUser() {
-      this.$router.push('/user');  // ✅ Fixed
-    },
-    goAddNewService() {
-      this.$router.push('/service');  // ✅ Fixed - note: your route is '/service' not '/my-service'
+      this.$router.push('/user');
     },
     logout() {
       sessionStorage.clear();
