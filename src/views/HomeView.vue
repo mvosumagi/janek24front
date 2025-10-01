@@ -1,8 +1,4 @@
 <template>
-
-  <br>
-  <br>
-  <br>
   <div class="home">
     <div class="container text-center">
       <div class="row">
@@ -17,6 +13,7 @@
         </div>
       </div>
     </div>
+
     <div class="container mt-4">
       <h2 class="mb-4 text-center"></h2>
       <div class="input-group mb-4">
