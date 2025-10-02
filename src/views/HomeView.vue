@@ -3,6 +3,11 @@
     <div class="container text-center">
       <div class="row">
         <div class="col">
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
           <section class="intro">
             <h1><strong>Trusted Home Services At Your Fingertips</strong></h1>
             <p>
