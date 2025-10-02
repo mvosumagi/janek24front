@@ -77,7 +77,7 @@
                 <small class="text-muted">{{ service.descriptionLong?.length || 0 }}/500 characters</small>
               </td>
             </tr>
-            <tr>
+            <tr v-if="!isEditing">
               <td><label for="photo">Add a Photo (Optional)</label></td>
               <td>
                 <input ref="fileInput" type="file" id="photo" class="form-control" @change="handleFileUpload"
@@ -89,6 +89,12 @@
                     Remove
                   </button>
                 </div>
+              </td>
+            </tr>
+            <tr v-if="isEditing && imagePreview">
+              <td><label>Current Photo</label></td>
+              <td>
+                <img :src="imagePreview" alt="Service photo" class="img-thumbnail preview-thumb">
               </td>
             </tr>
             <tr>
@@ -107,10 +113,10 @@
 
           <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary me-2" :disabled="loading || !isFormValid">
-              <template v-if="isEditing">Update Service</template>
+              <template v-if="isEditing">Save Changes</template>
               <template v-else>Submit Service</template>
             </button>
-            <button type="button" class="btn btn-outline-secondary" @click="goBack" :disabled="loading"> Cancel</button>
+            <button type="button" class="btn btn-outline-secondary" @click="goBack" :disabled="loading">Cancel</button>
           </div>
         </form>
       </div>
@@ -121,12 +127,12 @@
 <script>
 import AlertDanger from "@/components/alert/AlertDanger.vue";
 import AlertSuccess from "@/components/alert/AlertSuccess.vue";
-import ServiceProviderService from "@/services/ServiceProviderService";
+import ServiceProviderService from "@/services/ProviderServiceService";
 import CurrencyService from "@/services/CurrencyService";
 import ServiceCategoryService from "@/services/ServiceCategoryService";
 
 export default {
-  name: 'AddServiceView',
+  name: 'ServiceView',
   components: {
     AlertDanger,
     AlertSuccess
@@ -173,11 +179,7 @@ export default {
     },
 
     isEditing() {
-      return !!this.$route.params.id;
-    },
-
-    serviceId() {
-      return this.$route.params.id;
+      return !!this.$route.query.id;
     }
   },
   methods: {
@@ -275,10 +277,11 @@ export default {
       this.errorMessage = "";
 
       try {
-        const serviceId = this.$route.params.id;
-        if (!serviceId) throw new Error("Missing service ID");
+        const providerServiceId = this.$route.query.id;
+        if (!providerServiceId) throw new Error("Missing service ID");
 
-        const data = await ServiceProviderService.getService(serviceId, this.userId);
+        const response = await ServiceProviderService.getService(providerServiceId);
+        const data = response.data;
 
         this.service.serviceCategoryId = Number(data.serviceCategoryId || 0);
         this.service.name = data.name || '';
@@ -292,7 +295,6 @@ export default {
           this.service.imageBase64 = data.imageBase64;
           this.imagePreview = `data:image/jpeg;base64,${data.imageBase64}`;
         }
-
       } catch (e) {
         console.error('Failed to load service:', e);
         this.displayErrorMessage("Service data load failed");
@@ -309,7 +311,6 @@ export default {
       const diffTime = Math.abs(to - from);
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-      // Return closest option
       const options = [30, 60, 90, 365];
       return options.reduce((prev, curr) =>
           Math.abs(curr - diffDays) < Math.abs(prev - diffDays) ? curr : prev
@@ -349,11 +350,10 @@ export default {
 
         let response;
         if (this.isEditing) {
-          // Update existing service
-          response = await ServiceProviderService.updateService(this.serviceId, serviceData, this.userId);
+          const providerServiceId = this.$route.query.id;
+          response = await ServiceProviderService.changeProviderService(providerServiceId, serviceData);
           this.displaySuccessMessage('Service updated successfully!');
         } else {
-          // Create new service
           response = await ServiceProviderService.createService(serviceData, this.userId);
           this.displaySuccessMessage('Service created successfully!');
         }
@@ -361,7 +361,7 @@ export default {
         if (response && response.data) {
           setTimeout(() => {
             this.$router.push('/my-services');
-          }, 4000);
+          }, 2000);
         }
       } catch (error) {
         this.handleSubmitServiceErrorResponse(error);
@@ -375,9 +375,12 @@ export default {
 
       if (error.response?.status === 403 && this.errorResponse.errorCode === 132132) {
         this.errorMessage = this.errorResponse.message;
+      } else if (error.response?.status === 404) {
+        this.errorMessage = "Service not found";
+      } else if (error.response?.data?.message) {
+        this.errorMessage = error.response.data.message;
       } else {
-        const errorMessage = error.response?.data?.message || 'Failed to save service. Please try again.';
-        this.displayErrorMessage(errorMessage);
+        this.errorMessage = 'Failed to save service. Please try again.';
       }
       setTimeout(this.resetAllMessages, 4000);
     },
@@ -390,7 +393,6 @@ export default {
       try {
         const response = await CurrencyService.getCurrencies();
         this.currencies = response.data;
-        console.log('Loaded currencies:', this.currencies);
       } catch (error) {
         console.error('Failed to load currencies:', error);
         this.displayErrorMessage('Failed to load currencies');
@@ -401,13 +403,13 @@ export default {
       try {
         const response = await ServiceCategoryService.getServiceCategories();
         this.categories = response.data;
-        console.log('Loaded service categories:', this.categories);
       } catch (error) {
         console.error('Failed to load service categories:', error);
         this.displayErrorMessage('Failed to load service categories');
       }
     }
   },
+
   async mounted() {
     await this.loadCurrencies();
     await this.loadServiceCategories();
