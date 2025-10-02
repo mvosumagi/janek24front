@@ -317,6 +317,7 @@ pre {
     color: #2c3e50;
     font-weight: 600;
 }
+
 .btn-success {
     background: linear-gradient(45deg, #28a745, #20c997);
     border: none;
@@ -324,8 +325,8 @@ pre {
     border-radius: 25px;
     font-weight: 600;
     transition: all 0.3s ease;
-    width: fit-content;       /* fits to text length */
-    white-space: nowrap;      /* prevents wrapping */
+    width: fit-content; /* fits to text length */
+    white-space: nowrap; /* prevents wrapping */
     margin-top: 1rem;
 }
 
@@ -503,6 +504,7 @@ label {
     max-width: 200px;
     max-height: 200px;
 }
+
 .img-thumbnail {
     max-height: 80px;
     max-width: 80px;
@@ -540,4 +542,292 @@ label {
 :deep(input[type="email"]),
 :deep(select) {
     width: 200px;
+}
+
+:root {
+    --bg: #f6f7f9;
+    --fg: #2a2e37;
+    --muted: #6b7280;
+    --primary: #0d6efd;
+    --primary-2: #0b5ed7;
+    --success: #28a745;
+    --success-2: #20c997;
+    --danger: #dc3545;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --shadow: 0 8px 20px rgba(0, 0, 0, .06);
+    --radius: 14px;
+    --gap: 12px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    background: var(--bg);
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: saturate(160%) blur(6px);
+}
+
+.menu a {
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: background-color .2s ease;
+}
+
+.menu a:hover {
+    background: rgba(13, 110, 253, .08);
+}
+
+.actions .btn {
+    border-radius: 10px;
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.actions .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .08);
+}
+
+.mail-wrapper {
+    gap: 8px;
+}
+
+.mail-wrapper i {
+    font-size: 20px;
+}
+
+.badge {
+    top: -6px;
+    right: -8px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 6px;
+    font-size: 11px;
+    line-height: 18px;
+    background: var(--danger);
+}
+
+.container, .container.mt-4 {
+    background: transparent;
+    padding: 1.25rem 1rem;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .12);
+}
+
+.card-body {
+    padding: 1.25rem 1.25rem;
+}
+
+.card-title {
+    font-weight: 700;
+    color: #1f2937;
+    border: 0;
+    padding: 0;
+    margin-bottom: .75rem;
+}
+
+.btn {
+    padding: .7rem 1.2rem;
+    font-weight: 600;
+    border-radius: 999px;
+    background: #6c757d;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary), var(--primary-2));
+    border: 0;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.02);
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: linear-gradient(45deg, var(--success), var(--success-2));
+    border: 0;
+}
+
+.btn.danger {
+    background: var(--danger);
+}
+
+.form-control,
+.form-select,
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+.flatpickr-input {
+    border: 1px solid var(--border);
+    border-radius: 10px !important;
+    padding: .8rem 1rem;
+    outline: 0;
+    width: 100%;
+    max-width: 520px;
+    background: #fff;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus,
+.flatpickr-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, .12);
+}
+
+.input-group {
+    max-width: 680px;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.input-group .form-control {
+    border-radius: 999px 0 0 999px !important;
+}
+
+.input-group .btn-primary {
+    border-radius: 0 999px 999px 0;
+}
+
+.row-cols-1.row-cols-md-3 {
+    background: transparent;
+    padding: 1rem 0;
+}
+
+.card-img-top-wrapper {
+    max-height: 220px;
+    overflow: hidden;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.img-thumbnail {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 12px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.table td {
+    background: var(--card);
+    padding: .75rem 1rem;
+}
+
+.table td:first-child {
+    width: 30%;
+    text-align: right;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.table td:last-child {
+    text-align: left;
+}
+
+.table-responsive {
+    margin: 1rem 0;
+}
+
+.alert {
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.home {
+    background-attachment: fixed;
+}
+
+.intro {
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.hidden {
+    display: none !important;
+}
+
+@media (max-width: 992px) {
+    .card-img-top {
+        height: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .topbar {
+        gap: 8px;
+        padding: 8px 12px;
+    }
+
+    .btn.small {
+        padding: .5rem .9rem;
+        font-size: .95rem;
+    }
+
+    .card-img-top {
+        height: 180px;
+    }
+}
+
+@media (max-width: 576px) {
+    .menu a {
+        padding: 6px 8px;
+    }
+
+    .input-group {
+        max-width: 100%;
+    }
 }
