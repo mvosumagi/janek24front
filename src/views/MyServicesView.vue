@@ -71,11 +71,11 @@ export default {
     },
     editService(service) {
       console.log('Service object:', service);
-      console.log('Service ID:', service.serviceId);
-      this.$router.push(`/service/${service.serviceId}/edit`);
+      console.log('Service ID:', service.providerServiceId);
+      this.$router.push(`/service/${service.providerServiceId}/edit`);
     },
     deleteService(service) {
-      const index = this.myServices.findIndex(s => s.serviceId === service.serviceId);
+      const index = this.myServices.findIndex(s => s.providerServiceId === service.providerServiceId);
       if (index !== -1) this.myServices.splice(index, 1);
     },
 
@@ -112,7 +112,6 @@ export default {
         const { data } = await ServiceProviderService.getUserServices(userId);
         this.myServices = Array.isArray(data) ? data : [];
 
-        // Debug: Check what properties services have
         if (this.myServices.length > 0) {
           console.log('First service object:', this.myServices[0]);
           console.log('Service properties:', Object.keys(this.myServices[0]));
