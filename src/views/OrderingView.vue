@@ -1,26 +1,19 @@
 <template>
   <div class="ordering-view">
-    <h2>Order Service</h2>
-    <br>
+<!--    <h2>Order Service</h2>-->
     <div class="card">
-      <img v-if="service.imageData" :src="service.imageData" alt="Service Image" class="thumbnail"/>
+      <img v-if="service.imageData" :src="service.imageData" alt="Service Image" class="thumbnail" />
 
-      <p class="short-desc"><strong>Summary:</strong> {{ service.descriptionShort }}</p>
+      <p class="short-desc"><strong>Service:<br></strong> {{ service.descriptionShort }}</p>
 
-      <div class="long-desc">
-        <strong>Details:</strong>
-        <p><b>{{ service.descriptionLong }}</b></p>
-      </div>
+      <p class="long-desc"><strong>Details:<br></strong><b>{{ service.descriptionLong }}</b></p>
+
+      <p class="unitcost"><strong>Cost:<br></strong><b>{{ service.unitCost }}€</b></p>
 
       <form @submit.prevent="submitOrder" class="date-time-section">
         <div class="form-group">
           <label for="serviceDate"><b>Select Service Date</b>:</label>
-          <flat-pickr
-              v-model="serviceDate"
-              id="serviceDate"
-              :config="datePickerConfig"
-              class="form-control"
-          />
+          <flat-pickr v-model="serviceDate" id="serviceDate" :config="datePickerConfig" class="form-control" />
         </div>
 
         <div class="form-group">
@@ -47,7 +40,10 @@
           ></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit Order</button>
+        <div class="form-group">
+          <button v-if="isLoggedIn" type="submit" class="btn btn-primary">Submit Order</button>
+          <button v-else type="button" class="btn btn-primary" @click="goToLogin">Login</button>
+        </div>
       </form>
     </div>
   </div>
@@ -56,19 +52,20 @@
 <script>
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
-import SearchService from "@/services/SearchService";
-import NavigationService from "@/services/NavigationService";
-import OrderingService from "@/services/OrderingService";
+import SearchService from "@/services/SearchService"
+import NavigationService from "@/services/NavigationService"
+import OrderingService from "@/services/OrderingService"
 
 export default {
   name: 'OrderingView',
-  components: {flatPickr},
+  components: { flatPickr },
   data() {
     return {
       service: {},
       serviceDate: null,
       serviceTime: null,
       orderComment: '',
+      isLoggedIn: false,
       datePickerConfig: {
         altInput: true,
         altFormat: 'F j, Y',
@@ -81,43 +78,42 @@ export default {
         dateFormat: "H:i",
         time_24hr: true
       }
-    };
+    }
   },
   methods: {
     fetchService() {
-      const id = this.$route.params.serviceId;
+      const id = this.$route.params.serviceId
       if (!id) {
-        NavigationService.navigateToErrorView();
-        return;
+        NavigationService.navigateToErrorView()
+        return
       }
       SearchService.getServiceById(id)
           .then(response => {
-            this.service = response.data;
+            this.service = response.data
           })
-          .catch(() => NavigationService.navigateToErrorView());
+          .catch(() => NavigationService.navigateToErrorView())
     },
     submitOrder() {
-      const userId = sessionStorage.getItem('userId');
+      const userId = sessionStorage.getItem('userId')
       if (!userId) {
-        alert("User not logged in. Please log in to place an order.");
-        return;
+        alert("User not logged in. Please log in to place an order.")
+        return
       }
 
       if (!this.serviceDate) {
-        alert("Please select a service date.");
-        return;
+        alert("Please select a service date.")
+        return
       }
 
-      const serviceId = this.service.id || this.service.serviceId;
-
+      const serviceId = this.service.id || this.service.serviceId || this.$route.params.serviceId
       if (!serviceId) {
-        alert("Service ID is missing. Cannot submit order.");
-        return;
+        alert("Service ID is missing. Cannot submit order.")
+        return
       }
 
       const dateString = this.serviceDate instanceof Date
           ? this.serviceDate.toISOString().slice(0, 10)
-          : this.serviceDate;
+          : this.serviceDate
 
       const order = {
         providerServiceId: parseInt(serviceId),
@@ -125,19 +121,28 @@ export default {
         userComment: this.orderComment,
         status: "R",
         confirmationComment: ""
-      };
+      }
 
       OrderingService.submit(order, userId)
-          .then(() => alert("Order submitted successfully!"))
+          .then(() => {
+            alert("Order submitted successfully!")
+            setTimeout(() => {
+              this.$router.push('/my-orders')
+            }, 500)
+          })
           .catch(error => {
-            alert("Error submitting order: " + (error.response?.data?.detail || error.message));
-          });
+            alert("Error submitting order: " + (error.response?.data?.detail || error.message))
+          })
+    },
+    goToLogin() {
+      this.$router.push('/login')
     }
   },
   mounted() {
-    this.fetchService();
+    this.fetchService()
+    this.isLoggedIn = !!sessionStorage.getItem('userId')
   }
-};
+}
 </script>
 
 <style scoped>
@@ -164,6 +169,21 @@ textarea.form-control {
   object-fit: cover;
   border-radius: 6px;
   margin-bottom: 1rem;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
 }
 
 .short-desc {

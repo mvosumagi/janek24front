@@ -377,6 +377,10 @@ img {
         font-size: 1rem;
     }
 
+    .hidden {
+        display: none;
+    }
+
     .input-group {
         border-radius: 15px;
     }

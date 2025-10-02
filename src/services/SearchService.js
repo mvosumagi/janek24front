@@ -10,4 +10,5 @@ export default {
     getServiceById(serviceId) {
         return axios.get(`/services/${serviceId}`);
     }
+
 };
