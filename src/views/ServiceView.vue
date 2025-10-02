@@ -2,7 +2,6 @@
   <div class="container text-center">
     <AlertDanger :message="errorMessage"/>
     <AlertSuccess :message="successMessage"/>
-
     <div class="card mb-4 shadow-sm">
       <div class="card-body">
         <h5 class="card-title">Add Service</h5>
@@ -11,7 +10,6 @@
           <div class="spinner-border" role="status"></div>
           <p class="mt-2">Creating your service...</p>
         </div>
-
         <form @submit.prevent="submitService" v-if="!loading">
           <table class="table">
             <tbody>

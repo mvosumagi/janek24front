@@ -1,4 +1,6 @@
 <template>
+  <br>
+  <br>
   <div class="container text-center">
     <AlertDanger :message="errorMessage"/>
     <AlertSuccess :message="successMessage"/>
