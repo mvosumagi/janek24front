@@ -8,18 +8,21 @@ export default {
             },
         });
     },
+
     getUserServices(userId) {
         return axios.get("/services", {
             params: { userId },
         });
     },
-    changeService(providerServiceId, service) {
+
+    changeProviderService(providerServiceId, service) {
         return axios.put("/service", service, {
             params: {
                 providerServiceId: providerServiceId,
             },
         });
     },
+
     getService(providerServiceId) {
         return axios.get("/service", {
             params: {
