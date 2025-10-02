@@ -13,17 +13,17 @@ export default {
             params: { userId },
         });
     },
-    changeService(serviceId, service) {
+    changeService(providerServiceId, service) {
         return axios.put("/service", service, {
             params: {
-                serviceId: serviceId,
+                providerServiceId: providerServiceId,
             },
         });
     },
-    getService(serviceId) {
+    getService(providerServiceId) {
         return axios.get("/service", {
             params: {
-                serviceId: serviceId,
+                providerServiceId: providerServiceId,
             },
         });
     },

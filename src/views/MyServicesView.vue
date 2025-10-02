@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import ServiceProviderService from '@/services/ServiceProviderService';
+import ServiceProviderService from '@/services/ProviderServiceService';
 import SessionStorageService from '@/services/SessionStorageService';
 
 export default {
@@ -69,12 +69,12 @@ export default {
     goToService() {
       this.$router.push('/service');
     },
-
     editService(service) {
-      sessionStorage.setItem('editServiceId', service.id);
-      this.$router.push('/service');
+      this.$router.push({
+        path: '/service',
+        query: { id: service.id }
+      });
     },
-
     deleteService(service) {
       const index = this.myServices.findIndex(s => s.id === service.id);
       if (index !== -1) this.myServices.splice(index, 1);

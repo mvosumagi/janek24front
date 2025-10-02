@@ -127,7 +127,7 @@
 <script>
 import AlertDanger from "@/components/alert/AlertDanger.vue";
 import AlertSuccess from "@/components/alert/AlertSuccess.vue";
-import ServiceProviderService from "@/services/ServiceProviderService";
+import ServiceProviderService from "@/services/ProviderServiceService";
 import CurrencyService from "@/services/CurrencyService";
 import ServiceCategoryService from "@/services/ServiceCategoryService";
 
@@ -179,7 +179,7 @@ export default {
     },
 
     isEditing() {
-      return !!sessionStorage.getItem('editServiceId');
+      return !!this.$route.query.id;
     }
   },
   methods: {
@@ -277,10 +277,10 @@ export default {
       this.errorMessage = "";
 
       try {
-        const serviceId = sessionStorage.getItem('editServiceId');
-        if (!serviceId) throw new Error("Missing service ID");
+        const providerServiceId = this.$route.query.id;
+        if (!providerServiceId) throw new Error("Missing service ID");
 
-        const response = await ServiceProviderService.getService(serviceId);
+        const response = await ServiceProviderService.getService(providerServiceId);
         const data = response.data;
 
         this.service.serviceCategoryId = Number(data.serviceCategoryId || 0);
@@ -295,7 +295,6 @@ export default {
           this.service.imageBase64 = data.imageBase64;
           this.imagePreview = `data:image/jpeg;base64,${data.imageBase64}`;
         }
-
       } catch (e) {
         console.error('Failed to load service:', e);
         this.displayErrorMessage("Service data load failed");
@@ -351,10 +350,9 @@ export default {
 
         let response;
         if (this.isEditing) {
-          const serviceId = sessionStorage.getItem('editServiceId');
-          response = await ServiceProviderService.changeProviderService(serviceId, serviceData);
+          const providerServiceId = this.$route.query.id;
+          response = await ServiceProviderService.changeProviderService(providerServiceId, serviceData);
           this.displaySuccessMessage('Service updated successfully!');
-          sessionStorage.removeItem('editServiceId');
         } else {
           response = await ServiceProviderService.createService(serviceData, this.userId);
           this.displaySuccessMessage('Service created successfully!');
@@ -388,7 +386,6 @@ export default {
     },
 
     goBack() {
-      sessionStorage.removeItem('editServiceId');
       this.$router.push('/my-services');
     },
 
@@ -412,17 +409,13 @@ export default {
       }
     }
   },
+
   async mounted() {
     await this.loadCurrencies();
     await this.loadServiceCategories();
 
     if (this.isEditing) {
       await this.loadService();
-    }
-  },
-  beforeUnmount() {
-    if (!this.isEditing) {
-      sessionStorage.removeItem('editServiceId');
     }
   }
 }
