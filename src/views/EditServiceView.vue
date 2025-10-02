@@ -337,7 +337,6 @@ export default {
   },
 
   async mounted() {
-    // Get the service ID from route params
     this.serviceId = this.$route.params.id;
 
     if (!this.serviceId) {

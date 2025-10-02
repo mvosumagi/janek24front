@@ -1,6 +1,5 @@
 <template>
   <div class="ordering-view">
-<!--    <h2>Order Service</h2>-->
     <div class="card">
       <img v-if="service.imageData" :src="service.imageData" alt="Service Image" class="thumbnail" />
 

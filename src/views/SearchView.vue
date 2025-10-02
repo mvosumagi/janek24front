@@ -124,40 +124,6 @@ export default {
           })
     },
   },
-  async loadService() {
-    this.loading = true;
-    this.errorMessage = "";
-
-    try {
-      const providerServiceId = this.$route.params.id;  // CHANGE THIS
-      if (!providerServiceId) throw new Error("Missing service ID");
-
-      const response = await ServiceProviderService.getService(providerServiceId);
-      const data = response.data;
-
-      this.service.serviceCategoryId = Number(data.serviceCategoryId || 0);
-      this.service.name = data.name || '';
-      this.service.unitCost = Number(data.unitCost || 0);
-      this.service.currencyIsId = Number(data.currencyIsId || 1);
-      this.service.descriptionShort = data.descriptionShort || '';
-      this.service.descriptionLong = data.descriptionLong || '';
-      this.service.validDays = this.calculateValidDays(data.validFrom, data.validTo);
-
-      if (data.imageBase64) {
-        this.service.imageBase64 = data.imageBase64;
-        this.imagePreview = `data:image/jpeg;base64,${data.imageBase64}`;
-      }
-
-    } catch (e) {
-      console.error('Failed to load service:', e);
-      this.displayErrorMessage("Service data load failed");
-    } finally {
-      this.loading = false;
-    }
-  },
-
-
-
 }
 </script>
 
