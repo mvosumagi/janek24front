@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(service, index) in myServices" :key="service.id || index">
+        <tr v-for="(service, index) in myServices" :key="service.serviceId || index">
           <td>{{ index + 1 }}</td>
           <td>{{ service.name }}</td>
           <td>{{ service.descriptionShort }}</td>
@@ -70,13 +70,12 @@ export default {
       this.$router.push('/service');
     },
     editService(service) {
-      this.$router.push({
-        path: '/service',
-        query: { id: service.id }
-      });
+      console.log('Service object:', service);
+      console.log('Service ID:', service.serviceId);
+      this.$router.push(`/service/${service.serviceId}/edit`);
     },
     deleteService(service) {
-      const index = this.myServices.findIndex(s => s.id === service.id);
+      const index = this.myServices.findIndex(s => s.serviceId === service.serviceId);
       if (index !== -1) this.myServices.splice(index, 1);
     },
 
@@ -112,6 +111,12 @@ export default {
         if (!userId) throw new Error('Missing userId in session');
         const { data } = await ServiceProviderService.getUserServices(userId);
         this.myServices = Array.isArray(data) ? data : [];
+
+        // Debug: Check what properties services have
+        if (this.myServices.length > 0) {
+          console.log('First service object:', this.myServices[0]);
+          console.log('Service properties:', Object.keys(this.myServices[0]));
+        }
       } catch (e) {
         this.error = e?.response?.data || e.message || 'Failed to load services';
         console.error(e);

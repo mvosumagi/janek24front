@@ -5,11 +5,11 @@
 
     <div class="card mb-4 shadow-sm">
       <div class="card-body">
-        <h5 class="card-title">Add Service</h5>
+        <h5 class="card-title">Edit Service</h5>
 
         <div v-if="loading" class="text-center py-4">
           <div class="spinner-border" role="status"></div>
-          <p class="mt-2">Creating your service...</p>
+          <p class="mt-2">Loading service data...</p>
         </div>
 
         <form @submit.prevent="submitService" v-if="!loading">
@@ -71,18 +71,10 @@
                 <small class="text-muted">{{ service.descriptionLong?.length || 0 }}/500 characters</small>
               </td>
             </tr>
-            <tr>
-              <td><label for="photo">Add a Photo (Optional)</label></td>
+            <tr v-if="imagePreview">
+              <td><label>Current Photo</label></td>
               <td>
-                <input ref="fileInput" type="file" id="photo" class="form-control" @change="handleFileUpload"
-                       accept="image/*"/>
-                <small class="text-muted">Supported formats: JPG, PNG, GIF (max 5MB)</small>
-                <div v-if="imagePreview" class="mt-2">
-                  <img :src="imagePreview" alt="Preview" class="img-thumbnail preview-thumb">
-                  <button type="button" @click="removeImage" class="btn btn-sm btn-outline-danger ms-2">
-                    Remove
-                  </button>
-                </div>
+                <img :src="imagePreview" alt="Service photo" class="img-thumbnail preview-thumb">
               </td>
             </tr>
             <tr>
@@ -101,7 +93,7 @@
 
           <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary me-2" :disabled="loading || !isFormValid">
-              Submit Service
+              Save Changes
             </button>
             <button type="button" class="btn btn-outline-secondary" @click="goBack" :disabled="loading">Cancel</button>
           </div>
@@ -119,7 +111,7 @@ import CurrencyService from "@/services/CurrencyService";
 import ServiceCategoryService from "@/services/ServiceCategoryService";
 
 export default {
-  name: 'ServiceView',
+  name: 'EditServiceView',
   components: {
     AlertDanger,
     AlertSuccess
@@ -130,7 +122,7 @@ export default {
       errorMessage: "",
       successMessage: "",
 
-      userId: sessionStorage.getItem('userId') || "",
+      serviceId: null,
 
       service: {
         serviceCategoryId: 0,
@@ -209,49 +201,52 @@ export default {
       this.service.validDays = Number(event.target.value);
     },
 
-    handleFileUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    calculateValidDays(validFrom, validTo) {
+      if (!validFrom || !validTo) return 30;
 
-      if (file.size > 5 * 1024 * 1024) {
-        this.displayErrorMessage('File size must be less than 5MB');
-        event.target.value = '';
-        return;
-      }
+      const from = new Date(validFrom);
+      const to = new Date(validTo);
+      const diffTime = Math.abs(to - from);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-      if (!file.type.startsWith('image/')) {
-        this.displayErrorMessage('Please select a valid image file');
-        event.target.value = '';
-        return;
-      }
-
-      this.convertImageToBase64(file);
-      this.resetAllMessages();
+      const options = [30, 60, 90, 365];
+      return options.reduce((prev, curr) =>
+          Math.abs(curr - diffDays) < Math.abs(prev - diffDays) ? curr : prev
+      );
     },
 
-    convertImageToBase64(fileObject) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        let base64String = reader.result;
-        if (base64String.includes(',')) {
-          base64String = base64String.split(',')[1];
+    async loadService() {
+      this.loading = true;
+      this.errorMessage = "";
+
+      try {
+        if (!this.serviceId) {
+          throw new Error("Missing service ID");
         }
-        this.service.imageBase64 = base64String;
-        this.imagePreview = reader.result;
-      };
-      reader.onerror = (error) => {
-        console.error('Error reading file:', error);
-        this.displayErrorMessage('Failed to read image file');
-      };
-      reader.readAsDataURL(fileObject);
-    },
 
-    removeImage() {
-      this.service.imageBase64 = null;
-      this.imagePreview = null;
+        const response = await ServiceProviderService.getService(this.serviceId);
+        const data = response.data;
 
-      if (this.$refs.fileInput) {
-        this.$refs.fileInput.value = '';
+        this.service.serviceCategoryId = Number(data.serviceCategoryId || 0);
+        this.service.name = data.name || '';
+        this.service.unitCost = Number(data.unitCost || 0);
+        this.service.currencyIsId = Number(data.currencyIsId || 1);
+        this.service.descriptionShort = data.descriptionShort || '';
+        this.service.descriptionLong = data.descriptionLong || '';
+        this.service.validDays = this.calculateValidDays(data.validFrom, data.validTo);
+
+        if (data.imageBase64) {
+          this.service.imageBase64 = data.imageBase64;
+          this.imagePreview = `data:image/jpeg;base64,${data.imageBase64}`;
+        }
+      } catch (e) {
+        console.error('Failed to load service:', e);
+        this.displayErrorMessage("Service data load failed");
+        setTimeout(() => {
+          this.$router.push('/my-services');
+        }, 2000);
+      } finally {
+        this.loading = false;
       }
     },
 
@@ -261,8 +256,8 @@ export default {
         return;
       }
 
-      if (!this.userId) {
-        this.displayErrorMessage('User not logged in');
+      if (!this.serviceId) {
+        this.displayErrorMessage('Service ID is missing');
         return;
       }
 
@@ -286,8 +281,8 @@ export default {
           imageBase64: this.service.imageBase64
         };
 
-        const response = await ServiceProviderService.createService(serviceData, this.userId);
-        this.displaySuccessMessage('Service created successfully!');
+        const response = await ServiceProviderService.changeProviderService(this.serviceId, serviceData);
+        this.displaySuccessMessage('Service updated successfully!');
 
         if (response && response.data) {
           setTimeout(() => {
@@ -306,10 +301,12 @@ export default {
 
       if (error.response?.status === 403 && this.errorResponse.errorCode === 132132) {
         this.errorMessage = this.errorResponse.message;
+      } else if (error.response?.status === 404) {
+        this.errorMessage = "Service not found";
       } else if (error.response?.data?.message) {
         this.errorMessage = error.response.data.message;
       } else {
-        this.errorMessage = 'Failed to create service. Please try again.';
+        this.errorMessage = 'Failed to update service. Please try again.';
       }
       setTimeout(this.resetAllMessages, 4000);
     },
@@ -340,8 +337,20 @@ export default {
   },
 
   async mounted() {
+    // Get the service ID from route params
+    this.serviceId = this.$route.params.id;
+
+    if (!this.serviceId) {
+      this.displayErrorMessage('No service ID provided');
+      setTimeout(() => {
+        this.$router.push('/my-services');
+      }, 2000);
+      return;
+    }
+
     await this.loadCurrencies();
     await this.loadServiceCategories();
+    await this.loadService();
   }
 }
 </script>
