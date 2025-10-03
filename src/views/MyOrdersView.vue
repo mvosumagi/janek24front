@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         <tr v-for="(order, index) in orders" :key="index">
-          <td>{{ order.date }}</td>
+          <td style="text-align: left;">{{ order.date }}</td>
           <td>{{ index + 1 }}</td>
           <td>{{ order.serviceName || 'Unknown Service' }}</td>
           <td>{{ order.unitCost }} €</td>
